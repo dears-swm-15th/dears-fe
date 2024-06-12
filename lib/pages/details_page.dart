@@ -1,24 +1,22 @@
-import 'package:dears/domains/portfolio/portfolio.dart';
+import 'package:dears/providers/portfolio_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-const _mockPortfolio = Portfolio(
-  name: "이름",
-  organization: "소속",
-  region: "서울",
-  introduction: "안녕하세요",
-  officeHours: "09:00 ~ 18:00",
-  contactInfo: "010-1234-5678",
-);
+class DetailsPage extends ConsumerWidget {
+  final int plannerId;
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({super.key});
+  const DetailsPage({
+    super.key,
+    required this.plannerId,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final portfolioList = ref.watch(portfolioListProvider);
+    final portfolio = portfolioList.firstWhere((e) => e.id == plannerId);
+
     return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: Column(
           children: [
@@ -29,16 +27,16 @@ class DetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CircleAvatar(),
-                  Text(_mockPortfolio.name),
-                  Text(_mockPortfolio.organization),
+                  Text(portfolio.name),
+                  Text(portfolio.organization),
                 ],
               ),
             ),
             const Divider(),
             Column(
-              children: <(String, String)>[
-                ("활동 지역", _mockPortfolio.region),
-                ("상담 가능 시간", _mockPortfolio.officeHours),
+              children: [
+                ("활동 지역", portfolio.region),
+                ("상담 가능 시간", portfolio.officeHours),
                 ("휴무일", "토, 일, 공휴일"),
               ]
                   .map(
@@ -57,7 +55,7 @@ class DetailsPage extends StatelessWidget {
             const Divider(),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(_mockPortfolio.introduction),
+              child: Text(portfolio.introduction),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -7,6 +7,7 @@ part 'portfolio.g.dart';
 @freezed
 class Portfolio with _$Portfolio {
   const factory Portfolio({
+    required int id,
     required String name,
     required String organization,
     required String region,
