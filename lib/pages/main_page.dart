@@ -1,7 +1,7 @@
 import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainPage extends HookConsumerWidget {
@@ -17,15 +17,13 @@ class MainPage extends HookConsumerWidget {
       appBar: AppBar(),
       body: Center(
         child: ListView(
-          children: portfolioList.map((e) {
-            return ListTile(
-              title: Text(e.name),
-              subtitle: Text("${e.name} 세부정보"),
-              onTap: () {
-                context.push("/details/${e.id}");
-              },
-            );
-          }).toList(),
+          children: List.generate(
+            portfolioList.length,
+            (index) {
+              final portfolio = portfolioList[index];
+              return PortfolioListTile(portfolio);
+            },
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
