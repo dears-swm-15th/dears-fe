@@ -1,5 +1,5 @@
 import 'package:dears/domains/portfolio/portfolio.dart';
-import 'package:dears/widgets/favorite_toggle_button.dart';
+import 'package:dears/widgets/favorite_count_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -58,7 +58,7 @@ class PortfolioListTile extends StatelessWidget {
                 ),
               ],
             ),
-            const FavoriteToggleButton(
+            const FavoriteCountToggleButton(
               initialFavorite: true,
               initialCount: 5,
             ),
