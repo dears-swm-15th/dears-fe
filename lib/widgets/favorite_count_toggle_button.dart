@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class FavoriteToggleButton extends HookWidget {
+class FavoriteCountToggleButton extends HookWidget {
   final bool initialFavorite;
   final int initialCount;
 
-  const FavoriteToggleButton({
+  const FavoriteCountToggleButton({
     super.key,
     required this.initialFavorite,
     required this.initialCount,
