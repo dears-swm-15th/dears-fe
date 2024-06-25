@@ -1,3 +1,4 @@
+import 'package:dears/utils/hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -13,24 +14,21 @@ class FavoriteCountToggleButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isFavorite = useState(initialFavorite);
-    final count = useState(initialCount);
-
-    final toggleFavorite = useCallback(() {
-      isFavorite.value = !isFavorite.value;
-      isFavorite.value ? count.value++ : count.value--;
-    });
+    final (isFavorite, count, toggleFavorite) = useCountToggle(
+      initialState: initialFavorite,
+      initialCount: initialCount,
+    );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           onPressed: toggleFavorite,
-          isSelected: isFavorite.value,
+          isSelected: isFavorite,
           selectedIcon: const Icon(Icons.favorite),
           icon: const Icon(Icons.favorite_border),
         ),
-        Text("${count.value}"),
+        Text("$count"),
       ],
     );
   }
