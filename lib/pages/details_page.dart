@@ -86,6 +86,7 @@ class DetailsPage extends HookConsumerWidget {
                             vertical: 20,
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
