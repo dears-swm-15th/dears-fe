@@ -1,4 +1,5 @@
 import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -130,8 +131,10 @@ class DetailsPage extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: TabBar(
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverTabBarDelegate(
+                      height: 44,
                       controller: tabController,
                       tabs: [
                         Container(
@@ -369,11 +372,10 @@ class DetailsPage extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 44),
                       ],
                     ),
                   ),
-                  const Placeholder(),
+                  const DetailsReviewTab(),
                 ],
               ),
             ),
@@ -425,5 +427,43 @@ class DetailsPage extends HookConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
+  final double height;
+  final TabController controller;
+  final List<Widget> tabs;
+
+  const _SliverTabBarDelegate({
+    required this.height,
+    required this.controller,
+    required this.tabs,
+  });
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: TabBar(
+        controller: controller,
+        tabs: tabs,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
