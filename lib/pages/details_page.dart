@@ -371,7 +371,6 @@ class DetailsPage extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 44),
                       ],
                     ),
                   ),
