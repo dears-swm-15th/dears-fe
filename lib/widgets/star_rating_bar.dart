@@ -22,8 +22,8 @@ class StarRatingBar extends StatelessWidget {
           blendMode: BlendMode.srcATop,
           shaderCallback: (bounds) {
             return LinearGradient(
-              stops: [0, rating, rating],
-              colors: [color, color, color.withOpacity(0)],
+              colors: [color, Colors.transparent],
+              stops: [rating, rating],
             ).createShader(bounds);
           },
           child: const Icon(
