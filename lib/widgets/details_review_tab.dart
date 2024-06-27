@@ -8,23 +8,30 @@ class DetailsReviewTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView(
+      child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
-        children: const [
-          SizedBox(height: 16),
-          Text(
-            "리뷰",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+        slivers: [
+          const SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16),
+                Text(
+                  "리뷰",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
             ),
           ),
-          SizedBox(height: 16),
-          ReviewListTile(),
-          SizedBox(height: 8),
-          ReviewListTile(),
-          SizedBox(height: 8),
-          ReviewListTile(),
+          SliverList.separated(
+            itemCount: 3,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) => const ReviewListTile(),
+          ),
         ],
       ),
     );
