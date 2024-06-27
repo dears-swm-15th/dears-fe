@@ -132,44 +132,46 @@ class DetailsPage extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _SliverTabBarDelegate(
-                      height: 44,
+                ];
+              },
+              body: Column(
+                children: [
+                  TabBar(
+                    controller: tabController,
+                    tabs: [
+                      Container(
+                        alignment: Alignment.center,
+                        height: 44,
+                        child: const Text(
+                          "소개",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 44,
+                        child: const Text(
+                          "리뷰",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
                       controller: tabController,
-                      tabs: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 44,
-                          child: const Text(
-                            "소개",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 44,
-                          child: const Text(
-                            "리뷰",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                      children: const [
+                        DetailsIntroductionTab(),
+                        DetailsReviewTab(),
                       ],
                     ),
                   ),
-                ];
-              },
-              body: TabBarView(
-                controller: tabController,
-                children: const [
-                  DetailsIntroductionTab(),
-                  DetailsReviewTab(),
                 ],
               ),
             ),
@@ -221,43 +223,5 @@ class DetailsPage extends HookConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final double height;
-  final TabController controller;
-  final List<Widget> tabs;
-
-  const _SliverTabBarDelegate({
-    required this.height,
-    required this.controller,
-    required this.tabs,
-  });
-
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return ColoredBox(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: TabBar(
-        controller: controller,
-        tabs: tabs,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }
