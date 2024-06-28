@@ -1,3 +1,4 @@
+import 'package:dears/widgets/review_input.dart';
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,9 @@ class DetailsReviewTab extends StatelessWidget {
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
+          const SliverToBoxAdapter(
+            child: ReviewInput(),
+          ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
