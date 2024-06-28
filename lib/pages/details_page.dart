@@ -24,6 +24,11 @@ class DetailsPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "${portfolio.name} 웨딩플래너",
+          style: const TextStyle(fontSize: 16),
+        ),
         actions: const [
           FavoriteToggleButton(initialFavorite: false),
           SizedBox(width: 14),
@@ -208,7 +213,7 @@ class DetailsPage extends HookConsumerWidget {
                   ),
                   onPressed: () {},
                   child: const Text(
-                    "상담하기",
+                    "채팅하기",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
