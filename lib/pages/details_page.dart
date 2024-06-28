@@ -208,7 +208,7 @@ class DetailsPage extends HookConsumerWidget {
                   ),
                   onPressed: () {},
                   child: const Text(
-                    "상담하기",
+                    "채팅하기",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
