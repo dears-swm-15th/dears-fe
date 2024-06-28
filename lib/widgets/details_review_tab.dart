@@ -1,6 +1,8 @@
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:flutter/material.dart';
 
+const int _reviewCount = 3;
+
 class DetailsReviewTab extends StatelessWidget {
   const DetailsReviewTab({super.key});
 
@@ -11,24 +13,33 @@ class DetailsReviewTab extends StatelessWidget {
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16),
-                Text(
-                  "리뷰",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                const SizedBox(height: 16),
+                RichText(
+                  text: const TextSpan(
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    children: [
+                      TextSpan(text: "리뷰 "),
+                      TextSpan(
+                        text: "$_reviewCount",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),
           SliverList.separated(
-            itemCount: 3,
+            itemCount: _reviewCount,
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemBuilder: (context, index) => const ReviewListTile(),
           ),
