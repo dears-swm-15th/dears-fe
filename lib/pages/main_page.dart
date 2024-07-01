@@ -11,24 +11,34 @@ class MainPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolioList = ref.watch(portfolioListProvider);
 
+    final pageController = usePageController();
     final index = useState(0);
 
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: ListView(
-          children: List.generate(
-            portfolioList.length,
-            (index) {
-              final portfolio = portfolioList[index];
-              return PortfolioListTile(portfolio);
-            },
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (value) => index.value = value,
+        children: [
+          const Center(child: Text("홈")),
+          const Center(child: Text("검색")),
+          Center(
+            child: ListView(
+              children: List.generate(
+                portfolioList.length,
+                (index) {
+                  final portfolio = portfolioList[index];
+                  return PortfolioListTile(portfolio);
+                },
+              ),
+            ),
           ),
-        ),
+          const Center(child: Text("내 정보")),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index.value,
-        onTap: (value) => index.value = value,
+        onTap: (value) => pageController.jumpToPage(value),
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
         items: const [
