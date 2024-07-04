@@ -178,7 +178,10 @@ class DetailsPage extends HookConsumerWidget {
               body: TabBarView(
                 controller: tabController,
                 children: const [
-                  DetailsIntroductionTab(),
+                  SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: DetailsIntroductionTab(),
+                  ),
                   DetailsReviewTab(),
                 ],
               ),
