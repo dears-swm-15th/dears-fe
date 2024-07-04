@@ -45,7 +45,6 @@ class DetailsPage extends HookConsumerWidget {
                     background: Column(
                       children: [
                         Stack(
-                          clipBehavior: Clip.none,
                           children: [
                             Container(
                               height: MediaQuery.of(context).padding.top +
@@ -81,9 +80,62 @@ class DetailsPage extends HookConsumerWidget {
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 20,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        portfolio.name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(portfolio.organization),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFD7D9DB),
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                        ),
+                                        child: const Text(
+                                          "여성",
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  const Text(
+                                    "결혼을 준비하는 모든 커플들의 꿈을 이뤄드리는 웨딩 플래너 김지수입니다.",
+                                  ),
+                                ],
+                              ),
+                            ),
                             const Positioned(
+                              top: -50,
                               right: 24,
-                              bottom: -50,
                               child: CircleAvatar(
                                 radius: 50,
                                 backgroundColor: Colors.white,
@@ -91,53 +143,6 @@ class DetailsPage extends HookConsumerWidget {
                               ),
                             ),
                           ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 20,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    portfolio.name,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(portfolio.organization),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 2,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFD7D9DB),
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                    child: const Text(
-                                      "여성",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              const Text(
-                                "결혼을 준비하는 모든 커플들의 꿈을 이뤄드리는 웨딩 플래너 김지수입니다.",
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),
