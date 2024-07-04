@@ -1,4 +1,5 @@
 import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/widgets/details_background_carousel.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
@@ -44,44 +45,7 @@ class DetailsPage extends HookConsumerWidget {
                     ],
                     background: Column(
                       children: [
-                        Stack(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).padding.top +
-                                  kToolbarHeight +
-                                  180,
-                              color: Colors.grey,
-                            ),
-                            Positioned(
-                              left: 16,
-                              bottom: 16,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: RichText(
-                                  text: const TextSpan(
-                                    style: TextStyle(color: Colors.white),
-                                    children: [
-                                      TextSpan(
-                                        text: "1",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(text: "/4"),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        const DetailsBackgroundCarousel(),
                         Stack(
                           clipBehavior: Clip.none,
                           children: [
