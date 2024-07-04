@@ -1,6 +1,7 @@
 import 'package:dears/providers/portfolio_list_provider.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
+import 'package:dears/widgets/details_sliver_app_bar.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -23,17 +24,6 @@ class DetailsPage extends HookConsumerWidget {
     final tabController = useTabController(initialLength: 2);
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "${portfolio.name} 웨딩플래너",
-          style: const TextStyle(fontSize: 16),
-        ),
-        actions: const [
-          FavoriteToggleButton(initialFavorite: false),
-          SizedBox(width: 14),
-        ],
-      ),
       body: Column(
         children: [
           Expanded(
@@ -41,38 +31,53 @@ class DetailsPage extends HookConsumerWidget {
               controller: scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
-                  SliverToBoxAdapter(
-                    child: Column(
+                  DetailsSliverAppBar(
+                    pinned: true,
+                    centerTitle: true,
+                    title: Text(
+                      "${portfolio.name} 웨딩플래너",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    actions: const [
+                      FavoriteToggleButton(initialFavorite: false),
+                      SizedBox(width: 14),
+                    ],
+                    background: Column(
                       children: [
                         Stack(
                           clipBehavior: Clip.none,
                           children: [
                             Container(
-                              height: 180,
+                              height: MediaQuery.of(context).padding.top +
+                                  kToolbarHeight +
+                                  180,
                               color: Colors.grey,
                             ),
-                            Container(
-                              margin: const EdgeInsets.all(16),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 3,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: RichText(
-                                text: const TextSpan(
-                                  style: TextStyle(color: Colors.white),
-                                  children: [
-                                    TextSpan(
-                                      text: "1",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                            Positioned(
+                              left: 16,
+                              bottom: 16,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: RichText(
+                                  text: const TextSpan(
+                                    style: TextStyle(color: Colors.white),
+                                    children: [
+                                      TextSpan(
+                                        text: "1",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(text: "/4"),
-                                  ],
+                                      TextSpan(text: "/4"),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -137,46 +142,44 @@ class DetailsPage extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                ];
-              },
-              body: Column(
-                children: [
-                  TabBar(
-                    controller: tabController,
-                    tabs: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 44,
-                        child: const Text(
-                          "소개",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        height: 44,
-                        child: const Text(
-                          "리뷰",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverTabBarDelegate(
+                      height: 44,
                       controller: tabController,
-                      children: const [
-                        DetailsIntroductionTab(),
-                        DetailsReviewTab(),
+                      tabs: [
+                        Container(
+                          alignment: Alignment.center,
+                          height: 44,
+                          child: const Text(
+                            "소개",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          height: 44,
+                          child: const Text(
+                            "리뷰",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
+                ];
+              },
+              body: TabBarView(
+                controller: tabController,
+                children: const [
+                  DetailsIntroductionTab(),
+                  DetailsReviewTab(),
                 ],
               ),
             ),
@@ -228,5 +231,43 @@ class DetailsPage extends HookConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
+  final double height;
+  final TabController controller;
+  final List<Widget> tabs;
+
+  const _SliverTabBarDelegate({
+    required this.height,
+    required this.controller,
+    required this.tabs,
+  });
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: TabBar(
+        controller: controller,
+        tabs: tabs,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
