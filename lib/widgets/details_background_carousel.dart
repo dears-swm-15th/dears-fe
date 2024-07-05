@@ -21,8 +21,9 @@ class DetailsBackgroundCarousel extends HookWidget {
             onPageChanged: (value) => index.value = value,
             itemCount: _itemCount,
             itemBuilder: (context, index) {
-              return ColoredBox(
-                color: Colors.primaries[index % Colors.primaries.length],
+              return Image.network(
+                "https://picsum.photos/seed/image$index/600/400",
+                fit: BoxFit.cover,
               );
             },
           ),
