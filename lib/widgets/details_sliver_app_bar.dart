@@ -71,12 +71,19 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     }
 
     return SliverAppBar(
-      title: widget.title,
       actions: widget.actions,
-      flexibleSpace: FlexibleSpaceBar(
-        background: widget.background,
+      flexibleSpace: LayoutBuilder(
+        builder: (context, constraints) {
+          final isCollapsed = constraints.biggest.height ==
+              MediaQuery.of(context).padding.top + kToolbarHeight;
+
+          return FlexibleSpaceBar(
+            title: isCollapsed ? widget.title : null,
+            background: widget.background,
+            centerTitle: widget.centerTitle,
+          );
+        },
       ),
-      centerTitle: widget.centerTitle,
       expandedHeight: height - MediaQuery.of(context).padding.top,
       pinned: widget.pinned,
     );
