@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailsPage extends HookConsumerWidget {
+class DetailsPage extends StatefulHookConsumerWidget {
   final int plannerId;
 
   const DetailsPage({
@@ -17,12 +17,61 @@ class DetailsPage extends HookConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends ConsumerState<DetailsPage> {
+  final keys = [GlobalKey(), GlobalKey()];
+
+  @override
+  Widget build(BuildContext context) {
     final portfolioList = ref.watch(portfolioListProvider);
-    final portfolio = portfolioList.firstWhere((e) => e.id == plannerId);
+    final portfolio = portfolioList.firstWhere((e) => e.id == widget.plannerId);
 
     final scrollController = useScrollController();
     final tabController = useTabController(initialLength: 2);
+
+    final animateTab = useCallback(() {
+      final i = keys.lastIndexWhere((key) {
+        final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+        if (renderBox == null) {
+          return false;
+        }
+
+        final offset = renderBox.localToGlobal(Offset.zero);
+        return offset.dy <=
+            MediaQuery.of(context).padding.top + kToolbarHeight + 44;
+      });
+
+      if (i == -1) {
+        return;
+      }
+
+      tabController.animateTo(i);
+    });
+
+    final scrollToIndex = useCallback((int index) async {
+      scrollController.removeListener(animateTab);
+
+      final context = keys[index].currentContext;
+      if (context == null) {
+        return;
+      }
+
+      await Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 500),
+      );
+      scrollController.addListener(animateTab);
+    });
+
+    useEffect(
+      () {
+        scrollController.addListener(animateTab);
+        return () => scrollController.removeListener(animateTab);
+      },
+      [scrollController],
+    );
 
     return Scaffold(
       body: Column(
@@ -116,6 +165,7 @@ class DetailsPage extends HookConsumerWidget {
                     delegate: _SliverTabBarDelegate(
                       height: 44,
                       controller: tabController,
+                      onTap: scrollToIndex,
                       tabs: [
                         Container(
                           alignment: Alignment.center,
@@ -142,18 +192,12 @@ class DetailsPage extends HookConsumerWidget {
                       ],
                     ),
                   ),
+                  SliverToBoxAdapter(
+                    child: DetailsIntroductionTab(key: keys[0]),
+                  ),
                 ];
               },
-              body: TabBarView(
-                controller: tabController,
-                children: const [
-                  SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    child: DetailsIntroductionTab(),
-                  ),
-                  DetailsReviewTab(),
-                ],
-              ),
+              body: DetailsReviewTab(key: keys[1]),
             ),
           ),
           const Divider(),
@@ -209,11 +253,13 @@ class DetailsPage extends HookConsumerWidget {
 class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final double height;
   final TabController controller;
+  final ValueChanged<int>? onTap;
   final List<Widget> tabs;
 
   const _SliverTabBarDelegate({
     required this.height,
     required this.controller,
+    this.onTap,
     required this.tabs,
   });
 
@@ -233,6 +279,7 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: TabBar(
         controller: controller,
+        onTap: onTap,
         tabs: tabs,
       ),
     );
