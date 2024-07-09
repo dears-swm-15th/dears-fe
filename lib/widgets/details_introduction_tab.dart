@@ -1,3 +1,4 @@
+import 'package:dears/widgets/radar_chart.dart';
 import 'package:flutter/material.dart';
 
 class DetailsIntroductionTab extends StatelessWidget {
@@ -208,6 +209,68 @@ class DetailsIntroductionTab extends StatelessWidget {
                   );
                 },
               ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            "예비 신혼부부들의 평가",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF364FC7).withOpacity(0.1),
+                  offset: const Offset(0, 1),
+                  blurRadius: 4,
+                ),
+                BoxShadow(
+                  color: const Color(0xFF364FC7).withOpacity(0.15),
+                  offset: const Offset(0, 1),
+                  blurRadius: 4,
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 248,
+                  child: RadarChart({
+                    "의사소통": 9.2,
+                    "예산준수": 7.1,
+                    "일정준수": 9.9,
+                    "가격 합리성": 8.0,
+                    "개인맞춤": 10.0,
+                  }),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  height: 44,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.blue),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      "평가 하러가기",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

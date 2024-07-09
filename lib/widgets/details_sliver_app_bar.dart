@@ -31,7 +31,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
   }
 
   @override
-  void didUpdateWidget(covariant DetailsSliverAppBar oldWidget) {
+  void didUpdateWidget(DetailsSliverAppBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     updateHeight();
   }
