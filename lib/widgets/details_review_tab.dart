@@ -14,13 +14,11 @@ class DetailsReviewTab extends StatelessWidget {
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          const SliverToBoxAdapter(
-            child: ReviewInput(),
-          ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const ReviewInput(),
                 const SizedBox(height: 16),
                 RichText(
                   text: const TextSpan(
