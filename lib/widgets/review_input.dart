@@ -1,9 +1,15 @@
+import 'package:dears/models/review_type.dart';
 import 'package:dears/widgets/review_keyword_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ReviewInput extends HookWidget {
-  const ReviewInput({super.key});
+  final ReviewType type;
+
+  const ReviewInput({
+    super.key,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +23,21 @@ class ReviewInput extends HookWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "웨딩플래너\n리뷰를 작성해주세요",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  children: [
+                    const TextSpan(text: "웨딩플래너 "),
+                    TextSpan(
+                      text: "$type\n",
+                      style: const TextStyle(color: Colors.blue),
+                    ),
+                    const TextSpan(text: "리뷰를 작성해주세요"),
+                  ],
                 ),
               ),
               Container(

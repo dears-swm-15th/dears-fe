@@ -273,6 +273,7 @@ class DetailsIntroductionTab extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );
