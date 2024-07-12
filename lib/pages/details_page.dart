@@ -193,7 +193,13 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: DetailsIntroductionTab(key: keys[0]),
+                    child: Column(
+                      key: keys[0],
+                      children: const [
+                        DetailsIntroductionTab(),
+                        Divider(thickness: 4),
+                      ],
+                    ),
                   ),
                 ];
               },
