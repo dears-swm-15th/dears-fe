@@ -75,8 +75,8 @@ class ReviewInput extends HookWidget {
             height: 44,
             child: Builder(
               builder: (context) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                return FilledButton(
+                  style: FilledButton.styleFrom(
                     backgroundColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),

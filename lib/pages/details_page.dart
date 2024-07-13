@@ -228,8 +228,8 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
                     ),
                   ],
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                FilledButton(
+                  style: FilledButton.styleFrom(
                     backgroundColor: Colors.black,
                     fixedSize: const Size(200, 50),
                     shape: RoundedRectangleBorder(
