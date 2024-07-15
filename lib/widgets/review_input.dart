@@ -76,19 +76,10 @@ class ReviewInput extends HookWidget {
             child: Builder(
               builder: (context) {
                 return FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
                   onPressed: () {
                     Form.of(context).validate();
                   },
-                  child: const Text(
-                    "리뷰 작성하기",
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  child: const Text("리뷰 작성하기"),
                 );
               },
             ),
