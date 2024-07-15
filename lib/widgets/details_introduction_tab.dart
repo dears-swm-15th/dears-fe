@@ -254,20 +254,8 @@ class DetailsIntroductionTab extends StatelessWidget {
                   width: double.infinity,
                   height: 44,
                   child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
                     onPressed: () {},
-                    child: const Text(
-                      "평가 하러가기",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                    ),
+                    child: const Text("평가 하러가기"),
                   ),
                 ),
               ],

@@ -82,12 +82,7 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   DetailsSliverAppBar(
-                    pinned: true,
-                    centerTitle: true,
-                    title: Text(
-                      "${portfolio.name} 웨딩플래너",
-                      style: const TextStyle(fontSize: 16),
-                    ),
+                    title: Text("${portfolio.name} 웨딩플래너"),
                     actions: const [
                       FavoriteToggleButton(initialFavorite: false),
                       SizedBox(width: 14),
@@ -170,24 +165,12 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
                         Container(
                           alignment: Alignment.center,
                           height: 44,
-                          child: const Text(
-                            "소개",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: const Text("소개"),
                         ),
                         Container(
                           alignment: Alignment.center,
                           height: 44,
-                          child: const Text(
-                            "리뷰",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: const Text("리뷰"),
                         ),
                       ],
                     ),
@@ -228,23 +211,12 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
                     ),
                   ],
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                FilledButton(
+                  style: FilledButton.styleFrom(
                     fixedSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
                   ),
                   onPressed: () {},
-                  child: const Text(
-                    "채팅하기",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: const Text("채팅하기"),
                 ),
               ],
             ),

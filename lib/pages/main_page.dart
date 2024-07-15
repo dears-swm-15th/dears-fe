@@ -26,8 +26,6 @@ class MainPage extends HookWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index.value,
         onTap: (value) => pageController.jumpToPage(value),
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
