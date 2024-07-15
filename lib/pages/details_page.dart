@@ -82,8 +82,6 @@ class _DetailsPageState extends ConsumerState<DetailsPage> {
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
                   DetailsSliverAppBar(
-                    pinned: true,
-                    centerTitle: true,
                     title: Text(
                       "${portfolio.name} 웨딩플래너",
                       style: const TextStyle(fontSize: 16),
