@@ -5,10 +5,9 @@ import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailsPage extends StatefulHookConsumerWidget {
+class DetailsPage extends ConsumerStatefulWidget {
   final int plannerId;
 
   const DetailsPage({
@@ -20,58 +19,65 @@ class DetailsPage extends StatefulHookConsumerWidget {
   ConsumerState<DetailsPage> createState() => _DetailsPageState();
 }
 
-class _DetailsPageState extends ConsumerState<DetailsPage> {
+class _DetailsPageState extends ConsumerState<DetailsPage>
+    with SingleTickerProviderStateMixin {
   final keys = [GlobalKey(), GlobalKey()];
+
+  late final ScrollController scrollController;
+  late final TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController()..addListener(animateTab);
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    tabController.dispose();
+    super.dispose();
+  }
+
+  void animateTab() {
+    final i = keys.lastIndexWhere((key) {
+      final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+      if (renderBox == null) {
+        return false;
+      }
+
+      final offset = renderBox.localToGlobal(Offset.zero);
+      return offset.dy <=
+          MediaQuery.of(context).padding.top + kToolbarHeight + 44;
+    });
+
+    if (i == -1) {
+      return;
+    }
+
+    tabController.animateTo(i);
+  }
+
+  Future<void> scrollToIndex(int index) async {
+    scrollController.removeListener(animateTab);
+
+    final context = keys[index].currentContext;
+    if (context == null) {
+      return;
+    }
+
+    await Scrollable.ensureVisible(
+      context,
+      duration: const Duration(milliseconds: 500),
+    );
+    scrollController.addListener(animateTab);
+  }
 
   @override
   Widget build(BuildContext context) {
     final portfolioList = ref.watch(portfolioListProvider);
     final portfolio = portfolioList.firstWhere((e) => e.id == widget.plannerId);
-
-    final scrollController = useScrollController();
-    final tabController = useTabController(initialLength: 2);
-
-    final animateTab = useCallback(() {
-      final i = keys.lastIndexWhere((key) {
-        final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
-        if (renderBox == null) {
-          return false;
-        }
-
-        final offset = renderBox.localToGlobal(Offset.zero);
-        return offset.dy <=
-            MediaQuery.of(context).padding.top + kToolbarHeight + 44;
-      });
-
-      if (i == -1) {
-        return;
-      }
-
-      tabController.animateTo(i);
-    });
-
-    final scrollToIndex = useCallback((int index) async {
-      scrollController.removeListener(animateTab);
-
-      final context = keys[index].currentContext;
-      if (context == null) {
-        return;
-      }
-
-      await Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 500),
-      );
-      scrollController.addListener(animateTab);
-    });
-
-    useEffect(
-      () {
-        scrollController.addListener(animateTab);
-        return () => scrollController.removeListener(animateTab);
-      },
-      [scrollController],
-    );
 
     return Scaffold(
       body: Column(
