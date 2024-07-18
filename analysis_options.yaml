@@ -9,6 +9,10 @@ analyzer:
   exclude:
     - '**.freezed.dart'
     - '**.g.dart'
+
+  errors:
+    todo: info
+
   plugins:
     - custom_lint
 
