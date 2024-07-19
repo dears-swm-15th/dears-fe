@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "내 정보",
+            label: "마이페이지",
           ),
         ],
       ),

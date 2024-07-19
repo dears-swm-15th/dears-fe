@@ -39,6 +39,8 @@ final ThemeData theme = ThemeData(
   appBarTheme: const AppBarTheme(
     backgroundColor: white,
     surfaceTintColor: white,
+    centerTitle: false,
+    titleSpacing: 0,
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: white,
