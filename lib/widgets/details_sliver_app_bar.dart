@@ -37,13 +37,13 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     // Needs to be called after the last frame has been rebuild,
     // otherwise this will throw an error.
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null) {
+      final size = key.currentContext?.size;
+      if (size == null) {
         return;
       }
 
       setState(() {
-        height = renderBox.size.height;
+        height = size.height;
       });
     });
   }
