@@ -1,4 +1,4 @@
-import 'package:dears/pages/chat_page.dart';
+import 'package:dears/pages/chat_list_page.dart';
 import 'package:dears/pages/details_page.dart';
 import 'package:dears/pages/favorite_page.dart';
 import 'package:dears/pages/main_page.dart';
@@ -21,8 +21,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const FavoritePage(),
     ),
     GoRoute(
-      path: "/chat",
-      builder: (context, state) => const ChatPage(),
+      path: "/chats",
+      builder: (context, state) => const ChatListPage(),
     ),
     GoRoute(
       path: "/personal",
