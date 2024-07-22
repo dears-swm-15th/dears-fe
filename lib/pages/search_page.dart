@@ -12,7 +12,6 @@ class SearchPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 0,
         title: Container(
           padding: const EdgeInsets.only(right: 16),
           height: 42,
