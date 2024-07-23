@@ -33,20 +33,27 @@ class ChatListTile extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Text("김소연"),
-                    SizedBox(width: 4),
-                    Text("블룸 웨딩"),
-                    Spacer(),
-                    Text("5분 전"),
+                    const Text("김소연", style: titleSmall),
+                    const SizedBox(width: 4),
+                    Text(
+                      "블룸 웨딩",
+                      style: bodySmall.copyWith(color: gray600),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "5분 전",
+                      style: captionSmall.copyWith(color: gray600),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         "안녕하세요! 웨딩 준비는 잘 진행되고 있나요? 궁금한 점이 있으면 언제든지 말씀해 주세요.",
+                        style: captionLarge.copyWith(color: gray600),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -59,13 +66,9 @@ class ChatListTile extends StatelessWidget {
                         color: blue500,
                         shape: BoxShape.circle,
                       ),
-                      child: const Text(
+                      child: Text(
                         "1",
-                        style: TextStyle(
-                          color: white,
-                          fontSize: 11,
-                          height: 14 / 11,
-                        ),
+                        style: captionSmall.copyWith(color: white),
                       ),
                     ),
                     const SizedBox(width: 6),

@@ -37,11 +37,14 @@ class ChatPage extends StatelessWidget {
               child: CustomScrollView(
                 physics: const ClampingScrollPhysics(),
                 slivers: [
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                       child: Align(
-                        child: Text("7월 7일 (일)"),
+                        child: Text(
+                          "7월 7일 (일)",
+                          style: captionLarge.copyWith(color: gray800),
+                        ),
                       ),
                     ),
                   ),
@@ -85,11 +88,14 @@ class ChatPage extends StatelessWidget {
                       createdAt: DateTime.now(),
                     ),
                   ),
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                       child: Align(
-                        child: Text("7월 7일 (일)"),
+                        child: Text(
+                          "7월 7일 (일)",
+                          style: captionLarge.copyWith(color: gray800),
+                        ),
                       ),
                     ),
                   ),
@@ -154,15 +160,18 @@ class ChatPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: TextField(
                       onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "메시지를 입력해주세요",
-                        contentPadding: EdgeInsets.symmetric(
+                        hintStyle: bodySmall.copyWith(color: gray600),
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 10,
                         ),
                         filled: true,
                         fillColor: gray100,
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),

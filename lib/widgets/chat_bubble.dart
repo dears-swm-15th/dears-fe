@@ -47,7 +47,10 @@ class ChatBubble extends StatelessWidget {
               if (createdAt != null) ...[
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text("${createdAt.hour}:${createdAt.minute}"),
+                  child: Text(
+                    "${createdAt.hour}:${createdAt.minute}",
+                    style: captionSmall.copyWith(color: gray600),
+                  ),
                 ),
                 const SizedBox(width: 4),
               ],
@@ -71,7 +74,7 @@ class ChatBubble extends StatelessWidget {
                 ),
                 child: Text(
                   message,
-                  style: TextStyle(color: foregroundColor),
+                  style: bodySmall.copyWith(color: foregroundColor),
                 ),
               ),
             ),
@@ -80,7 +83,10 @@ class ChatBubble extends StatelessWidget {
                 const SizedBox(width: 4),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text("${createdAt.hour}:${createdAt.minute}"),
+                  child: Text(
+                    "${createdAt.hour}:${createdAt.minute}",
+                    style: captionSmall.copyWith(color: gray600),
+                  ),
                 ),
               ],
               const Spacer(),
