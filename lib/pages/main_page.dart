@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
             case 1:
               context.push("/favorite");
             case 2:
-              context.push("/chat");
+              context.push("/chats");
             case 3:
               context.push("/personal");
           }
