@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// COLOR
 const Color blue500 = Color(0xFF0094FF);
 const Color blue700 = Color(0xFF104EA5);
 const Color blue200 = Color(0xFF9FC6F8);
@@ -12,6 +13,84 @@ const Color gray100 = Color(0xFFEBECED);
 const Color white = Colors.white;
 const Color yellow = Color(0xFFFFBD35);
 const Color red = Color(0xFFFC4032);
+
+// TYPOGRAPHY
+
+// TITLE
+const TextStyle titleLarge = TextStyle(
+  color: black,
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+  letterSpacing: 0,
+  height: 24 / 18,
+);
+const TextStyle titleMedium = TextStyle(
+  color: black,
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+  letterSpacing: 0,
+  height: 20 / 16,
+);
+const TextStyle titleSmall = TextStyle(
+  color: black,
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  letterSpacing: 0,
+  height: 18 / 14,
+);
+
+// BODY
+const TextStyle bodyLarge = TextStyle(
+  color: black,
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0,
+  height: 20 / 16,
+);
+const TextStyle bodyMedium = TextStyle(
+  color: black,
+  fontSize: 15,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0,
+  height: 18 / 15,
+);
+const TextStyle bodyMediumLong = TextStyle(
+  color: black,
+  fontSize: 15,
+  fontWeight: FontWeight.w500,
+  letterSpacing: -0.15,
+  height: 24 / 15,
+);
+const TextStyle bodySmall = TextStyle(
+  color: black,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0,
+  height: 18 / 14,
+);
+const TextStyle bodySmallLong = TextStyle(
+  color: black,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  letterSpacing: -0.3,
+  height: 20 / 14,
+);
+
+// CAPTION
+const TextStyle captionLarge = TextStyle(
+  color: black,
+  fontSize: 13,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0,
+  height: 16 / 13,
+);
+const TextStyle captionSmall = TextStyle(
+  color: black,
+  fontSize: 11,
+  fontWeight: FontWeight.w400,
+  letterSpacing: 0,
+  height: 14 / 11,
+);
 
 final ThemeData theme = ThemeData(
   // For the sanity of the reader, make sure these properties are in the same
@@ -28,11 +107,7 @@ final ThemeData theme = ThemeData(
 
   // TYPOGRAPHY & ICONOGRAPHY
   textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      color: black,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
-    ),
+    titleLarge: bodyLarge, // default text style for AppBar title
   ),
 
   // COMPONENT THEMES
