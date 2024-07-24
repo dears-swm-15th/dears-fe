@@ -2,7 +2,7 @@ import 'package:dears/pages/chat_list_page.dart';
 import 'package:dears/pages/chat_page.dart';
 import 'package:dears/pages/details_page.dart';
 import 'package:dears/pages/favorite_page.dart';
-import 'package:dears/pages/main_page.dart';
+import 'package:dears/pages/home_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +11,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: "/",
-      builder: (context, state) => const MainPage(),
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       path: "/search",
