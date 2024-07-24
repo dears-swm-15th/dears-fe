@@ -1,5 +1,5 @@
-import 'package:dears/widgets/best_portfolio_list_title.dart';
 import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/widgets/best_portfolio_list_title.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -44,7 +44,7 @@ class HomePage extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             alignment: Alignment.bottomCenter,
             height: 160,
-            child: HomeCarousel(),
+            child: const HomeCarousel(),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -109,7 +109,7 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          _Editor(),
+          const _Editor(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -149,7 +149,8 @@ class HomePage extends ConsumerWidget {
 }
 
 class _Editor extends StatelessWidget {
-  const _Editor({super.key});
+  const _Editor();
+
   @override
   Widget build(BuildContext context) {
     return Row(
