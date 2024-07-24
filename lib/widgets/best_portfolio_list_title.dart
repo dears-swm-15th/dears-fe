@@ -17,7 +17,7 @@ class BestPortfolioListTitle extends StatelessWidget {
       onTap: () {
         context.push("/details/${portfolio.id}");
       },
-      child: Container(
+      child: SizedBox(
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
