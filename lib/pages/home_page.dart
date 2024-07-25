@@ -42,13 +42,11 @@ class HomePage extends ConsumerWidget {
         children: [
           Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomCenter,
             height: 160,
             child: const HomeCarousel(),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomLeft,
             child: const Text(
               "이번 주 주목할 웨딩플래너",
               style: TextStyle(
