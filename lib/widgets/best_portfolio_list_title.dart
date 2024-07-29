@@ -1,10 +1,10 @@
-import 'package:dears/domains/portfolio/portfolio.dart';
+import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/widgets/favorite_count_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class BestPortfolioListTitle extends StatelessWidget {
-  final Portfolio portfolio;
+  final PortfolioOverview portfolio;
 
   const BestPortfolioListTitle(
     this.portfolio, {
@@ -53,7 +53,7 @@ class BestPortfolioListTitle extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                portfolio.name,
+                                portfolio.plannerName,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

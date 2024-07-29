@@ -1,4 +1,4 @@
-import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/providers/wishlist_provider.dart';
 import 'package:dears/widgets/best_portfolio_list_title.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,16 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioList = ref.watch(portfolioListProvider);
+    final portfolioList = ref.watch(wishlistProvider).asData?.value;
+
+    if (portfolioList == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
