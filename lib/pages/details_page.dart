@@ -77,7 +77,17 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    final portfolioList = ref.watch(portfolioListProvider);
+    final portfolioList = ref.watch(portfolioListProvider).asData?.value;
+
+    if (portfolioList == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     final portfolio = portfolioList.firstWhere((e) => e.id == widget.plannerId);
 
     return Scaffold(

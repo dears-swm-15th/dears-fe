@@ -1,9 +1,12 @@
 import 'package:dears/models/portfolio.dart';
 import 'package:dears/models/portfolio_search_response.dart';
+import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'portfolio_client.g.dart';
+
+final PortfolioClient portfolioClient = PortfolioClient(dio);
 
 @RestApi(baseUrl: "v1/portfolio")
 abstract class PortfolioClient {

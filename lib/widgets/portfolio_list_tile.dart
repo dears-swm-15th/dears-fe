@@ -1,10 +1,10 @@
-import 'package:dears/models/portfolio.dart';
+import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/widgets/favorite_count_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PortfolioListTile extends StatelessWidget {
-  final Portfolio portfolio;
+  final PortfolioOverview portfolio;
 
   const PortfolioListTile(
     this.portfolio, {
@@ -44,7 +44,7 @@ class PortfolioListTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        portfolio.name,
+                        portfolio.plannerName,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(portfolio.organization),
