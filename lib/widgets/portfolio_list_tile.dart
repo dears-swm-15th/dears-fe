@@ -1,4 +1,4 @@
-import 'package:dears/models/portfolio/portfolio.dart';
+import 'package:dears/models/portfolio.dart';
 import 'package:dears/widgets/favorite_count_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

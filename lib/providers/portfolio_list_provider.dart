@@ -1,4 +1,4 @@
-import 'package:dears/models/portfolio/portfolio.dart';
+import 'package:dears/models/portfolio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'portfolio_list_provider.g.dart';
