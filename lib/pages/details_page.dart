@@ -3,6 +3,7 @@ import 'package:dears/widgets/details_background_carousel.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
+import 'package:dears/widgets/details_sliver_tab_bar_delegate.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -76,7 +77,17 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    final portfolioList = ref.watch(portfolioListProvider);
+    final portfolioList = ref.watch(portfolioListProvider).asData?.value;
+
+    if (portfolioList == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     final portfolio = portfolioList.firstWhere((e) => e.id == widget.plannerId);
 
     return Scaffold(
@@ -163,22 +174,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
                   ),
                   SliverPersistentHeader(
                     pinned: true,
-                    delegate: _SliverTabBarDelegate(
-                      height: 44,
+                    delegate: DetailsSliverTabBarDelegate(
                       controller: tabController,
                       onTap: scrollToIndex,
-                      tabs: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 44,
-                          child: const Text("소개"),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 44,
-                          child: const Text("리뷰"),
-                        ),
-                      ],
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -232,43 +230,4 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
       ),
     );
   }
-}
-
-class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final double height;
-  final TabController controller;
-  final ValueChanged<int>? onTap;
-  final List<Widget> tabs;
-
-  const _SliverTabBarDelegate({
-    required this.height,
-    required this.controller,
-    this.onTap,
-    required this.tabs,
-  });
-
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return ColoredBox(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: TabBar(
-        controller: controller,
-        onTap: onTap,
-        tabs: tabs,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) => false;
 }

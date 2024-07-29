@@ -8,7 +8,6 @@ class DetailsBackgroundCarousel extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageController = usePageController();
     final index = useState(0);
 
     return Stack(
@@ -16,7 +15,6 @@ class DetailsBackgroundCarousel extends HookWidget {
         SizedBox(
           height: MediaQuery.of(context).padding.top + kToolbarHeight + 180,
           child: PageView.builder(
-            controller: pageController,
             physics: const ClampingScrollPhysics(),
             onPageChanged: (value) => index.value = value,
             itemCount: _itemCount,
