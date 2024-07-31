@@ -1,4 +1,5 @@
 import 'package:dears/widgets/home_carousel.dart';
+import 'package:dears/widgets/home_editor.dart';
 import 'package:dears/widgets/home_navigation_bar.dart';
 import 'package:dears/widgets/home_top_viewed_list.dart';
 import 'package:flutter/material.dart';
@@ -95,88 +96,10 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          const _Editor(),
+          const HomeEditor(),
         ],
       ),
       bottomNavigationBar: const HomeNavigationBar(),
-    );
-  }
-}
-
-class _Editor extends StatelessWidget {
-  const _Editor();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 120,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Container(
-                height: 168,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 168,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Container(
-                height: 120,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
