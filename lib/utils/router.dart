@@ -36,9 +36,9 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const PersonalPage(),
     ),
     GoRoute(
-      path: "/details/:plannerId",
+      path: "/details/:portfolioId",
       builder: (context, state) => DetailsPage(
-        plannerId: int.parse(state.pathParameters["plannerId"]!),
+        portfolioId: int.parse(state.pathParameters["portfolioId"]!),
       ),
     ),
   ],

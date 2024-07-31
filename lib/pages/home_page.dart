@@ -1,234 +1,113 @@
-import 'package:dears/providers/wishlist_provider.dart';
-import 'package:dears/widgets/best_portfolio_list_title.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/home_carousel.dart';
+import 'package:dears/widgets/home_editor.dart';
+import 'package:dears/widgets/home_navigation_bar.dart';
+import 'package:dears/widgets/home_top_viewed_list.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioList = ref.watch(wishlistProvider).asData?.value;
-
-    if (portfolioList == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8),
-          child: Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
+        toolbarHeight: 44,
+        leadingWidth: 44 + 16,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: ColoredBox(color: Colors.grey),
         ),
         actions: [
           IconButton(
+            padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.search, size: 32),
+            icon: const Icon(Icons.search),
           ),
           IconButton(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.notifications, size: 32),
+            icon: const Icon(Icons.notifications),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            height: 160,
-            child: const HomeCarousel(),
+          const SizedBox(
+            height: 176,
+            child: HomeCarousel(),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: const Text(
-              "이번 주 주목할 웨딩플래너",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+          const SizedBox(height: 16),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
-          ),
-          Column(
-            children: List.generate(
-              portfolioList.length,
-              (index) {
-                final portfolio = portfolioList[index];
-                return BestPortfolioListTitle(portfolio);
-              },
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              "웨딩플래닝 로드맵",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            width: 400,
-            height: 400,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomLeft,
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "디어스 매거진",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "완벽한 결혼을 위한 가이드",
+                      style: bodySmall.copyWith(color: blue50),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      "웨딩 준비 로드맵 보러가기",
+                      style: titleMedium.copyWith(color: white),
+                    ),
+                  ],
                 ),
-                Text(
-                  "웨딩 전문 에디터가 알려주는 웨딩 준비 전 꼭 읽어야 할 꿀팁!",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
+                const ColoredBox(
+                  color: Colors.grey,
+                  child: SizedBox.square(dimension: 56),
                 ),
               ],
             ),
           ),
-          const _Editor(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
-          switch (value) {
-            case 0:
-              context.push("/search");
-            case 1:
-              context.push("/favorite");
-            case 2:
-              context.push("/chat");
-            case 3:
-              context.push("/personal");
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "검색",
+          const SizedBox(height: 30),
+          const Text("이번 주 주목할 웨딩플래너", style: titleLarge),
+          const SizedBox(height: 10),
+          const HomeTopViewedList(),
+          const SizedBox(height: 24),
+          const Text("디어스 매거진", style: titleLarge),
+          const SizedBox(height: 4),
+          Text(
+            "웨딩 전문 에디터가 알려주는 웨딩 준비 전 꼭 읽어야 할 꿀팁!",
+            style: bodySmall.copyWith(color: gray600),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "하트",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: "채팅",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "내 정보",
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Editor extends StatelessWidget {
-  const _Editor();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const SizedBox(height: 12),
+          const Row(
             children: [
-              Container(
-                height: 120,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+              Expanded(
+                child: Column(
+                  children: [
+                    HomeEditor(height: 120),
+                    SizedBox(height: 12),
+                    HomeEditor(height: 212),
+                  ],
                 ),
               ),
-              const SizedBox(height: 4),
-              Container(
-                height: 168,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+              SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  children: [
+                    HomeEditor(height: 212),
+                    SizedBox(height: 12),
+                    HomeEditor(height: 120),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 168,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Container(
-                height: 120,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                "웨딩 전문 에디터가 알려주는 \n웨딩 준비 전 읽어야 할 꿀팁!",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
+      bottomNavigationBar: const HomeNavigationBar(),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:dears/models/profile.dart';
 import 'package:dears/models/radar_key.dart';
 import 'package:dears/models/region.dart';
 import 'package:flutter/foundation.dart';
@@ -19,18 +18,14 @@ class Portfolio with _$Portfolio {
     required String profileImageUrl,
     required String description,
     required int consultingFee,
-    required double ratingSum,
-    required int ratingCount,
-    required int estimateSum,
-    required int estimateCount,
+    required double avgRating,
+    required int avgEstimate,
     required int minEstimate,
     required List<String> services,
-    required Profile weddingPlannerPortfolioResponse,
     required List<String> weddingPhotoUrls,
     required Map<RadarKey, double> avgRadar,
-    required int radarCount,
-    required String presignedProfileImageUrl,
-    required List<String> presignedWeddingPhotoUrls,
+    required String? presignedProfileImageUrl,
+    required List<String>? presignedWeddingPhotoUrls,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Portfolio;
@@ -38,9 +33,6 @@ class Portfolio with _$Portfolio {
   const Portfolio._();
 
   String get name => plannerName;
-
-  double get rating => ratingSum / ratingCount;
-  double get estimate => estimateSum / estimateCount;
 
   factory Portfolio.fromJson(Map<String, dynamic> json) =>
       _$PortfolioFromJson(json);

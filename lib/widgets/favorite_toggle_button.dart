@@ -1,4 +1,5 @@
 import 'package:dears/utils/hooks.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -15,9 +16,10 @@ class FavoriteToggleButton extends HookWidget {
     final (isFavorite, toggleFavorite) = useToggle(initialFavorite);
 
     return IconButton(
+      padding: const EdgeInsets.all(10),
       onPressed: toggleFavorite,
       isSelected: isFavorite,
-      selectedIcon: const Icon(Icons.favorite),
+      selectedIcon: const Icon(Icons.favorite, color: red),
       icon: const Icon(Icons.favorite_border),
     );
   }

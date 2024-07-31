@@ -1,5 +1,7 @@
 import 'package:dears/models/portfolio_overview.dart';
-import 'package:dears/widgets/favorite_count_toggle_button.dart';
+import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,55 +15,68 @@ class PortfolioListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.push("/details/${portfolio.id}");
-      },
+    final reviewCount = number.format(portfolio.reviewCount);
+    final avgRating = rating.format(portfolio.avgRating);
+    final minEstimate = number.format(portfolio.minEstimate);
+
+    return GestureDetector(
+      onTap: () => context.push("/details/${portfolio.id}"),
+      behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         height: 100,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.network(
+                portfolio.profileImageUrl,
+                width: 84,
+                height: 84,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 84,
-                  height: 84,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      portfolio.plannerName,
+                      style: titleSmall,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      portfolio.organization,
+                      style: bodySmall.copyWith(color: gray600),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        portfolio.plannerName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(portfolio.organization),
-                      const Spacer(),
-                      const Text(
-                        "250,000원~",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      "리뷰($reviewCount)",
+                      style: captionLarge.copyWith(color: gray600),
+                    ),
+                    const SizedBox(width: 2),
+                    const Icon(Icons.star, size: 16, color: yellow),
+                    const SizedBox(width: 2),
+                    Text(
+                      avgRating,
+                      style: captionLarge.copyWith(color: gray800),
+                    ),
+                  ],
                 ),
+                const Spacer(),
+                Text("$minEstimate원~", style: titleSmall),
+                const SizedBox(height: 4),
               ],
             ),
-            const FavoriteCountToggleButton(
-              initialFavorite: true,
-              initialCount: 5,
-            ),
+            const Spacer(),
+            const FavoriteToggleButton(initialFavorite: true),
           ],
         ),
       ),

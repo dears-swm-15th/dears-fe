@@ -16,18 +16,7 @@ void main() {
   "profileImageUrl": "sdlkfjw3gee",
   "description": "웨딩 준비 도와드릴게요.",
   "consultingFee": 30000,
-  "ratingSum": 3.723123,
-  "ratingCount": 42,
-  "estimateSum": 62,
-  "estimateCount": 62,
   "minEstimate": 20000,
-  "weddingPlannerPortfolioResponse": {
-    "id": 0,
-    "role": "WEDDING_PLANNER",
-    "name": "string",
-    "profileImageUrl": "string",
-    "uuid": "string"
-  },
   "services": [
     "퍼스널 컬러 체크",
     "웨딩드레스 시착 1회 무료"
@@ -43,12 +32,13 @@ void main() {
     "PRICE_RATIONALITY": 4,
     "SCHEDULE_COMPLIANCE": 4.6
   },
-  "radarCount": 62,
   "presignedProfileImageUrl": "https://s3.amazonaws.com/bucket/profileImageUrl",
   "presignedWeddingPhotoUrls": [
     "https://s3.amazonaws.com/bucket/weddingPhoto1.jpg",
     "https://s3.amazonaws.com/bucket/weddingPhoto2.jpg"
   ],
+  "avgRating": 4.2,
+  "avgEstimate": 300000,
   "createdAt": "2024-07-24T05:42:57.446Z",
   "updatedAt": "2024-07-24T05:42:57.446Z"
 }
