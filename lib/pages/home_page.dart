@@ -1,8 +1,8 @@
 import 'package:dears/providers/wishlist_provider.dart';
 import 'package:dears/widgets/best_portfolio_list_title.dart';
 import 'package:dears/widgets/home_carousel.dart';
+import 'package:dears/widgets/home_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends ConsumerWidget {
@@ -119,38 +119,7 @@ class HomePage extends ConsumerWidget {
           const _Editor(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
-          switch (value) {
-            case 0:
-              context.push("/search");
-            case 1:
-              context.push("/favorite");
-            case 2:
-              context.push("/chat");
-            case 3:
-              context.push("/personal");
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "검색",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "하트",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: "채팅",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "내 정보",
-          ),
-        ],
-      ),
+      bottomNavigationBar: const HomeNavigationBar(),
     );
   }
 }
