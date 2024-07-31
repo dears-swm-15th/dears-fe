@@ -1,4 +1,5 @@
 import 'package:dears/models/portfolio.dart';
+import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/models/portfolio_search_response.dart';
 import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
@@ -25,6 +26,9 @@ abstract class PortfolioClient {
 
   @GET("/shared/soft-deleted")
   Future<List<Portfolio>> getAllSoftDeleted();
+
+  @GET("/shared/top5")
+  Future<List<PortfolioOverview>> getTopViewed();
 
   @POST("/weddingplanner/create")
   Future<Portfolio> create({

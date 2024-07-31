@@ -1,26 +1,13 @@
-import 'package:dears/providers/wishlist_provider.dart';
-import 'package:dears/widgets/best_portfolio_list_title.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:dears/widgets/home_navigation_bar.dart';
+import 'package:dears/widgets/home_top_viewed_list.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioList = ref.watch(wishlistProvider).asData?.value;
-
-    if (portfolioList == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -64,15 +51,7 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
-          Column(
-            children: List.generate(
-              portfolioList.length,
-              (index) {
-                final portfolio = portfolioList[index];
-                return BestPortfolioListTitle(portfolio);
-              },
-            ),
-          ),
+          const HomeTopViewedList(),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             alignment: Alignment.bottomLeft,
