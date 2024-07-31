@@ -1,4 +1,4 @@
-import 'package:dears/providers/portfolio_list_provider.dart';
+import 'package:dears/providers/portfolio_provider.dart';
 import 'package:dears/widgets/details_background_carousel.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsPage extends ConsumerStatefulWidget {
-  final int plannerId;
+  final int portfolioId;
 
   const DetailsPage({
     super.key,
-    required this.plannerId,
+    required this.portfolioId,
   });
 
   @override
@@ -77,9 +77,11 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    final portfolioList = ref.watch(portfolioListProvider).asData?.value;
+    final portfolio = ref
+        .watch(portfolioProvider(widget.portfolioId))
+        .whenOrNull(data: (data) => data);
 
-    if (portfolioList == null) {
+    if (portfolio == null) {
       return Scaffold(
         appBar: AppBar(),
         body: const Center(
@@ -87,8 +89,6 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
         ),
       );
     }
-
-    final portfolio = portfolioList.firstWhere((e) => e.id == widget.plannerId);
 
     return Scaffold(
       body: Column(
