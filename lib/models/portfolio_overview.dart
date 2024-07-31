@@ -13,7 +13,9 @@ class PortfolioOverview with _$PortfolioOverview {
     required String plannerName,
     required Region region,
     required String profileImageUrl,
+    required double avgRating,
     required int minEstimate,
+    required int reviewCount,
   }) = _PortfolioOverview;
 
   factory PortfolioOverview.fromJson(Map<String, dynamic> json) =>
