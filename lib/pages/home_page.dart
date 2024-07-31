@@ -1,3 +1,4 @@
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:dears/widgets/home_editor.dart';
 import 'package:dears/widgets/home_navigation_bar.dart';
@@ -11,92 +12,99 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8),
-          child: Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
+        toolbarHeight: 44,
+        leadingWidth: 44 + 16,
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: ColoredBox(color: Colors.grey),
         ),
         actions: [
           IconButton(
+            padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.search, size: 32),
+            icon: const Icon(Icons.search),
           ),
           IconButton(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.notifications, size: 32),
+            icon: const Icon(Icons.notifications),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            height: 160,
-            child: const HomeCarousel(),
+          const SizedBox(
+            height: 176,
+            child: HomeCarousel(),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: const Text(
-              "이번 주 주목할 웨딩플래너",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+          const SizedBox(height: 16),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
-          ),
-          const HomeTopViewedList(),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              "웨딩플래닝 로드맵",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            width: 400,
-            height: 400,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            alignment: Alignment.bottomLeft,
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "디어스 매거진",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "완벽한 결혼을 위한 가이드",
+                      style: bodySmall.copyWith(color: blue50),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      "웨딩 준비 로드맵 보러가기",
+                      style: titleMedium.copyWith(color: white),
+                    ),
+                  ],
                 ),
-                Text(
-                  "웨딩 전문 에디터가 알려주는 웨딩 준비 전 꼭 읽어야 할 꿀팁!",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
+                const ColoredBox(
+                  color: Colors.grey,
+                  child: SizedBox.square(dimension: 56),
                 ),
               ],
             ),
           ),
-          const HomeEditor(),
+          const SizedBox(height: 30),
+          const Text("이번 주 주목할 웨딩플래너", style: titleLarge),
+          const SizedBox(height: 10),
+          const HomeTopViewedList(),
+          const SizedBox(height: 24),
+          const Text("디어스 매거진", style: titleLarge),
+          const SizedBox(height: 4),
+          Text(
+            "웨딩 전문 에디터가 알려주는 웨딩 준비 전 꼭 읽어야 할 꿀팁!",
+            style: bodySmall.copyWith(color: gray600),
+          ),
+          const SizedBox(height: 12),
+          const Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    HomeEditor(height: 120),
+                    SizedBox(height: 12),
+                    HomeEditor(height: 212),
+                  ],
+                ),
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  children: [
+                    HomeEditor(height: 212),
+                    SizedBox(height: 12),
+                    HomeEditor(height: 120),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       bottomNavigationBar: const HomeNavigationBar(),
