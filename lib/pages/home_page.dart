@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:dears/widgets/home_editor.dart';
@@ -22,12 +23,12 @@ class HomePage extends StatelessWidget {
           IconButton(
             padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.search),
+            icon: const Icon(DearsIcons.search),
           ),
           IconButton(
             padding: const EdgeInsets.all(10),
             onPressed: () {},
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(DearsIcons.notifications),
           ),
           const SizedBox(width: 8),
         ],

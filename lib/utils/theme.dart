@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:flutter/material.dart';
 
 // COLOR
@@ -111,6 +112,10 @@ final ThemeData theme = ThemeData(
   ),
 
   // COMPONENT THEMES
+  actionIconTheme: ActionIconThemeData(
+    backButtonIconBuilder: (context) => const Icon(DearsIcons.caret_left),
+    closeButtonIconBuilder: (context) => const Icon(DearsIcons.close),
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: white,
     surfaceTintColor: white,

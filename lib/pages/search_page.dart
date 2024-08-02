@@ -1,4 +1,5 @@
 import 'package:dears/providers/recent_search_words_provider.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,8 +24,8 @@ class SearchPage extends ConsumerWidget {
             decoration: const InputDecoration(
               hintText: "검색어를 입력하세요",
               hintStyle: TextStyle(color: gray600),
-              prefixIcon: Icon(Icons.search, color: gray600),
-              suffixIcon: Icon(Icons.cancel, size: 16, color: gray600),
+              prefixIcon: Icon(DearsIcons.search, color: gray600),
+              suffixIcon: Icon(DearsIcons.cancel, size: 16, color: gray600),
               filled: true,
               fillColor: blue50,
               border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -107,7 +108,7 @@ class SearchPage extends ConsumerWidget {
                           onDeleted: () => ref
                               .read(recentSearchWordsProvider.notifier)
                               .removeAt(index),
-                          deleteIcon: const Icon(Icons.clear, size: 16),
+                          deleteIcon: const Icon(DearsIcons.close, size: 16),
                           label: Text(recentSearchWords[index]),
                         );
                       },

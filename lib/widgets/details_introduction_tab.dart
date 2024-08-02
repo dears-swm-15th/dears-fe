@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:dears/widgets/radar_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class DetailsIntroductionTab extends StatelessWidget {
           const SizedBox(height: 16),
           const Row(
             children: [
-              Icon(Icons.check, size: 20),
+              Icon(DearsIcons.check, size: 20),
               SizedBox(width: 10),
               Text("서비스1"),
             ],
@@ -71,7 +72,7 @@ class DetailsIntroductionTab extends StatelessWidget {
           const SizedBox(height: 10),
           const Row(
             children: [
-              Icon(Icons.check, size: 20),
+              Icon(DearsIcons.check, size: 20),
               SizedBox(width: 10),
               Text("서비스2"),
             ],
@@ -79,7 +80,7 @@ class DetailsIntroductionTab extends StatelessWidget {
           const SizedBox(height: 10),
           const Row(
             children: [
-              Icon(Icons.check, size: 20),
+              Icon(DearsIcons.check, size: 20),
               SizedBox(width: 10),
               Text("서비스3"),
             ],
@@ -167,7 +168,7 @@ class DetailsIntroductionTab extends StatelessWidget {
             child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.info_outline, size: 18),
+                Icon(DearsIcons.info, size: 18),
                 SizedBox(width: 4),
                 Expanded(
                   child: Text(

@@ -1,5 +1,6 @@
 import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,7 @@ class PortfolioListTile extends StatelessWidget {
                       style: captionLarge.copyWith(color: gray600),
                     ),
                     const SizedBox(width: 2),
-                    const Icon(Icons.star, size: 16, color: yellow),
+                    const Icon(DearsIcons.star, size: 16, color: yellow),
                     const SizedBox(width: 2),
                     Text(
                       avgRating,

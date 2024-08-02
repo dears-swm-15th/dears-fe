@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,11 @@ class ChatPage extends StatelessWidget {
         actions: const [
           Padding(
             padding: EdgeInsets.all(10),
-            child: Icon(Icons.more_vert),
+            child: Icon(DearsIcons.more_vert),
           ),
           Padding(
             padding: EdgeInsets.all(10),
-            child: Icon(Icons.favorite_outline),
+            child: Icon(DearsIcons.favorite_outline),
           ),
           SizedBox(width: 8),
         ],
@@ -153,7 +154,7 @@ class ChatPage extends StatelessWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.all(10),
-                  child: Icon(Icons.attach_file),
+                  child: Icon(DearsIcons.link),
                 ),
                 Expanded(
                   child: Padding(
@@ -178,7 +179,7 @@ class ChatPage extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(10),
-                  child: Icon(Icons.send),
+                  child: Icon(DearsIcons.paper_plane_right),
                 ),
               ],
             ),

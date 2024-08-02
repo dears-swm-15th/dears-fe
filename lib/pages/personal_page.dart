@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class PersonalPage extends StatelessWidget {
             trailing: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(
-                Icons.arrow_forward_ios_rounded,
+                DearsIcons.caret_right,
                 size: 24,
               ),
             ),
@@ -50,12 +51,12 @@ class PersonalPage extends StatelessWidget {
           PersonalListTile(
             onTap: () {},
             title: const Text("플래너 매칭"),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            trailing: const Icon(DearsIcons.caret_right),
           ),
           PersonalListTile(
             onTap: () {},
             title: const Text("내가 쓴 리뷰"),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            trailing: const Icon(DearsIcons.caret_right),
           ),
           const Padding(
             padding: EdgeInsets.only(left: 16, top: 100, bottom: 16),
@@ -70,12 +71,12 @@ class PersonalPage extends StatelessWidget {
           ),
           PersonalListTile(
             onTap: () {},
-            leading: const Icon(Icons.notifications_outlined),
+            leading: const Icon(DearsIcons.notifications),
             title: const Text("알림"),
           ),
           PersonalListTile(
             onTap: () {},
-            leading: const Icon(Icons.chat),
+            leading: const Icon(DearsIcons.chat),
             title: const Text("1:1 문의"),
           ),
         ],

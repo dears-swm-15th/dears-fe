@@ -1,5 +1,6 @@
 import 'package:dears/utils/env.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 final dio = Dio()
@@ -9,4 +10,9 @@ final dio = Dio()
   // and `RestApi.baseUrl` should not start with a leading slash.
   ..options.baseUrl = "$baseUrl/api/"
   ..options.headers["Authorization"] = "Bearer $uuid"
-  ..interceptors.add(PrettyDioLogger());
+  ..interceptors.add(logInterceptor);
+
+final logInterceptor = PrettyDioLogger(
+  // ignore: avoid_redundant_argument_values
+  enabled: kDebugMode,
+);
