@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:flutter/material.dart';
 
 class StarRatingBar extends StatelessWidget {
@@ -27,7 +28,7 @@ class StarRatingBar extends StatelessWidget {
             ).createShader(bounds);
           },
           child: const Icon(
-            Icons.star_rounded,
+            DearsIcons.star,
             size: 16,
             color: Colors.grey,
           ),

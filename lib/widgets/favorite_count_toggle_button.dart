@@ -1,4 +1,5 @@
 import 'package:dears/utils/hooks.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -25,8 +26,8 @@ class FavoriteCountToggleButton extends HookWidget {
         IconButton(
           onPressed: toggleFavorite,
           isSelected: isFavorite,
-          selectedIcon: const Icon(Icons.favorite),
-          icon: const Icon(Icons.favorite_border),
+          selectedIcon: const Icon(DearsIcons.favorite),
+          icon: const Icon(DearsIcons.favorite_outline),
         ),
         Text("$count"),
       ],

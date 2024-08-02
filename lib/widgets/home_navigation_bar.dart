@@ -1,3 +1,4 @@
+import 'package:dears/utils/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,19 +22,19 @@ class HomeNavigationBar extends StatelessWidget {
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+          icon: Icon(DearsIcons.search),
           label: "검색",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
+          icon: Icon(DearsIcons.favorite_outline),
           label: "하트",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
+          icon: Icon(DearsIcons.chat),
           label: "채팅",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: Icon(DearsIcons.person),
           label: "마이페이지",
         ),
       ],
