@@ -1,6 +1,7 @@
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
+import 'package:dears/widgets/personal_profile_list_tile.dart';
 import 'package:flutter/material.dart';
 
 class PersonalPage extends StatelessWidget {
@@ -15,28 +16,7 @@ class PersonalPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PersonalListTile(
-            onTap: () {},
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            leading: const CircleAvatar(radius: 36),
-            titleSpacing: 8,
-            title: const Text(
-              "닉네임",
-              style: TextStyle(
-                color: black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            subtitle: const Text("example@gmail.com"),
-            trailing: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(
-                DearsIcons.caret_right,
-                size: 24,
-              ),
-            ),
-          ),
+          const PersonalProfileListTile(),
           const Padding(
             padding: EdgeInsets.only(left: 16, top: 32, bottom: 16),
             child: Text(
