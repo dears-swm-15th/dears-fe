@@ -1,82 +1,67 @@
 import 'package:dears/models/portfolio_overview.dart';
-import 'package:dears/widgets/favorite_count_toggle_button.dart';
+import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeTopViewedListTile extends StatelessWidget {
+  final int rank;
   final PortfolioOverview portfolio;
 
-  const HomeTopViewedListTile(
-    this.portfolio, {
+  const HomeTopViewedListTile({
     super.key,
+    required this.rank,
+    required this.portfolio,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.push("/details/${portfolio.id}");
-      },
-      child: SizedBox(
-        height: 70,
+    final minEstimate = number.format(portfolio.minEstimate);
+
+    return GestureDetector(
+      onTap: () => context.push("/details/${portfolio.id}"),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        // TODO: remove outer horizontal padding of the list
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
+            SizedBox(
+              width: 24,
+              child: Center(
+                child: Text("$rank", style: titleSmall),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${portfolio.id}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                Row(
+                  children: [
+                    Text(portfolio.plannerName, style: titleSmall),
+                    const SizedBox(width: 4),
+                    Text(
+                      portfolio.organization,
+                      style: bodySmall.copyWith(color: gray600),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                portfolio.plannerName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(portfolio.organization),
-                            ],
-                          ),
-                          const Text(
-                            "250,000원~",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                Text("$minEstimate원~", style: titleSmall),
               ],
             ),
-            const FavoriteCountToggleButton(
-              initialFavorite: true,
-              initialCount: 5,
-            ),
+            const Spacer(),
+            const FavoriteToggleButton(initialFavorite: false),
           ],
         ),
       ),
