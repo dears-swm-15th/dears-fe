@@ -8,8 +8,8 @@ part 'chatroom_overview.g.dart';
 class ChatroomOverview with _$ChatroomOverview {
   const factory ChatroomOverview({
     required int id,
-    required String weddingPlannerProfileImageUrl,
-    required String weddingPlannerName,
+    required String othersProfileImageUrl,
+    required String othersName,
     required String lastMessage,
     required DateTime lastMessageCreatedAt,
     required String organizationName,
