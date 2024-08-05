@@ -3,10 +3,10 @@ import 'package:dears/widgets/favorite_count_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class BestPortfolioListTitle extends StatelessWidget {
+class HomeTopViewedListTile extends StatelessWidget {
   final PortfolioOverview portfolio;
 
-  const BestPortfolioListTitle(
+  const HomeTopViewedListTile(
     this.portfolio, {
     super.key,
   });
