@@ -1,4 +1,5 @@
 import 'package:dears/utils/icons.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/radar_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -225,18 +226,7 @@ class DetailsIntroductionTab extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.1),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.15),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
+              boxShadow: boxShadow,
             ),
             child: Column(
               children: [

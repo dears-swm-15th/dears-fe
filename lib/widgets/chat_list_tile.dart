@@ -10,23 +10,12 @@ class ChatListTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          DecoratedBox(
+          const DecoratedBox(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.1),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.15),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
+              boxShadow: boxShadow,
             ),
-            child: const CircleAvatar(radius: 27),
+            child: CircleAvatar(radius: 27),
           ),
           const SizedBox(width: 8),
           Expanded(
