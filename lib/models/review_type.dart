@@ -9,8 +9,8 @@ enum ReviewType {
 
   ReviewType get inversed {
     return switch (this) {
-      ReviewType.consulting => ReviewType.matching,
-      ReviewType.matching => ReviewType.consulting
+      consulting => matching,
+      matching => consulting,
     };
   }
 
