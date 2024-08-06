@@ -1,15 +1,17 @@
+import 'package:dears/models/portfolio.dart';
+import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
+import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/details_background_carousel.dart';
+import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 
 class DetailsSliverAppBar extends StatefulWidget {
-  final Widget? title;
-  final List<Widget>? actions;
-  final Widget? background;
+  final Portfolio portfolio;
 
-  const DetailsSliverAppBar({
+  const DetailsSliverAppBar(
+    this.portfolio, {
     super.key,
-    this.title,
-    this.actions,
-    this.background,
   });
 
   @override
@@ -52,27 +54,110 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
   Widget build(BuildContext context) {
     final height = this.height;
 
+    final avgRating = rating.format(widget.portfolio.avgRating);
+    final tags = ["여성", "동행"];
+
+    final background = Column(
+      children: [
+        const DetailsBackgroundCarousel(),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(widget.portfolio.name, style: titleLarge),
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.portfolio.organization,
+                        style: bodySmall.copyWith(color: gray600),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(DearsIcons.star, size: 16, color: yellow),
+                      Text(
+                        avgRating,
+                        style: captionLarge.copyWith(color: gray800),
+                      ),
+                      ...List.generate(tags.length, (index) {
+                        final tag = tags[index];
+                        return Container(
+                          margin: const EdgeInsets.only(left: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: blue50,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          child: Text(
+                            tag,
+                            style: captionSmall.copyWith(color: blue500),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    widget.portfolio.introduction,
+                    style: bodySmallLong.copyWith(color: gray800),
+                  ),
+                ],
+              ),
+            ),
+            const Positioned(
+              top: -50,
+              right: 24,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: white,
+                child: CircleAvatar(radius: 48),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+
     if (height == null) {
       return SliverToBoxAdapter(
         child: Container(
           key: key,
-          child: widget.background,
+          child: background,
         ),
       );
     }
 
+    final title = Text("${widget.portfolio.name} 웨딩플래너");
+
+    const actions = [
+      FavoriteToggleButton(initialFavorite: false),
+      SizedBox(width: 8),
+    ];
+
+    final topPadding = MediaQuery.of(context).padding.top;
+    final collapsedHeight = topPadding + kToolbarHeight;
+
     return SliverAppBar(
       pinned: true,
-      expandedHeight: height - MediaQuery.of(context).padding.top,
-      actions: widget.actions,
+      expandedHeight: height - topPadding,
+      actions: actions,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
-          final isCollapsed = constraints.biggest.height ==
-              MediaQuery.of(context).padding.top + kToolbarHeight;
+          final isCollapsed = constraints.biggest.height == collapsedHeight;
 
           return FlexibleSpaceBar(
-            title: isCollapsed ? widget.title : null,
-            background: widget.background,
+            title: isCollapsed ? title : null,
+            background: background,
           );
         },
       ),

@@ -1,10 +1,10 @@
 import 'package:dears/providers/portfolio_provider.dart';
-import 'package:dears/widgets/details_background_carousel.dart';
+import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
 import 'package:dears/widgets/details_sliver_tab_bar_delegate.dart';
-import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -49,8 +49,8 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
       }
 
       final offset = renderBox.localToGlobal(Offset.zero);
-      return offset.dy <=
-          MediaQuery.of(context).padding.top + kToolbarHeight + 44;
+      final topPadding = MediaQuery.of(context).padding.top;
+      return offset.dy <= topPadding + kToolbarHeight + 44;
     });
 
     if (i == -1) {
@@ -90,6 +90,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
       );
     }
 
+    final minEstimate = number.format(portfolio.minEstimate);
+    final avgEstimate = number.format(portfolio.avgEstimate);
+
     return Scaffold(
       body: Column(
         children: [
@@ -98,80 +101,7 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
               controller: scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
-                  DetailsSliverAppBar(
-                    title: Text("${portfolio.name} 웨딩플래너"),
-                    actions: const [
-                      FavoriteToggleButton(initialFavorite: false),
-                      SizedBox(width: 14),
-                    ],
-                    background: Column(
-                      children: [
-                        const DetailsBackgroundCarousel(),
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 20,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        portfolio.name,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(portfolio.organization),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 6,
-                                          vertical: 2,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFD7D9DB),
-                                          borderRadius:
-                                              BorderRadius.circular(2),
-                                        ),
-                                        child: const Text(
-                                          "여성",
-                                          style: TextStyle(fontSize: 11),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  const Text(
-                                    "결혼을 준비하는 모든 커플들의 꿈을 이뤄드리는 웨딩 플래너 김지수입니다.",
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Positioned(
-                              top: -50,
-                              right: 24,
-                              child: CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(radius: 48),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  DetailsSliverAppBar(portfolio),
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: DetailsSliverTabBarDelegate(
@@ -182,9 +112,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
                   SliverToBoxAdapter(
                     child: Column(
                       key: keys[0],
-                      children: const [
-                        DetailsIntroductionTab(),
-                        Divider(thickness: 4),
+                      children: [
+                        DetailsIntroductionTab(portfolio),
+                        const Divider(thickness: 4),
                       ],
                     ),
                   ),
@@ -202,19 +132,13 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text("$minEstimate원~", style: titleMedium),
                     Text(
-                      "200,000원~",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      "평균 250,000원",
-                      style: TextStyle(fontSize: 16),
+                      "평균 $avgEstimate원",
+                      style: bodySmall.copyWith(color: gray600),
                     ),
                   ],
                 ),
