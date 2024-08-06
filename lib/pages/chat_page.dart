@@ -1,9 +1,13 @@
+import 'package:dears/providers/message_list_provider.dart';
+import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends ConsumerWidget {
   final int chatroomId;
 
   const ChatPage({
@@ -12,7 +16,46 @@ class ChatPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final messageList = ref.watch(messageListProvider(chatroomId));
+
+    final bubbles = messageList.maybeWhen<Iterable<Widget>>(
+      data: (data) sync* {
+        for (final (i, item) in data.indexed) {
+          final prev = i == 0 ? null : data[i - 1];
+          final next = i == data.length - 1 ? null : data[i + 1];
+
+          if (!DateUtils.isSameDay(item.createdAt, prev?.createdAt)) {
+            final date = fullDate.format(item.createdAt);
+
+            yield Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Center(
+                child: Text(
+                  date,
+                  style: captionLarge.copyWith(color: gray800),
+                ),
+              ),
+            );
+          }
+
+          DateTime? createdAt = item.createdAt;
+          if (item.isMe == next?.isMe &&
+              isSameMinute(item.createdAt, next?.createdAt)) {
+            createdAt = null;
+          }
+
+          yield ChatBubble(
+            isMe: item.isMe,
+            isFirst: item.isMe != prev?.isMe,
+            message: item.message,
+            createdAt: createdAt,
+          );
+        }
+      },
+      orElse: () => [],
+    );
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -38,108 +81,7 @@ class ChatPage extends StatelessWidget {
               child: CustomScrollView(
                 physics: const ClampingScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Align(
-                        child: Text(
-                          "7월 7일 (일)",
-                          style: captionLarge.copyWith(color: gray800),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: true,
-                      message:
-                          "안녕하세요! 웨딩 준비는 잘 진행되고 있나요? 궁금한 점이 있으면 언제든지 말씀해 주세요.",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: true,
-                      isFirst: true,
-                      message: "예식장 방문 일정도 조율하고 싶습니다. 이번 주말에 가능할까요?",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: true,
-                      message: "네 잠시만요~",
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: false,
-                      message: "확인 후 연락드리겠습니다^^",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: true,
-                      isFirst: true,
-                      message: "감사합니다",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Align(
-                        child: Text(
-                          "7월 7일 (일)",
-                          style: captionLarge.copyWith(color: gray800),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: true,
-                      message:
-                          "안녕하세요! 웨딩 준비는 잘 진행되고 있나요? 궁금한 점이 있으면 언제든지 말씀해 주세요.",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: true,
-                      isFirst: true,
-                      message: "예식장 방문 일정도 조율하고 싶습니다. 이번 주말에 가능할까요?",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: true,
-                      message: "네 잠시만요~",
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: false,
-                      isFirst: false,
-                      message: "확인 후 연락드리겠습니다^^",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ChatBubble(
-                      isMe: true,
-                      isFirst: true,
-                      message: "감사합니다",
-                      createdAt: DateTime.now(),
-                    ),
-                  ),
+                  ...bubbles.map((e) => SliverToBoxAdapter(child: e)),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 10),
                   ),
