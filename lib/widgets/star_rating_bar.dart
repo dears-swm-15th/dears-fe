@@ -1,14 +1,13 @@
 import 'package:dears/utils/icons.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class StarRatingBar extends StatelessWidget {
   final num rating;
-  final Color color;
 
-  const StarRatingBar({
+  const StarRatingBar(
+    this.rating, {
     super.key,
-    required this.rating,
-    this.color = Colors.black,
   });
 
   @override
@@ -21,17 +20,11 @@ class StarRatingBar extends StatelessWidget {
 
         return ShaderMask(
           blendMode: BlendMode.srcATop,
-          shaderCallback: (bounds) {
-            return LinearGradient(
-              colors: [color, Colors.transparent],
-              stops: [rating, rating],
-            ).createShader(bounds);
-          },
-          child: const Icon(
-            DearsIcons.star,
-            size: 16,
-            color: Colors.grey,
-          ),
+          shaderCallback: LinearGradient(
+            colors: const [yellow, Colors.transparent],
+            stops: [rating, rating],
+          ).createShader,
+          child: const Icon(DearsIcons.star, size: 16, color: gray100),
         );
       }),
     );

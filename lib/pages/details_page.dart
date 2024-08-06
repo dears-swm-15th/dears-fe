@@ -190,7 +190,10 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
                   ),
                 ];
               },
-              body: DetailsReviewTab(key: keys[1]),
+              body: DetailsReviewTab(
+                key: keys[1],
+                portfolioId: widget.portfolioId,
+              ),
             ),
           ),
           const Divider(),

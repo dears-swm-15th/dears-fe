@@ -1,4 +1,3 @@
-import 'package:dears/models/radar_key.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,18 +8,15 @@ part 'review.g.dart';
 class Review with _$Review {
   const factory Review({
     required int id,
+    required int portfolioId,
     required String reviewerName,
     required String content,
     required bool isProvided,
     required double rating,
     required int estimate,
     required List<String> tags,
-    required List<String> weddingPhotoUrls,
-    required Map<RadarKey, double> radar,
     required List<String> presignedWeddingPhotoUrls,
-    required int portfolioId,
     required DateTime createdAt,
-    required DateTime updatedAt,
   }) = _Review;
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
