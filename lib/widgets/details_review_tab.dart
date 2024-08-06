@@ -1,5 +1,6 @@
 import 'package:dears/models/review_type.dart';
 import 'package:dears/providers/review_list_provider.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/review_input.dart';
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:dears/widgets/review_type_switch.dart';
@@ -51,58 +52,47 @@ class DetailsReviewTab extends HookConsumerWidget {
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+          SliverList.list(
+            children: [
+              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: titleLarge,
+                      children: [
+                        const TextSpan(text: "리뷰 "),
+                        TextSpan(
+                          text: "$count",
+                          style: const TextStyle(color: blue500),
                         ),
-                        children: [
-                          const TextSpan(text: "리뷰 "),
-                          TextSpan(
-                            text: "$count",
-                            style: const TextStyle(color: Colors.blue),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                    ReviewTypeSwitch(
-                      value: reviewType.value,
-                      onChanged: (value) => reviewType.value = value,
+                  ),
+                  ReviewTypeSwitch(
+                    value: reviewType.value,
+                    onChanged: (value) => reviewType.value = value,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ReviewInput(type: reviewType.value),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  style: titleMedium,
+                  children: [
+                    TextSpan(text: "${reviewType.value} 리뷰 "),
+                    TextSpan(
+                      text: "$count",
+                      style: const TextStyle(color: blue500),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                ReviewInput(type: reviewType.value),
-                const SizedBox(height: 16),
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    children: [
-                      TextSpan(text: "${reviewType.value} 리뷰 "),
-                      TextSpan(
-                        text: "$count",
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
           tiles,
         ],
