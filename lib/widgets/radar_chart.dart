@@ -1,9 +1,10 @@
 import 'dart:math';
 
+import 'package:dears/models/radar_key.dart';
 import 'package:flutter/material.dart';
 
 class RadarChart extends StatelessWidget {
-  final Map<String, double> data;
+  final Map<RadarKey, double> data;
 
   const RadarChart(
     this.data, {
@@ -20,7 +21,7 @@ class RadarChart extends StatelessWidget {
 }
 
 class RadarChartPainter extends CustomPainter {
-  final Map<String, double> data;
+  final Map<RadarKey, double> data;
 
   const RadarChartPainter(this.data) : assert(data.length >= 3);
 

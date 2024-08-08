@@ -1,106 +1,117 @@
+import 'package:dears/models/portfolio.dart';
+import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/radar_chart.dart';
 import 'package:flutter/material.dart';
 
 class DetailsIntroductionTab extends StatelessWidget {
-  const DetailsIntroductionTab({super.key});
+  final Portfolio portfolio;
+
+  const DetailsIntroductionTab(
+    this.portfolio, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    const services = ["서비스1", "서비스2", "서비스3"];
+
+    final avgEstimate = number.format(portfolio.avgEstimate);
+    final minEstimate = number.format(portfolio.minEstimate);
+    final consultingFee = number.format(portfolio.consultingFee);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 36),
-          const Text(
-            "상세 정보",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+            decoration: BoxDecoration(
+              border: Border.all(color: gray100),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      DearsIcons.location_pin,
+                      size: 16,
+                      color: gray600,
+                    ),
+                    const SizedBox(width: 4),
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        "활동지역",
+                        style: titleSmall.copyWith(color: gray600),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Text("${portfolio.region}", style: bodySmall),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const Icon(
+                      DearsIcons.clock,
+                      size: 16,
+                      color: gray600,
+                    ),
+                    const SizedBox(width: 4),
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        "평균응답시간",
+                        style: titleSmall.copyWith(color: gray600),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text("30분 이내", style: bodySmall),
+                  ],
+                ),
+              ],
             ),
           ),
+          const SizedBox(height: 40),
+          const Text("제공 서비스", style: titleMedium),
           const SizedBox(height: 16),
-          const Row(
-            children: [
-              SizedBox(
-                width: 80,
-                child: Text("활동지역"),
-              ),
-              SizedBox(width: 20),
-              Text("서울 전체"),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              SizedBox(
-                width: 80,
-                child: Text("상담가능시간"),
-              ),
-              SizedBox(width: 20),
-              Text("오전 9:00 ~ 오후 6:00"),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              SizedBox(
-                width: 80,
-                child: Text("휴무일"),
-              ),
-              SizedBox(width: 20),
-              Text("매주 월요일"),
-            ],
-          ),
-          const SizedBox(height: 32),
-          const Text(
-            "제공 서비스",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Row(
-            children: [
-              Icon(DearsIcons.check, size: 20),
-              SizedBox(width: 10),
-              Text("서비스1"),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              Icon(DearsIcons.check, size: 20),
-              SizedBox(width: 10),
-              Text("서비스2"),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              Icon(DearsIcons.check, size: 20),
-              SizedBox(width: 10),
-              Text("서비스3"),
-            ],
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: services.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              final service = services[index];
+              return Row(
+                children: [
+                  const Icon(DearsIcons.check, size: 20, color: blue500),
+                  const SizedBox(width: 10),
+                  Text(
+                    service,
+                    style: bodySmall.copyWith(color: gray800),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 40),
           RichText(
-            text: const TextSpan(
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+            text: TextSpan(
+              style: titleLarge,
               children: [
-                TextSpan(text: "해당 웨딩플래너 진행 시,\n"),
-                TextSpan(text: "평균가는 "),
+                const TextSpan(text: "해당 웨딩플래너 진행 시,\n"),
+                const TextSpan(text: "평균가는 "),
                 TextSpan(
-                  text: "375,000원",
-                  style: TextStyle(color: Colors.grey),
+                  text: "$avgEstimate원",
+                  style: const TextStyle(color: blue500),
                 ),
-                TextSpan(text: " 입니다"),
+                const TextSpan(text: " 입니다"),
               ],
             ),
           ),
@@ -112,21 +123,18 @@ class DetailsIntroductionTab extends StatelessWidget {
                   alignment: Alignment.center,
                   height: 76,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: gray100),
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("최저가"),
-                      SizedBox(height: 8),
                       Text(
-                        "200,000원~",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        "최저가",
+                        style: titleSmall.copyWith(color: blue500),
                       ),
+                      const SizedBox(height: 8),
+                      Text("$minEstimate원~", style: titleMedium),
                     ],
                   ),
                 ),
@@ -137,21 +145,18 @@ class DetailsIntroductionTab extends StatelessWidget {
                   alignment: Alignment.center,
                   height: 76,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+                    border: Border.all(color: gray100),
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("상담비 별도"),
-                      SizedBox(height: 8),
                       Text(
-                        "30,000원",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        "상담비 별도",
+                        style: titleSmall.copyWith(color: red),
                       ),
+                      const SizedBox(height: 8),
+                      Text("$consultingFee원", style: titleMedium),
                     ],
                   ),
                 ),
@@ -160,95 +165,57 @@ class DetailsIntroductionTab extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: blue50,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(DearsIcons.info, size: 18),
-                SizedBox(width: 4),
-                Expanded(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 11),
+                  child: Row(
+                    children: [
+                      const Icon(DearsIcons.info, size: 18, color: blue500),
+                      const SizedBox(width: 2),
+                      Text(
+                        "알려드립니다",
+                        style: titleSmall.copyWith(color: blue500),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "실제 가격은 상담 후 계약에 따라 달라질 수 있습니다. 실제 가격은 상담 후 계약에 따라 달라질 수 있습니다.",
+                    "평균가는 플래너 고용 비용과 스드메 비용이 포함된 가격입니다",
+                    style: captionLarge.copyWith(color: gray800),
+                    textAlign: TextAlign.start,
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 40),
-          const Text(
-            "전하고 싶은 말",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          const Text("상세 설명", style: titleMedium),
           const SizedBox(height: 16),
-          const Text(
-            "저희 웨딩플래너는 최신 웨딩 트렌드와 정보를 항상 주시하고 있으며, 고객님의 개성과 취향을 반영한 맞춤형 웨딩 계획을 제안해 드립니다. 또한 신뢰할 수 있는 협력업체들과의 네트워크를 통해 최고의 서비스를 제공하고 있습니다.\n\n고객님의 소중한 웨딩을 위해 저희와 함께 행복한 결혼 생활의 시작을 준비해 보시기 바랍니다.",
-            style: TextStyle(fontSize: 15, height: 1.6),
-          ),
+          Text(portfolio.description, style: bodyMediumLong),
+          const SizedBox(height: 40),
+          const Text("예비 신혼부부들의 평가", style: titleMedium),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 100,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                10,
-                (index) {
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-          const Text(
-            "예비 신혼부부들의 평가",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 32),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.1),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-                BoxShadow(
-                  color: const Color(0xFF364FC7).withOpacity(0.15),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
+              boxShadow: boxShadow,
             ),
             child: Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 248,
-                  child: RadarChart({
-                    "의사소통": 9.2,
-                    "예산준수": 7.1,
-                    "일정준수": 9.9,
-                    "가격 합리성": 8.0,
-                    "개인맞춤": 10.0,
-                  }),
+                  child: RadarChart(portfolio.avgRadar),
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
@@ -262,7 +229,7 @@ class DetailsIntroductionTab extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
         ],
       ),
     );

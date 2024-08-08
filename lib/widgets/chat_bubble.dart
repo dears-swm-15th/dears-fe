@@ -1,4 +1,6 @@
+import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -34,7 +36,7 @@ class ChatBubble extends StatelessWidget {
       bottomRight: const Radius.circular(16),
     );
 
-    final createdAt = this.createdAt;
+    final createdAt = this.createdAt.andThen(time.format);
 
     return Padding(
       padding: padding,
@@ -48,7 +50,7 @@ class ChatBubble extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
-                    "${createdAt.hour}:${createdAt.minute}",
+                    createdAt,
                     style: captionSmall.copyWith(color: gray600),
                   ),
                 ),
@@ -84,7 +86,7 @@ class ChatBubble extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
-                    "${createdAt.hour}:${createdAt.minute}",
+                    createdAt,
                     style: captionSmall.copyWith(color: gray600),
                   ),
                 ),

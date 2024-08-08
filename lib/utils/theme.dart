@@ -93,6 +93,20 @@ const TextStyle captionSmall = TextStyle(
   height: 14 / 11,
 );
 
+// SHADOW
+const List<BoxShadow> boxShadow = [
+  BoxShadow(
+    color: Color(0x1A364FC7),
+    offset: Offset(0, 1),
+    blurRadius: 4,
+  ),
+  BoxShadow(
+    color: Color(0x26364FC7),
+    offset: Offset(0, 1),
+    blurRadius: 4,
+  ),
+];
+
 final ThemeData theme = ThemeData(
   // For the sanity of the reader, make sure these properties are in the same
   // order in every place that they are separated by section comments (e.g.

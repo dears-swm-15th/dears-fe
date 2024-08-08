@@ -1,7 +1,10 @@
 import 'package:dears/providers/top_viewed_provider.dart';
-import 'package:dears/widgets/best_portfolio_list_title.dart';
+import 'package:dears/widgets/home_top_viewed_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+const double _tileHeight = 66;
+const double _tileCount = 5;
 
 class HomeTopViewedList extends ConsumerWidget {
   const HomeTopViewedList({super.key});
@@ -15,13 +18,19 @@ class HomeTopViewedList extends ConsumerWidget {
         return Column(
           children: List.generate(data.length, (index) {
             final portfolio = data[index];
-            return BestPortfolioListTitle(portfolio);
+            return SizedBox(
+              height: _tileHeight,
+              child: HomeTopViewedListTile(
+                rank: index + 1,
+                portfolio: portfolio,
+              ),
+            );
           }),
         );
       },
       orElse: () {
         return const SizedBox(
-          height: 200,
+          height: _tileHeight * _tileCount,
           child: Center(
             child: CircularProgressIndicator(),
           ),
