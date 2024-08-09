@@ -1,123 +1,98 @@
 import 'package:dears/providers/recent_search_words_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/list_status_widget.dart';
+import 'package:dears/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SearchPage extends ConsumerWidget {
+class SearchPage extends HookConsumerWidget {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final recentSearchWords = ref.watch(recentSearchWordsProvider);
 
+    final textController = useTextEditingController();
+
+    const emptyWidget = EmptyListWidget(
+      title: "최근 검색어가 없습니다",
+      subtitle: "웨딩 관련 키워드를 검색해보세요",
+    );
+
+    final chips = recentSearchWords.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return emptyWidget;
+        }
+
+        return Expanded(
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: List.generate(data.length, (index) {
+              final label = data[index];
+              return FilterChip(
+                onSelected: (value) {},
+                onDeleted: () => ref
+                    .read(recentSearchWordsProvider.notifier)
+                    .removeAt(index),
+                deleteIcon: const Icon(DearsIcons.close, size: 16),
+                label: Text(label),
+              );
+            }),
+          ),
+        );
+      },
+      error: (error, stackTrace) => emptyWidget,
+      loading: () => const LoadingListWidget(),
+    );
+
     return Scaffold(
       appBar: AppBar(
-        title: Container(
+        title: Padding(
           padding: const EdgeInsets.only(right: 16),
-          height: 42,
-          child: TextField(
-            onSubmitted: (value) =>
-                ref.read(recentSearchWordsProvider.notifier).add(value),
+          child: SearchTextField(
+            controller: textController,
+            onSubmitted: (value) {
+              context.push("/search?q=$value");
+              textController.clear();
+            },
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
-            style: const TextStyle(color: black, fontWeight: FontWeight.w500),
-            decoration: const InputDecoration(
-              hintText: "검색어를 입력하세요",
-              hintStyle: TextStyle(color: gray600),
-              prefixIcon: Icon(DearsIcons.search, color: gray600),
-              suffixIcon: Icon(DearsIcons.cancel, size: 16, color: gray600),
-              filled: true,
-              fillColor: blue50,
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-            ),
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "최근 검색어",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        fixedSize: const Size.fromHeight(24),
-                      ),
-                      onPressed: () =>
-                          ref.read(recentSearchWordsProvider.notifier).clear(),
-                      child: const Text(
-                        "전체 삭제",
-                        style: TextStyle(
-                          color: gray600,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                if (recentSearchWords.isEmpty)
-                  const Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 180),
-                        Text(
-                          "최근 검색어가 없습니다",
-                          style: TextStyle(
-                            color: black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "웨딩 관련 키워드를 검색해보세요",
-                          style: TextStyle(
-                            color: gray600,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                else
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: List.generate(
-                      recentSearchWords.length,
-                      (index) {
-                        return FilterChip(
-                          onSelected: (value) {},
-                          onDeleted: () => ref
-                              .read(recentSearchWordsProvider.notifier)
-                              .removeAt(index),
-                          deleteIcon: const Icon(DearsIcons.close, size: 16),
-                          label: Text(recentSearchWords[index]),
-                        );
-                      },
-                    ),
+                const Text("최근 검색어", style: titleMedium),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    fixedSize: const Size.fromHeight(24),
                   ),
+                  onPressed: () =>
+                      ref.read(recentSearchWordsProvider.notifier).clear(),
+                  child: Text(
+                    "전체 삭제",
+                    style: bodySmall.copyWith(color: gray600),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            chips,
+          ],
+        ),
       ),
     );
   }

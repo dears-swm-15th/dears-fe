@@ -1,6 +1,5 @@
 import 'package:dears/models/portfolio.dart';
 import 'package:dears/models/portfolio_overview.dart';
-import 'package:dears/models/portfolio_search_response.dart';
 import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -20,7 +19,7 @@ abstract class PortfolioClient {
   Future<List<Portfolio>> getAll();
 
   @GET("/shared/search")
-  Future<List<PortfolioSearchResponse>> search({
+  Future<List<PortfolioOverview>> search({
     @Query("content") String? content,
   });
 
