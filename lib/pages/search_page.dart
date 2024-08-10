@@ -35,7 +35,7 @@ class SearchPage extends HookConsumerWidget {
             children: List.generate(data.length, (index) {
               final label = data[index];
               return FilterChip(
-                onSelected: (value) {},
+                onSelected: (value) => context.push("/search?q=$label"),
                 onDeleted: () => ref
                     .read(recentSearchWordsProvider.notifier)
                     .removeAt(index),
