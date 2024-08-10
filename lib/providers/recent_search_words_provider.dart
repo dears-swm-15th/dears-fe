@@ -1,55 +1,57 @@
+import 'package:dears/providers/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'recent_search_words_provider.g.dart';
 
-const int _capacity = 30;
+const String _key = "recent_search_words";
 
-List<String> _words = [
-  "웨딩플래너",
-  "패키지",
-  "호텔예식",
-  "서울 웨딩플래너",
-  "스드메",
-];
+const int _capacity = 30;
 
 @riverpod
 class RecentSearchWords extends _$RecentSearchWords {
   @override
-  Future<List<String>> build() {
-    return Future.delayed(const Duration(milliseconds: 200), () {
-      return _words;
-    });
+  Future<List<String>> build() async {
+    final prefs = ref.watch(prefsProvider);
+
+    final value = await prefs.getStringList(_key) ?? [];
+    ref.onDispose(_save);
+
+    return [...value];
   }
 
-  void _save(List<String> data) {
-    _words = data;
+  /// Save the search history to the shared preferences asynchronously.
+  void _save() {
+    final prefs = ref.read(prefsProvider);
+    state.whenOrNull(data: (data) => prefs.setStringList(_key, data).ignore());
   }
 
   void add(String value) {
-    update((data) {
-      data.remove(value);
-      if (data.length >= _capacity) {
-        data.removeLast();
-      }
+    final trimmedValue = value.trim().replaceAll(RegExp(r'\s+'), " ");
 
-      data = [value.trim().replaceAll(RegExp(r'\s+'), " "), ...data];
-      _save(data);
-      return data;
-    });
+    update(
+      (data) {
+        data.remove(trimmedValue);
+        if (data.length >= _capacity) {
+          data.removeLast();
+        }
+
+        return [trimmedValue, ...data];
+      },
+      onError: (err, stackTrace) => [trimmedValue],
+    );
   }
 
   void removeAt(int index) {
-    update((data) {
-      data = [...data..removeAt(index)];
-      _save(data);
-      return data;
-    });
+    update(
+      (data) => [...data..removeAt(index)],
+      onError: (err, stackTrace) => [],
+    );
   }
 
   void clear() {
-    update((data) {
-      _save([]);
-      return [];
-    });
+    update(
+      (data) => [],
+      onError: (err, stackTrace) => [],
+    );
   }
 }
