@@ -56,10 +56,7 @@ class SearchPage extends HookConsumerWidget {
           padding: const EdgeInsets.only(right: 16),
           child: SearchTextField(
             controller: textController,
-            onSubmitted: (value) {
-              context.push("/search?q=$value");
-              textController.clear();
-            },
+            onSubmitted: (value) => context.push("/search?q=$value"),
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,10 @@ class SearchTextField extends StatelessWidget {
           border: OutlineInputBorder(borderSide: BorderSide.none),
         ),
         textInputAction: TextInputAction.search,
-        onSubmitted: onSubmitted,
+        onSubmitted: (value) {
+          onSubmitted?.call(search.format(value));
+          controller?.clear();
+        },
         onTapOutside: onTapOutside,
       ),
     );

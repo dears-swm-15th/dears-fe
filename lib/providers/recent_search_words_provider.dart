@@ -26,18 +26,16 @@ class RecentSearchWords extends _$RecentSearchWords {
   }
 
   void add(String value) {
-    final trimmedValue = value.trim().replaceAll(RegExp(r'\s+'), " ");
-
     update(
       (data) {
-        data.remove(trimmedValue);
+        data.remove(value);
         if (data.length >= _capacity) {
           data.removeLast();
         }
 
-        return [trimmedValue, ...data];
+        return [value, ...data];
       },
-      onError: (err, stackTrace) => [trimmedValue],
+      onError: (err, stackTrace) => [value],
     );
   }
 
