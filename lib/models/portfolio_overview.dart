@@ -12,7 +12,7 @@ class PortfolioOverview with _$PortfolioOverview {
     required String organization,
     required String plannerName,
     required Region region,
-    required String profileImageUrl,
+    String? profileImageUrl,
     double? avgRating,
     int? minEstimate,
     int? reviewCount,
