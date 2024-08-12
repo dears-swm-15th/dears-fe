@@ -4,11 +4,10 @@ import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:dears/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SearchResultPage extends HookConsumerWidget {
+class SearchResultPage extends ConsumerWidget {
   final String query;
 
   const SearchResultPage({
@@ -19,8 +18,6 @@ class SearchResultPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchResult = ref.watch(searchResultProvider(query));
-
-    final textController = useTextEditingController(text: query);
 
     const emptyWidget = EmptyListWidget(
       title: "검색 결과가 없습니다",
@@ -61,7 +58,7 @@ class SearchResultPage extends HookConsumerWidget {
         title: Padding(
           padding: const EdgeInsets.only(right: 16),
           child: SearchTextField(
-            controller: textController,
+            text: query,
             onSubmitted: (value) => context.replace("/search?q=$value"),
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
           ),
