@@ -38,7 +38,10 @@ class SearchTextField extends HookWidget {
         : IconButton(
             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
             padding: EdgeInsets.zero,
-            onPressed: controller.clear,
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              controller.clear();
+            },
             icon: const Icon(DearsIcons.cancel, size: 16, color: gray600),
           );
 
@@ -71,6 +74,7 @@ class SearchTextField extends HookWidget {
           controller.clear();
         },
         onTapOutside: onTapOutside,
+        scrollPhysics: const ClampingScrollPhysics(),
       ),
     );
   }
