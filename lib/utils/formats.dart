@@ -71,3 +71,7 @@ final CustomFormatter<DateTime> fullDate = CustomFormatter((date) {
   final yyyy = date.year;
   return "$yyyy년 $M월 $d일 ($E)";
 });
+
+final CustomFormatter<String> search = CustomFormatter((value) {
+  return value.trim().replaceAll(RegExp(r'\s+'), " ").toLowerCase();
+});

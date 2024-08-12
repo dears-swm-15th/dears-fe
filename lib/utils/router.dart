@@ -5,6 +5,7 @@ import 'package:dears/pages/favorite_page.dart';
 import 'package:dears/pages/home_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/search_page.dart';
+import 'package:dears/pages/search_result_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
@@ -15,7 +16,13 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: "/search",
-      builder: (context, state) => const SearchPage(),
+      builder: (context, state) {
+        final query = state.uri.queryParameters["q"];
+        if (query != null) {
+          return SearchResultPage(query: query);
+        }
+        return const SearchPage();
+      },
     ),
     GoRoute(
       path: "/favorite",
