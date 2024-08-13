@@ -5,6 +5,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'wishlist_provider.g.dart';
 
 @riverpod
-Future<List<PortfolioOverview>> wishlist(WishlistRef ref) {
-  return wishlistClient.getAll();
+class Wishlist extends _$Wishlist {
+
+  @override
+  Future<List<PortfolioOverview>> build() async {
+    return wishlistClient.getAll();
+  }
+  Future<void> addToWishList(int portfolioId) async {
+    await wishlistClient.add(portfolioId);
+  }
+  Future<void> removeFromWishList(int portfolioId) async {
+    await wishlistClient.delete(portfolioId);
+  }
 }

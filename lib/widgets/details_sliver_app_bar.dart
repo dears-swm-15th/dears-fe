@@ -139,8 +139,8 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
 
     final title = Text("${widget.portfolio.name} 웨딩플래너");
 
-    const actions = [
-      FavoriteToggleButton(initialFavorite: false),
+    final actions = [
+      FavoriteToggleButton(portfolioId: widget.portfolio.id, initialFavorite: false),
       SizedBox(width: 8),
     ];
 
