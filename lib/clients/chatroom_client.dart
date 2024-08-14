@@ -1,3 +1,4 @@
+import 'package:dears/models/chatroom.dart';
 import 'package:dears/models/chatroom_overview.dart';
 import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
@@ -12,11 +13,14 @@ abstract class ChatroomClient {
   factory ChatroomClient(Dio dio, {String baseUrl}) = _ChatroomClient;
 
   @POST("/shared/delete/{id}")
-  Future<void> leave(@Path() int id);
+  Future<void> exit(@Path() int id);
 
   @POST("/customer/{portfolioId}")
-  Future<void> enter(@Path() int portfolioId);
+  Future<Chatroom> createOrEnter(@Path() int portfolioId);
 
   @GET("/customer/all")
   Future<List<ChatroomOverview>> getAll();
+
+  @POST("/customer/enter/{id}")
+  Future<Chatroom> enter(@Path() int id);
 }

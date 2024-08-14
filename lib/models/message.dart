@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'message.freezed.dart';
-part 'message.g.dart';
 
+/// Minimal data class for chat messages to display on the UI.
 @freezed
 class Message with _$Message {
   const factory Message({
@@ -11,10 +11,4 @@ class Message with _$Message {
     required String message,
     required DateTime createdAt,
   }) = _Message;
-
-  factory Message.fromJson(Map<String, dynamic> json) =>
-      _$MessageFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson();
 }

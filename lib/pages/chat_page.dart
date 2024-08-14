@@ -4,6 +4,7 @@ import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
+import 'package:dears/widgets/chat_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -89,44 +90,8 @@ class ChatPage extends ConsumerWidget {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            height: 54,
-            child: Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(DearsIcons.link),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: TextField(
-                      onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                      decoration: InputDecoration(
-                        hintText: "메시지를 입력해주세요",
-                        hintStyle: bodySmall.copyWith(color: gray600),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 10,
-                        ),
-                        filled: true,
-                        fillColor: gray100,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(DearsIcons.paper_plane_right),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
+          ChatTextField(chatroomId: chatroomId),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
     );
