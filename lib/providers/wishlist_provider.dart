@@ -13,8 +13,14 @@ class Wishlist extends _$Wishlist {
   }
   Future<void> addToWishList(int portfolioId) async {
     await wishlistClient.add(portfolioId);
+    final updatedList = await wishlistClient.getAll();
+    state = AsyncValue.data(updatedList);
   }
   Future<void> removeFromWishList(int portfolioId) async {
     await wishlistClient.delete(portfolioId);
+    update((data) => data.where((element) => element.id != portfolioId).toList());
+  }
+  bool isFavorite(int portfolioId) {
+    return state.value?.any((element) => element.id == portfolioId) ?? false;
   }
 }

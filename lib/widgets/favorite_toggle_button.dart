@@ -3,8 +3,6 @@ import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
-
 import '../providers/wishlist_provider.dart';
 
 class FavoriteToggleButton extends HookConsumerWidget {
@@ -18,14 +16,15 @@ class FavoriteToggleButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (isFavorite, toggleFavorite) = useToggle(initialFavorite);
-    final wishlist = ref.read(wishlistProvider.notifier);
+    final wishlist = ref.watch(wishlistProvider);
+    final (_, toggleFavorite) = useToggle(ref.read(wishlistProvider.notifier).isFavorite(portfolioId));
+    final isFavorite = wishlist.value?.any((element) => element.id == portfolioId) ?? false;
 
     Future<void> handleToggle() async {
       if (isFavorite) {
-        await wishlist.removeFromWishList(portfolioId);
+        await ref.read(wishlistProvider.notifier).removeFromWishList(portfolioId);
       } else {
-        await wishlist.addToWishList(portfolioId);
+        await ref.read(wishlistProvider.notifier).addToWishList(portfolioId);
       }
       toggleFavorite();
     }
