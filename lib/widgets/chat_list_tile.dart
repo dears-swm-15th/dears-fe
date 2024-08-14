@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:dears/models/chatroom_overview.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +17,9 @@ class ChatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createdAt = recent.format(chat.lastMessageCreatedAt);
+    final message = chat.lastMessage ?? "";
+    final createdAt = chat.lastMessageCreatedAt.andThen(recent.format) ?? "";
+    final unreadCount = min(chat.unreadMessageCount, 99);
 
     return GestureDetector(
       onTap: () => context.push("/chats/${chat.id}"),
@@ -54,25 +59,27 @@ class ChatListTile extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          chat.lastMessage,
+                          message,
                           style: captionLarge.copyWith(color: gray600),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 18),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 18,
-                        height: 18,
-                        decoration: const BoxDecoration(
-                          color: blue500,
-                          shape: BoxShape.circle,
+                      if (unreadCount > 0) ...[
+                        const SizedBox(width: 18),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 18,
+                          height: 18,
+                          decoration: const BoxDecoration(
+                            color: blue500,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            "$unreadCount",
+                            style: captionSmall.copyWith(color: white),
+                          ),
                         ),
-                        child: Text(
-                          "1",
-                          style: captionSmall.copyWith(color: white),
-                        ),
-                      ),
+                      ],
                       const SizedBox(width: 6),
                     ],
                   ),

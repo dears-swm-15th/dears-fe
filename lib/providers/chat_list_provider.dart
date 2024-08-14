@@ -1,52 +1,50 @@
+import 'package:dears/clients/chatroom_client.dart';
 import 'package:dears/models/chatroom_overview.dart';
-import 'package:flutter/material.dart';
+import 'package:dears/models/message.dart';
+import 'package:dears/providers/message_list_provider.dart';
+import 'package:dears/providers/stomp_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_list_provider.g.dart';
 
-@riverpod
-Future<List<ChatroomOverview>> chatList(ChatListRef ref) {
-  return Future.delayed(const Duration(seconds: 1), () {
-    final now = DateTime.now();
+@Riverpod(keepAlive: true)
+class ChatList extends _$ChatList {
+  @override
+  Future<List<ChatroomOverview>> build() async {
+    final list = await chatroomClient.getAll();
 
-    return [
-      ChatroomOverview(
-        id: 3,
-        othersProfileImageUrl: "path/to/image",
-        othersName: "김소연",
-        lastMessage: "안녕하세요! 웨딩 준비는 잘 진행되고 있나요? 궁금한 점이 있으면 언제든지 말씀해 주세요.",
-        lastMessageCreatedAt: now.subtract(const Duration(minutes: 5)),
-        organizationName: "블룸 웨딩",
-        portfolioId: 1,
-      ),
-      ChatroomOverview(
-        id: 11,
-        othersProfileImageUrl: "path/to/image",
-        othersName: "박지훈",
-        lastMessage: "드레스 피팅 일정 잡으셨나요? 이번 주말에 가능하신지 확인 부탁드려요.",
-        lastMessageCreatedAt:
-            DateUtils.dateOnly(now).add(const Duration(hours: 12, minutes: 7)),
-        organizationName: "드림 데이즈",
-        portfolioId: 1,
-      ),
-      ChatroomOverview(
-        id: 7,
-        othersProfileImageUrl: "path/to/image",
-        othersName: "이정민",
-        lastMessage: "꽃 장식 관련해서 몇 가지 아이디어를 보내드렸어요. 확인해 보시고 마음에 드는 스타일 말씀해 주세요.",
-        lastMessageCreatedAt: now.subtract(const Duration(days: 1)),
-        organizationName: "러브스토리 웨딩",
-        portfolioId: 1,
-      ),
-      ChatroomOverview(
-        id: 4,
-        othersProfileImageUrl: "path/to/image",
-        othersName: "최은지",
-        lastMessage: "이번 주에 예식장 방문 가능하신가요? 견적도 함께 준비해 두겠습니다",
-        lastMessageCreatedAt: DateTime(2023, 6, 5, 9),
-        organizationName: "해피모먼트",
-        portfolioId: 1,
-      ),
-    ];
-  });
+    final stomp = ref.read(stompProvider.notifier);
+    for (final chatroom in list) {
+      final unsubscribeFn = stomp.subscribe(chatroom.id);
+      ref.onDispose(unsubscribeFn);
+    }
+
+    return list;
+  }
+
+  void add(int chatroomId, Message message) {
+    update(
+      (data) {
+        final i = data.indexWhere((e) => e.id == chatroomId);
+        if (i == -1) {
+          return data;
+        }
+
+        final overview = data[i];
+        data.removeAt(i);
+
+        final unreadCount = ref.exists(messageListProvider(chatroomId))
+            ? 0
+            : overview.unreadMessageCount + 1;
+
+        final newOverview = overview.copyWith(
+          lastMessage: message.message,
+          lastMessageCreatedAt: message.createdAt,
+          unreadMessageCount: unreadCount,
+        );
+        return [newOverview, ...data];
+      },
+      onError: (err, stackTrace) => [],
+    );
+  }
 }

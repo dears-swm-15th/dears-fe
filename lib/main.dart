@@ -1,3 +1,4 @@
+import 'package:dears/providers/stomp_provider.dart';
 import 'package:dears/utils/router.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,13 @@ void main() {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(stompProvider);
+
     return MaterialApp.router(
       routerConfig: router,
       theme: theme,
