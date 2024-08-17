@@ -6,6 +6,7 @@ import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
 import 'package:dears/widgets/details_sliver_tab_bar_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsPage extends ConsumerStatefulWidget {
@@ -146,7 +147,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
                   style: FilledButton.styleFrom(
                     fixedSize: const Size(200, 50),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push("/chats/redirect/${portfolio.id}");
+                  },
                   child: const Text("채팅하기"),
                 ),
               ],
