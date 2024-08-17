@@ -1,5 +1,5 @@
-import 'package:dears/clients/portfolio_client.dart';
 import 'package:dears/models/portfolio_overview.dart';
+import 'package:dears/providers/portfolio_client_provider.dart';
 import 'package:dears/providers/recent_search_words_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,5 +12,6 @@ Future<List<PortfolioOverview>> searchResult(
 ) {
   ref.read(recentSearchWordsProvider.notifier).add(query);
 
+  final portfolioClient = ref.watch(portfolioClientProvider);
   return portfolioClient.search(content: query);
 }

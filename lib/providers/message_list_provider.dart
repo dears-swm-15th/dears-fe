@@ -1,6 +1,6 @@
-import 'package:dears/clients/chatroom_client.dart';
 import 'package:dears/models/member_role.dart';
 import 'package:dears/models/message.dart';
+import 'package:dears/providers/chatroom_client_provider.dart';
 import 'package:dears/providers/stomp_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,6 +12,7 @@ const MemberRole _role = MemberRole.customer;
 class MessageList extends _$MessageList {
   @override
   Future<List<Message>> build(int chatroomId) async {
+    final chatroomClient = ref.watch(chatroomClientProvider);
     final chatroom = await chatroomClient.enter(chatroomId);
     final chats = chatroom.chats;
 
