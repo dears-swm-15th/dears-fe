@@ -17,11 +17,7 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    try {
-      ref.watch(stompProvider);
-    } catch (e) {
-      // ignore: empty_catches
-    }
+    ref.watch(stompProvider);
 
     return MaterialApp.router(
       routerConfig: router,
