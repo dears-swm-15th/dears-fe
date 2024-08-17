@@ -4,7 +4,9 @@ import 'package:dears/models/member_role.dart';
 import 'package:dears/models/message.dart';
 import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
+import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/env.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +22,16 @@ const String _roleString = "customer";
 class Stomp extends _$Stomp {
   @override
   StompClient build() {
+    final isSignedIn = ref.watch(isSignedInProvider).value;
+    if (isSignedIn != true) {
+      throw Exception("user is not signed in");
+    }
+
+    final uuid = ref.read(accessTokenProvider).unwrapPrevious().value;
+    if (uuid == null) {
+      throw Exception("user id is needed to connect to stomp");
+    }
+
     final client = StompClient(
       config: StompConfig.sockJS(
         url: "$baseUrl/stomp/chat",
@@ -69,6 +81,11 @@ class Stomp extends _$Stomp {
   }
 
   void _listenNew() {
+    final uuid = ref.read(accessTokenProvider).unwrapPrevious().value;
+    if (uuid == null) {
+      return;
+    }
+
     state.subscribe(
       destination: "/sub/$uuid",
       callback: (frame) {
