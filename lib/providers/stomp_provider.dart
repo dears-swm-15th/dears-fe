@@ -18,15 +18,15 @@ part 'stomp_provider.g.dart';
 @Riverpod(keepAlive: true)
 class Stomp extends _$Stomp {
   @override
-  Future<StompClient> build() async {
+  Future<StompClient?> build() async {
     final isSignedIn = await ref.watch(isSignedInProvider.future);
     if (!isSignedIn) {
-      throw Exception("user is not signed in");
+      return null;
     }
 
     final uuid = await ref.read(accessTokenProvider.future);
     if (uuid == null) {
-      throw Exception("user id is needed to connect to stomp");
+      return null;
     }
 
     final client = StompClient(
@@ -48,10 +48,14 @@ class Stomp extends _$Stomp {
     _listenNew();
   }
 
-  Future<StompUnsubscribe> subscribe(int chatroomId) async {
+  Future<StompUnsubscribe?> subscribe(int chatroomId) async {
+    final client = await future;
+    if (client == null) {
+      return null;
+    }
+
     final role = (await ref.read(userInfoProvider.future)).role;
 
-    final client = await future;
     return client.subscribe(
       destination: "/sub/$chatroomId",
       callback: (frame) {
@@ -81,12 +85,16 @@ class Stomp extends _$Stomp {
   }
 
   Future<void> _listenNew() async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
     final uuid = (await ref.read(userInfoProvider.future)).uuid;
     if (uuid == null) {
       return;
     }
 
-    final client = await future;
     client.subscribe(
       destination: "/sub/$uuid",
       callback: (frame) {
@@ -107,6 +115,11 @@ class Stomp extends _$Stomp {
   }
 
   Future<void> send(int chatroomId, String content) async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
     final role = (await ref.read(userInfoProvider.future)).role;
 
     final stompMessage = StompMessage(
@@ -116,7 +129,6 @@ class Stomp extends _$Stomp {
       content: content,
     );
 
-    final client = await future;
     client.send(
       destination: "/pub/${role.stompPrefix}/send",
       body: jsonEncode(stompMessage),
@@ -124,6 +136,11 @@ class Stomp extends _$Stomp {
   }
 
   Future<void> leave(int chatroomId) async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
     final role = (await ref.read(userInfoProvider.future)).role;
 
     final stompMessage = StompMessage(
@@ -133,7 +150,6 @@ class Stomp extends _$Stomp {
       content: "Leave Chat Room",
     );
 
-    final client = await future;
     client.send(
       destination: "/pub/${role.stompPrefix}/send",
       body: jsonEncode(stompMessage),

@@ -17,7 +17,7 @@ class ChatList extends _$ChatList {
     final stomp = ref.read(stompProvider.notifier);
     for (final chatroom in list) {
       final unsubscribeFn = await stomp.subscribe(chatroom.id);
-      ref.onDispose(unsubscribeFn);
+      ref.onDispose(() => unsubscribeFn?.call());
     }
 
     return list;
