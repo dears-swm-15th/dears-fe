@@ -9,9 +9,9 @@ part 'search_result_provider.g.dart';
 Future<List<PortfolioOverview>> searchResult(
   SearchResultRef ref,
   String query,
-) {
+) async {
   ref.read(recentSearchWordsProvider.notifier).add(query);
 
-  final portfolioClient = ref.watch(portfolioClientProvider);
+  final portfolioClient = await ref.watch(portfolioClientProvider.future);
   return portfolioClient.search(content: query);
 }

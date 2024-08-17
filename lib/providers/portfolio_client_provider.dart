@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'portfolio_client_provider.g.dart';
 
 @riverpod
-PortfolioClient portfolioClient(PortfolioClientRef ref) {
-  final dio = ref.watch(apiDioProvider);
+Future<PortfolioClient> portfolioClient(PortfolioClientRef ref) async {
+  final dio = await ref.watch(apiDioProvider.future);
   return PortfolioClient(dio);
 }

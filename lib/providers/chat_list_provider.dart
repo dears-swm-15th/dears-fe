@@ -11,7 +11,7 @@ part 'chat_list_provider.g.dart';
 class ChatList extends _$ChatList {
   @override
   Future<List<ChatroomOverview>> build() async {
-    final chatroomClient = ref.read(chatroomClientProvider);
+    final chatroomClient = await ref.read(chatroomClientProvider.future);
     final list = await chatroomClient.getAll();
 
     final stomp = ref.read(stompProvider.notifier);

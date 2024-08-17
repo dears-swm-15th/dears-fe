@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'top_viewed_provider.g.dart';
 
 @riverpod
-Future<List<PortfolioOverview>> topViewed(TopViewedRef ref) {
-  final portfolioClient = ref.watch(portfolioClientProvider);
+Future<List<PortfolioOverview>> topViewed(TopViewedRef ref) async {
+  final portfolioClient = await ref.watch(portfolioClientProvider.future);
   return portfolioClient.getTopViewed();
 }

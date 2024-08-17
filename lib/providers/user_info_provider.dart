@@ -44,7 +44,7 @@ class UserInfo extends _$UserInfo {
   Future<void> signUp() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final authClient = ref.read(authClientProvider);
+      final authClient = await ref.read(authClientProvider.future);
 
       final data = await future;
       final member = await authClient.createMember(

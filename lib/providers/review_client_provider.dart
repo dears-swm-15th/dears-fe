@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'review_client_provider.g.dart';
 
 @riverpod
-ReviewClient reviewClient(ReviewClientRef ref) {
-  final dio = ref.watch(apiDioProvider);
+Future<ReviewClient> reviewClient(ReviewClientRef ref) async {
+  final dio = await ref.watch(apiDioProvider.future);
   return ReviewClient(dio);
 }

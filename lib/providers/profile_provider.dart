@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'profile_provider.g.dart';
 
 @riverpod
-Future<Profile> profile(ProfileRef ref) {
-  final mypageClient = ref.watch(mypageClientProvider);
+Future<Profile> profile(ProfileRef ref) async {
+  final mypageClient = await ref.watch(mypageClientProvider.future);
   return mypageClient.getProfile();
 }

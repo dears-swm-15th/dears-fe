@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'mypage_client_provider.g.dart';
 
 @riverpod
-MypageClient mypageClient(MypageClientRef ref) {
-  final dio = ref.watch(apiDioProvider);
+Future<MypageClient> mypageClient(MypageClientRef ref) async {
+  final dio = await ref.watch(apiDioProvider.future);
   return MypageClient(dio);
 }

@@ -5,10 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_interceptor_provider.g.dart';
 
 @riverpod
-Interceptor authInterceptor(AuthInterceptorRef ref) {
-  // TODO: refactor to wait future
-  final accessToken =
-      ref.watch(accessTokenProvider).unwrapPrevious().valueOrNull;
+Future<Interceptor> authInterceptor(AuthInterceptorRef ref) async {
+  final accessToken = await ref.watch(accessTokenProvider.future);
 
   return InterceptorsWrapper(
     onRequest: (options, handler) {

@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_client_provider.g.dart';
 
 @riverpod
-AuthClient authClient(AuthClientRef ref) {
-  final dio = ref.watch(apiDioProvider);
+Future<AuthClient> authClient(AuthClientRef ref) async {
+  final dio = await ref.watch(apiDioProvider.future);
   return AuthClient(dio);
 }

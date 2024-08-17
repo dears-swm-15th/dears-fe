@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'wishlist_provider.g.dart';
 
 @riverpod
-Future<List<PortfolioOverview>> wishlist(WishlistRef ref) {
-  final wishlistClient = ref.watch(wishlistClientProvider);
+Future<List<PortfolioOverview>> wishlist(WishlistRef ref) async {
+  final wishlistClient = await ref.watch(wishlistClientProvider.future);
   return wishlistClient.getAll();
 }

@@ -10,7 +10,7 @@ part 'message_list_provider.g.dart';
 class MessageList extends _$MessageList {
   @override
   Future<List<Message>> build(int chatroomId) async {
-    final chatroomClient = ref.watch(chatroomClientProvider);
+    final chatroomClient = await ref.watch(chatroomClientProvider.future);
     final chatroom = await chatroomClient.enter(chatroomId);
     final chats = chatroom.chats;
 

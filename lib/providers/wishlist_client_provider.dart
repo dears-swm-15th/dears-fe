@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'wishlist_client_provider.g.dart';
 
 @riverpod
-WishlistClient wishlistClient(WishlistClientRef ref) {
-  final dio = ref.watch(apiDioProvider);
+Future<WishlistClient> wishlistClient(WishlistClientRef ref) async {
+  final dio = await ref.watch(apiDioProvider.future);
   return WishlistClient(dio);
 }
