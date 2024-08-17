@@ -1,5 +1,6 @@
 import 'package:dears/pages/chat_list_page.dart';
 import 'package:dears/pages/chat_page.dart';
+import 'package:dears/pages/chat_redirect_page.dart';
 import 'package:dears/pages/details_page.dart';
 import 'package:dears/pages/favorite_page.dart';
 import 'package:dears/pages/home_page.dart';
@@ -36,6 +37,12 @@ final GoRouter router = GoRouter(
       path: "/chats/:chatroomId",
       builder: (context, state) => ChatPage(
         chatroomId: int.parse(state.pathParameters["chatroomId"]!),
+      ),
+    ),
+    GoRoute(
+      path: "/chats/redirect/:portfolioId",
+      builder: (context, state) => ChatRedirectPage(
+        portfolioId: int.parse(state.pathParameters["portfolioId"]!),
       ),
     ),
     GoRoute(

@@ -10,6 +10,7 @@ part 'chatroom.g.dart';
 @freezed
 class Chatroom with _$Chatroom {
   const factory Chatroom({
+    @JsonKey(name: "chatRoomId") required int id,
     @JsonKey(name: "messages") required List<Chat> chats,
   }) = _Chatroom;
 
