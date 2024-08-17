@@ -7,8 +7,6 @@ import 'package:dears/widgets/personal_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-const Widget _profileImageFallback = Icon(DearsIcons.person, size: 36);
-
 class PersonalProfileListTile extends ConsumerWidget {
   const PersonalProfileListTile({super.key});
 
@@ -16,15 +14,8 @@ class PersonalProfileListTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(profileProvider);
 
-    final image = profile.maybeWhen(
-      data: (data) {
-        return CdnImage(
-          data.profileImageUrl,
-          fit: BoxFit.contain,
-          fallback: _profileImageFallback,
-        );
-      },
-      orElse: () => _profileImageFallback,
+    final url = profile.whenOrNull(
+      data: (data) => data.profileImageUrl,
     );
 
     final name = profile.maybeWhen(
@@ -35,10 +26,10 @@ class PersonalProfileListTile extends ConsumerWidget {
     return PersonalListTile(
       onTap: () => ref.read(userInfoProvider.notifier).signUp(),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      leading: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 36,
-        child: image,
+      leading: CdnImage.circle(
+        url,
+        dimension: 72,
+        fallback: const Icon(DearsIcons.person, size: 36),
       ),
       titleSpacing: 8,
       title: Text(name, style: titleMedium),

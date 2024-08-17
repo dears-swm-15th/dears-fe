@@ -29,16 +29,12 @@ class PortfolioListTile extends StatelessWidget {
         height: 100,
         child: Row(
           children: [
-            ClipRRect(
+            CdnImage(
+              portfolio.profileImageUrl,
+              width: 84,
+              height: 84,
               borderRadius: BorderRadius.circular(4),
-              child: SizedBox.square(
-                dimension: 84,
-                child: CdnImage(
-                  portfolio.profileImageUrl,
-                  fit: BoxFit.cover,
-                  fallback: const Icon(DearsIcons.person, size: 32),
-                ),
-              ),
+              fallback: const Icon(DearsIcons.person, size: 32),
             ),
             const SizedBox(width: 10),
             Column(

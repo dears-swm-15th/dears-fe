@@ -1,6 +1,8 @@
 import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,13 +36,12 @@ class HomeTopViewedListTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Container(
+            CdnImage(
+              portfolio.profileImageUrl,
               width: 54,
               height: 54,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(4),
-              ),
+              borderRadius: BorderRadius.circular(4),
+              fallback: const Icon(DearsIcons.person, size: 28),
             ),
             const SizedBox(width: 8),
             Column(

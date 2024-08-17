@@ -1,11 +1,14 @@
 import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
+import 'package:dears/widgets/cdn_image.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
   final bool isMe;
   final bool isFirst;
+  final String? profileImageUrl;
   final String message;
   final DateTime? createdAt;
 
@@ -13,6 +16,7 @@ class ChatBubble extends StatelessWidget {
     super.key,
     required this.isMe,
     required this.isFirst,
+    this.profileImageUrl,
     required this.message,
     this.createdAt,
   });
@@ -58,9 +62,13 @@ class ChatBubble extends StatelessWidget {
               ],
             ] else ...[
               if (isFirst)
-                const Align(
+                Align(
                   alignment: Alignment.topCenter,
-                  child: CircleAvatar(radius: 18),
+                  child: CdnImage.circle(
+                    profileImageUrl,
+                    dimension: 36,
+                    fallback: const Icon(DearsIcons.person),
+                  ),
                 )
               else
                 const SizedBox(width: 36),
