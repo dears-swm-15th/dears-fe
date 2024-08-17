@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:dears/models/member_create_body.dart';
 import 'package:dears/models/user.dart';
+import 'package:dears/providers/access_token_provider.dart';
+import 'package:dears/providers/auth_client_provider.dart';
 import 'package:dears/providers/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -38,11 +41,19 @@ class UserInfo extends _$UserInfo {
     });
   }
 
-  Future<void> setUserId(String uuid) async {
+  Future<void> signUp() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
+      final authClient = ref.read(authClientProvider);
+
       final data = await future;
-      final user = data.copyWith(uuid: uuid);
+      final member = await authClient.createMember(
+        data: MemberCreateBody(role: data.role),
+      );
+
+      await ref.read(accessTokenProvider.notifier).setValue(member.uuid);
+
+      final user = data.copyWith(uuid: member.uuid);
       return _saveEncoded(user);
     });
   }

@@ -1,4 +1,5 @@
 import 'package:dears/providers/profile_provider.dart';
+import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
@@ -36,7 +37,7 @@ class PersonalProfileListTile extends ConsumerWidget {
     );
 
     return PersonalListTile(
-      onTap: () {},
+      onTap: () => ref.read(userInfoProvider.notifier).signUp(),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       leading: CircleAvatar(
         radius: 36,
