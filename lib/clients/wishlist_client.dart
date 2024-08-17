@@ -1,11 +1,8 @@
 import 'package:dears/models/portfolio_overview.dart';
-import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'wishlist_client.g.dart';
-
-final WishlistClient wishlistClient = WishlistClient(dio);
 
 @RestApi(baseUrl: "v1/wishlist")
 abstract class WishlistClient {

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-import 'package:dears/models/member_role.dart';
 import 'package:dears/models/message.dart';
 import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
+import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
+import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/env.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,13 +15,20 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 part 'stomp_provider.g.dart';
 
-const MemberRole _role = MemberRole.customer;
-const String _roleString = "customer";
-
 @Riverpod(keepAlive: true)
 class Stomp extends _$Stomp {
   @override
-  StompClient build() {
+  Future<StompClient?> build() async {
+    final isSignedIn = await ref.watch(isSignedInProvider.future);
+    if (!isSignedIn) {
+      return null;
+    }
+
+    final uuid = await ref.read(accessTokenProvider.future);
+    if (uuid == null) {
+      return null;
+    }
+
     final client = StompClient(
       config: StompConfig.sockJS(
         url: "$baseUrl/stomp/chat",
@@ -39,8 +48,15 @@ class Stomp extends _$Stomp {
     _listenNew();
   }
 
-  StompUnsubscribe subscribe(int chatroomId) {
-    return state.subscribe(
+  Future<StompUnsubscribe?> subscribe(int chatroomId) async {
+    final client = await future;
+    if (client == null) {
+      return null;
+    }
+
+    final role = (await ref.read(userInfoProvider.future)).role;
+
+    return client.subscribe(
       destination: "/sub/$chatroomId",
       callback: (frame) {
         final body = frame.body;
@@ -55,7 +71,7 @@ class Stomp extends _$Stomp {
         }
 
         final message = Message(
-          isMe: stompMessage.role == _role,
+          isMe: stompMessage.role == role,
           message: stompMessage.content,
           createdAt: DateTime.now(),
         );
@@ -68,8 +84,18 @@ class Stomp extends _$Stomp {
     );
   }
 
-  void _listenNew() {
-    state.subscribe(
+  Future<void> _listenNew() async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
+    final uuid = (await ref.read(userInfoProvider.future)).uuid;
+    if (uuid == null) {
+      return;
+    }
+
+    client.subscribe(
       destination: "/sub/$uuid",
       callback: (frame) {
         final body = frame.body;
@@ -88,30 +114,44 @@ class Stomp extends _$Stomp {
     );
   }
 
-  void send(int chatroomId, String content) {
+  Future<void> send(int chatroomId, String content) async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
+    final role = (await ref.read(userInfoProvider.future)).role;
+
     final stompMessage = StompMessage(
       type: MessageType.send,
       chatroomId: chatroomId,
-      role: _role,
+      role: role,
       content: content,
     );
 
-    state.send(
-      destination: "/pub/$_roleString/send",
+    client.send(
+      destination: "/pub/${role.stompPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }
 
-  void leave(int chatroomId) {
+  Future<void> leave(int chatroomId) async {
+    final client = await future;
+    if (client == null) {
+      return;
+    }
+
+    final role = (await ref.read(userInfoProvider.future)).role;
+
     final stompMessage = StompMessage(
       type: MessageType.leave,
       chatroomId: chatroomId,
-      role: _role,
+      role: role,
       content: "Leave Chat Room",
     );
 
-    state.send(
-      destination: "/pub/$_roleString/send",
+    client.send(
+      destination: "/pub/${role.stompPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }

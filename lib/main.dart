@@ -1,4 +1,5 @@
 import 'package:dears/providers/stomp_provider.dart';
+import 'package:dears/utils/provider_observer.dart';
 import 'package:dears/utils/router.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 void main() {
   runApp(
     const ProviderScope(
+      observers: [MainObserver()],
       child: MainApp(),
     ),
   );

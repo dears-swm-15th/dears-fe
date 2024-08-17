@@ -1,11 +1,8 @@
 import 'package:dears/models/review.dart';
-import 'package:dears/utils/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'review_client.g.dart';
-
-final ReviewClient reviewClient = ReviewClient(dio);
 
 @RestApi(baseUrl: "v1/review")
 abstract class ReviewClient {
