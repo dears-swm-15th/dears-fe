@@ -15,7 +15,7 @@ class Review with _$Review {
     required double rating,
     required int estimate,
     required List<String> tags,
-    required List<String> presignedWeddingPhotoUrls,
+    required List<String> weddingPhotoUrls,
     required DateTime createdAt,
   }) = _Review;
 
