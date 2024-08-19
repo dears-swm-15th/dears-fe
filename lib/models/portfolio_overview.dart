@@ -14,6 +14,7 @@ class PortfolioOverview with _$PortfolioOverview {
     double? avgRating,
     int? minEstimate,
     int? reviewCount,
+    @Default(false) bool isWishListed,
   }) = _PortfolioOverview;
 
   factory PortfolioOverview.fromJson(Map<String, dynamic> json) =>
