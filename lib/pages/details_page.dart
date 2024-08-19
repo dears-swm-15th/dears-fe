@@ -1,12 +1,10 @@
 import 'package:dears/providers/portfolio_provider.dart';
-import 'package:dears/utils/formats.dart';
-import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/details_bottom_bar.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
 import 'package:dears/widgets/details_sliver_app_bar.dart';
 import 'package:dears/widgets/details_sliver_tab_bar_delegate.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsPage extends ConsumerStatefulWidget {
@@ -91,9 +89,6 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
       );
     }
 
-    final minEstimate = number.format(portfolio.minEstimate);
-    final avgEstimate = number.format(portfolio.avgEstimate);
-
     return Scaffold(
       body: Column(
         children: [
@@ -124,35 +119,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
               ),
             ),
           ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("$minEstimate원~", style: titleMedium),
-                    Text(
-                      "평균 $avgEstimate원",
-                      style: bodySmall.copyWith(color: gray600),
-                    ),
-                  ],
-                ),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    fixedSize: const Size(200, 50),
-                  ),
-                  onPressed: () {
-                    context.push("/chats/redirect/${portfolio.id}");
-                  },
-                  child: const Text("채팅하기"),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
+          const Divider(height: 0),
+          DetailsBottomBar(portfolio),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
     );
