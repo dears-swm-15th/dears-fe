@@ -85,7 +85,7 @@ class ChatPage extends ConsumerWidget {
             padding: EdgeInsets.all(10),
             child: Icon(DearsIcons.more_vert),
           ),
-          FavoriteToggleButton(initialFavorite: chatroom.isWishListed),
+          FavoriteToggleButton(chatroom.portfolioId),
           const SizedBox(width: 8),
         ],
       ),

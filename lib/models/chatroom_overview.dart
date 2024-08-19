@@ -17,7 +17,6 @@ class ChatroomOverview with _$ChatroomOverview {
     required String organizationName,
     required int portfolioId,
     required int unreadMessageCount,
-    @Default(false) bool isWishListed,
   }) = _ChatroomOverview;
 
   factory ChatroomOverview.fromJson(Map<String, dynamic> json) =>

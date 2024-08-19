@@ -76,7 +76,7 @@ class PortfolioListTile extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            FavoriteToggleButton(initialFavorite: portfolio.isWishListed),
+            FavoriteToggleButton(portfolio.id),
           ],
         ),
       ),

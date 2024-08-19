@@ -62,7 +62,7 @@ class HomeTopViewedListTile extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            FavoriteToggleButton(initialFavorite: portfolio.isWishListed),
+            FavoriteToggleButton(portfolio.id),
           ],
         ),
       ),

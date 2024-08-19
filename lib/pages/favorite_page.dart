@@ -5,11 +5,26 @@ import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavoritePage extends ConsumerWidget {
+class FavoritePage extends ConsumerStatefulWidget {
   const FavoritePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FavoritePage> createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends ConsumerState<FavoritePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Invalidate the `wishlistProvider` when the page is opened.
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.invalidate(wishlistProvider);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final wishlist = ref.watch(wishlistProvider);
 
     const emptyWidget = EmptyListWidget(
