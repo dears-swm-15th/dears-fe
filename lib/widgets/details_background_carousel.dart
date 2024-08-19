@@ -1,14 +1,21 @@
+import 'package:dears/models/portfolio.dart';
+import 'package:dears/widgets/cdn_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-const int _itemCount = 12;
-
 class DetailsBackgroundCarousel extends HookWidget {
-  const DetailsBackgroundCarousel({super.key});
+  final Portfolio portfolio;
+
+  const DetailsBackgroundCarousel(
+    this.portfolio, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final index = useState(0);
+
+    final itemCount = portfolio.weddingPhotoUrls.length;
 
     return Stack(
       children: [
@@ -17,11 +24,13 @@ class DetailsBackgroundCarousel extends HookWidget {
           child: PageView.builder(
             physics: const ClampingScrollPhysics(),
             onPageChanged: (value) => index.value = value,
-            itemCount: _itemCount,
+            itemCount: itemCount,
             itemBuilder: (context, index) {
-              return Image.network(
-                "https://picsum.photos/seed/image$index/600/400",
-                fit: BoxFit.cover,
+              return CdnImage(
+                portfolio.weddingPhotoUrls[index],
+                fallback: const Center(
+                  child: Text("이미지를 불러올 수 없습니다"),
+                ),
               );
             },
           ),
@@ -45,7 +54,7 @@ class DetailsBackgroundCarousel extends HookWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const TextSpan(text: "/$_itemCount"),
+                  TextSpan(text: "/$itemCount"),
                 ],
               ),
             ),

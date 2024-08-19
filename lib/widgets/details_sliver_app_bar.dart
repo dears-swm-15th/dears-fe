@@ -60,7 +60,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
 
     final background = Column(
       children: [
-        const DetailsBackgroundCarousel(),
+        DetailsBackgroundCarousel(widget.portfolio),
         Stack(
           clipBehavior: Clip.none,
           children: [
