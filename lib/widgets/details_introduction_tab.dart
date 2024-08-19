@@ -15,8 +15,6 @@ class DetailsIntroductionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const services = ["서비스1", "서비스2", "서비스3"];
-
     final avgEstimate = number.format(portfolio.avgEstimate);
     final minEstimate = number.format(portfolio.minEstimate);
     final consultingFee = number.format(portfolio.consultingFee);
@@ -84,10 +82,10 @@ class DetailsIntroductionTab extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.zero,
-            itemCount: services.length,
+            itemCount: portfolio.services.length,
             separatorBuilder: (context, index) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
-              final service = services[index];
+              final service = portfolio.services[index];
               return Row(
                 children: [
                   const Icon(DearsIcons.check, size: 20, color: blue500),
