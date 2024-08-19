@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const double _height = 44;
+const double _indicatorWidth = 80;
 
 class DetailsSliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final TabController controller;
@@ -29,8 +30,18 @@ class DetailsSliverTabBarDelegate extends SliverPersistentHeaderDelegate {
         controller: controller,
         onTap: onTap,
         tabs: const [
-          Center(child: Text("소개")),
-          Center(child: Text("리뷰")),
+          SizedBox(
+            width: _indicatorWidth,
+            child: Center(
+              child: Text("소개"),
+            ),
+          ),
+          SizedBox(
+            width: _indicatorWidth,
+            child: Center(
+              child: Text("리뷰"),
+            ),
+          ),
         ],
       ),
     );
