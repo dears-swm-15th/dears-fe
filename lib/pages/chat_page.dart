@@ -1,4 +1,4 @@
-import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
@@ -19,13 +19,7 @@ class ChatPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatList = ref.watch(chatListProvider);
-    final chatroom = chatList.whenOrNull(
-      data: (data) {
-        final i = data.indexWhere((e) => e.id == chatroomId);
-        return i == -1 ? null : data[i];
-      },
-    );
+    final chatroom = ref.watch(chatroomProvider(chatroomId)).valueOrNull;
 
     if (chatroom == null) {
       return Scaffold(
