@@ -27,7 +27,7 @@ class RadarChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
+    final center = Offset(size.width / 2, size.height / (1 + cos(pi / 5)));
     final radius = min(size.width, size.height) / 3;
 
     final n = data.length;
