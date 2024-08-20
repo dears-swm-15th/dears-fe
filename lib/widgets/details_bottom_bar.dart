@@ -18,12 +18,13 @@ class DetailsBottomBar extends StatelessWidget {
     final avgEstimate = number.format(portfolio.avgEstimate);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
           SizedBox(
             width: 144,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("$minEstimate원~", style: titleMedium),

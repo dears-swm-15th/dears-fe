@@ -90,40 +90,34 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: NestedScrollView(
-              controller: scrollController,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  DetailsSliverAppBar(portfolio),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: DetailsSliverTabBarDelegate(
-                      controller: tabController,
-                      onTap: scrollToIndex,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: DetailsIntroductionTab(
-                      portfolio,
-                      key: keys[0],
-                    ),
-                  ),
-                ];
-              },
-              body: DetailsReviewTab(
-                key: keys[1],
-                portfolioId: widget.portfolioId,
+      body: NestedScrollView(
+        controller: scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            DetailsSliverAppBar(portfolio),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: DetailsSliverTabBarDelegate(
+                controller: tabController,
+                onTap: scrollToIndex,
               ),
             ),
-          ),
-          const Divider(height: 0),
-          DetailsBottomBar(portfolio),
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
-        ],
+            SliverToBoxAdapter(
+              child: DetailsIntroductionTab(
+                portfolio,
+                key: keys[0],
+              ),
+            ),
+          ];
+        },
+        body: DetailsReviewTab(
+          key: keys[1],
+          portfolioId: widget.portfolioId,
+        ),
       ),
+      persistentFooterButtons: [
+        DetailsBottomBar(portfolio),
+      ],
     );
   }
 }
