@@ -118,6 +118,7 @@ final ThemeData theme = ThemeData(
   platform: TargetPlatform.iOS,
 
   // COLOR
+  colorSchemeSeed: blue500,
   scaffoldBackgroundColor: white,
 
   // TYPOGRAPHY & ICONOGRAPHY
