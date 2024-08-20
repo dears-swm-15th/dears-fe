@@ -1,3 +1,4 @@
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -21,8 +22,16 @@ class ReviewKeywordChips extends HookWidget {
       selectedIndexes.value = [...selectedIndexes.value];
     });
 
-    final selected = useCallback((int groupIndex, int keywordIndex) {
+    final isSelected = useCallback((int groupIndex, int keywordIndex) {
       return selectedIndexes.value[groupIndex] == keywordIndex;
+    });
+
+    final selectedBorderColor = useCallback((bool isSelected) {
+      return isSelected ? blue500 : gray100;
+    });
+
+    final selectedTextColor = useCallback((bool isSelected) {
+      return isSelected ? blue500 : gray600;
     });
 
     final children = useCallback(() sync* {
@@ -32,20 +41,32 @@ class ReviewKeywordChips extends HookWidget {
         }
 
         if (group.length == 1) {
+          final selected = isSelected(i, 1);
           yield FilterChip(
             onSelected: (value) => onSelected(i, value ? 1 : 0),
-            selected: selected(i, 1),
-            label: Text(group[0]),
+            selected: selected,
+            side: BorderSide(color: selectedBorderColor(selected)),
+            checkmarkColor: blue500,
+            label: Text(
+              group[0],
+              style: TextStyle(color: selectedTextColor(selected)),
+            ),
           );
 
           continue;
         }
 
         for (final (j, keyword) in group.indexed) {
+          final selected = isSelected(i, j);
           yield ChoiceChip(
             onSelected: (value) => onSelected(i, j),
-            selected: selected(i, j),
-            label: Text(keyword),
+            selected: selected,
+            side: BorderSide(color: selectedBorderColor(selected)),
+            checkmarkColor: blue500,
+            label: Text(
+              keyword,
+              style: TextStyle(color: selectedTextColor(selected)),
+            ),
           );
         }
       }

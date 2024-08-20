@@ -36,8 +36,16 @@ class SearchPage extends ConsumerWidget {
                 onDeleted: () => ref
                     .read(recentSearchWordsProvider.notifier)
                     .removeAt(index),
-                deleteIcon: const Icon(DearsIcons.close, size: 16),
-                label: Text(label),
+                deleteIcon: const Icon(
+                  DearsIcons.close,
+                  size: 16,
+                  color: gray600,
+                ),
+                side: const BorderSide(color: gray100),
+                label: Text(
+                  label,
+                  style: const TextStyle(color: gray800),
+                ),
               );
             }),
           ),
