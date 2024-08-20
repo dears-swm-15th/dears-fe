@@ -1,4 +1,3 @@
-import 'package:dears/models/review_type.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/review_image_picker.dart';
 import 'package:dears/widgets/review_keyword_chips.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ReviewInput extends HookWidget {
-  final ReviewType type;
+  final String type;
 
   const ReviewInput({
     super.key,
@@ -73,7 +72,7 @@ class ReviewInput extends HookWidget {
         const SizedBox(height: 10),
         const ReviewKeywordChips(),
         const SizedBox(height: 16),
-        const Text("솔직한 상담 리뷰를 남겨주세요", style: titleSmall),
+        Text("솔직한 $type 리뷰를 남겨주세요", style: titleSmall),
         const SizedBox(height: 10),
         ReviewTextField(controller: textController),
         const SizedBox(height: 16),

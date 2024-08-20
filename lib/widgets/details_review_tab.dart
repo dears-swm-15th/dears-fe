@@ -77,7 +77,7 @@ class DetailsReviewTab extends HookConsumerWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              ReviewInput(type: reviewType.value),
+              ReviewInput(type: "${reviewType.value}"),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
