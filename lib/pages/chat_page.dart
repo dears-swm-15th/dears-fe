@@ -6,6 +6,7 @@ import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
 import 'package:dears/widgets/chat_text_field.dart';
+import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -79,16 +80,13 @@ class ChatPage extends ConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("${chatroom.othersName} 웨딩플래너"),
-        actions: const [
-          Padding(
+        actions: [
+          const Padding(
             padding: EdgeInsets.all(10),
             child: Icon(DearsIcons.more_vert),
           ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(DearsIcons.favorite_outline),
-          ),
-          SizedBox(width: 8),
+          FavoriteToggleButton(chatroom.portfolioId),
+          const SizedBox(width: 8),
         ],
       ),
       body: Column(

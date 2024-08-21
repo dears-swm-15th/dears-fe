@@ -144,9 +144,9 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
 
     final title = Text("${widget.portfolio.name} 웨딩플래너");
 
-    const actions = [
-      FavoriteToggleButton(initialFavorite: false),
-      SizedBox(width: 8),
+    final actions = [
+      FavoriteToggleButton(widget.portfolio.id),
+      const SizedBox(width: 8),
     ];
 
     final topPadding = MediaQuery.of(context).padding.top;
