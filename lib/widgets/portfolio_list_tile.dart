@@ -2,11 +2,10 @@ import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-const Widget _profileImageFallback = Icon(DearsIcons.person, size: 32);
 
 class PortfolioListTile extends StatelessWidget {
   final PortfolioOverview portfolio;
@@ -22,15 +21,6 @@ class PortfolioListTile extends StatelessWidget {
     final avgRating = rating.format(portfolio.avgRating);
     final minEstimate = number.format(portfolio.minEstimate);
 
-    final url = portfolio.profileImageUrl;
-    final image = url == null
-        ? _profileImageFallback
-        : Image.network(
-            url,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => _profileImageFallback,
-          );
-
     return GestureDetector(
       onTap: () => context.push("/details/${portfolio.id}"),
       behavior: HitTestBehavior.opaque,
@@ -39,12 +29,12 @@ class PortfolioListTile extends StatelessWidget {
         height: 100,
         child: Row(
           children: [
-            ClipRRect(
+            CdnImage(
+              portfolio.profileImageUrl,
+              width: 84,
+              height: 84,
               borderRadius: BorderRadius.circular(4),
-              child: SizedBox.square(
-                dimension: 84,
-                child: image,
-              ),
+              fallback: const Icon(DearsIcons.person, size: 32),
             ),
             const SizedBox(width: 10),
             Column(

@@ -7,7 +7,7 @@ part 'profile.g.dart';
 @freezed
 class Profile with _$Profile {
   const factory Profile({
-    required String name,
+    @Default("") String name,
     String? profileImageUrl,
   }) = _Profile;
 

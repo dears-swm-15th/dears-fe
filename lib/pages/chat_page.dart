@@ -1,3 +1,4 @@
+import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
@@ -18,6 +19,17 @@ class ChatPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final chatroom = ref.watch(chatroomProvider(chatroomId)).valueOrNull;
+
+    if (chatroom == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     final messageList = ref.watch(messageListProvider(chatroomId));
 
     final bubbles = messageList.maybeWhen<Iterable<Widget>>(
@@ -46,9 +58,15 @@ class ChatPage extends ConsumerWidget {
             createdAt = null;
           }
 
+          final isMe = item.isMe;
+          final isFirst = item.isMe != prev?.isMe;
+          final profileImageUrl =
+              !isMe && isFirst ? chatroom.othersProfileImageUrl : null;
+
           yield ChatBubble(
-            isMe: item.isMe,
-            isFirst: item.isMe != prev?.isMe,
+            isMe: isMe,
+            isFirst: isFirst,
+            profileImageUrl: profileImageUrl,
             message: item.message,
             createdAt: createdAt,
           );
@@ -60,7 +78,7 @@ class ChatPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("김소연 웨딩플래너"),
+        title: Text("${chatroom.othersName} 웨딩플래너"),
         actions: const [
           Padding(
             padding: EdgeInsets.all(10),

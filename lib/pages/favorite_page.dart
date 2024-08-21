@@ -1,5 +1,6 @@
 import 'package:dears/providers/wishlist_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,24 +12,9 @@ class FavoritePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlist = ref.watch(wishlistProvider);
 
-    final emptyWidget = Expanded(
-      child: Center(
-        child: Column(
-          children: [
-            const Spacer(),
-            const Text(
-              "저장한 웨딩플래너가 없습니다",
-              style: titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "마음에 드는 웨딩플래너를 저장해보세요",
-              style: bodySmall.copyWith(color: gray600),
-            ),
-            const Spacer(flex: 2),
-          ],
-        ),
-      ),
+    const emptyWidget = EmptyListWidget(
+      title: "저장한 웨딩플래너가 없습니다",
+      subtitle: "마음에 드는 웨딩플래너를 저장해보세요",
     );
 
     final child = wishlist.when(
@@ -42,11 +28,7 @@ class FavoritePage extends ConsumerWidget {
             physics: const ClampingScrollPhysics(),
             itemCount: data.length,
             separatorBuilder: (context, index) {
-              return const Divider(
-                height: 4,
-                indent: 16,
-                endIndent: 16,
-              );
+              return const Divider(height: 4, indent: 16, endIndent: 16);
             },
             itemBuilder: (context, index) {
               final overview = data[index];
@@ -55,22 +37,8 @@ class FavoritePage extends ConsumerWidget {
           ),
         );
       },
-      error: (error, stackTrace) {
-        return emptyWidget;
-      },
-      loading: () {
-        return const Expanded(
-          child: Center(
-            child: Column(
-              children: [
-                Spacer(),
-                CircularProgressIndicator(),
-                Spacer(flex: 2),
-              ],
-            ),
-          ),
-        );
-      },
+      error: (error, stackTrace) => emptyWidget,
+      loading: () => const LoadingListWidget(),
     );
 
     final count = wishlist.maybeWhen(

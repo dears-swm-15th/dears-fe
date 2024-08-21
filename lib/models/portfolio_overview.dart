@@ -1,4 +1,3 @@
-import 'package:dears/models/region.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -11,7 +10,6 @@ class PortfolioOverview with _$PortfolioOverview {
     required int id,
     required String organization,
     required String plannerName,
-    required Region region,
     String? profileImageUrl,
     double? avgRating,
     int? minEstimate,
