@@ -87,13 +87,12 @@ class ChatPage extends ConsumerWidget {
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         color: blue50,
-        child: CustomScrollView(
+        child: ListView(
           physics: const ClampingScrollPhysics(),
-          slivers: [
-            ...bubbles.map((e) => SliverToBoxAdapter(child: e)),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 10),
-            ),
+          padding: EdgeInsets.zero,
+          children: [
+            ...bubbles,
+            const SizedBox(height: 10),
           ],
         ),
       ),
