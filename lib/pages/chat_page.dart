@@ -59,15 +59,10 @@ class ChatPage extends ConsumerWidget {
             createdAt = null;
           }
 
-          final isMe = item.isMe;
-          final isFirst = item.isMe != prev?.isMe;
-          final profileImageUrl =
-              !isMe && isFirst ? chatroom.othersProfileImageUrl : null;
-
           yield ChatBubble(
-            isMe: isMe,
-            isFirst: isFirst,
-            profileImageUrl: profileImageUrl,
+            chatroomId: chatroomId,
+            isMe: item.isMe,
+            isFirst: item.isMe != prev?.isMe,
             message: item.message,
             createdAt: createdAt,
           );

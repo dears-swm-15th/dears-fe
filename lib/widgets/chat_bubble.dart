@@ -1,28 +1,35 @@
+import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatBubble extends StatelessWidget {
+class ChatBubble extends ConsumerWidget {
+  final int chatroomId;
   final bool isMe;
   final bool isFirst;
-  final String? profileImageUrl;
   final String message;
   final DateTime? createdAt;
 
   const ChatBubble({
     super.key,
+    required this.chatroomId,
     required this.isMe,
     required this.isFirst,
-    this.profileImageUrl,
     required this.message,
     this.createdAt,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileImageUrl = ref
+        .watch(chatroomProvider(chatroomId))
+        .valueOrNull
+        ?.othersProfileImageUrl;
+
     final padding = isFirst
         ? const EdgeInsets.only(top: 20)
         : const EdgeInsets.only(top: 6);
