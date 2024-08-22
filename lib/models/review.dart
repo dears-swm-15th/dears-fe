@@ -9,13 +9,13 @@ class Review with _$Review {
   const factory Review({
     required int id,
     required int portfolioId,
-    required String reviewerName,
+    @Default("") String reviewerName,
     required String content,
-    required bool isProvided,
+    @Default(false) bool isProvided,
     required double rating,
     required int estimate,
-    required List<String> tags,
-    required List<String> presignedWeddingPhotoUrls,
+    @Default([]) List<String> tags,
+    required List<String> weddingPhotoUrls,
     required DateTime createdAt,
   }) = _Review;
 

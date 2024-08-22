@@ -4,6 +4,7 @@ import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/details_background_carousel.dart';
+import 'package:dears/widgets/details_tag_box.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
 
     final background = Column(
       children: [
-        const DetailsBackgroundCarousel(),
+        DetailsBackgroundCarousel(widget.portfolio),
         Stack(
           clipBehavior: Clip.none,
           children: [
@@ -89,21 +90,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
                       ),
                       ...List.generate(tags.length, (index) {
                         final tag = tags[index];
-                        return Container(
-                          margin: const EdgeInsets.only(left: 6),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: blue50,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                          child: Text(
-                            tag,
-                            style: captionSmall.copyWith(color: blue500),
-                          ),
-                        );
+                        return DetailsTagBox(tag);
                       }),
                     ],
                   ),

@@ -1,6 +1,8 @@
 import 'package:dears/models/review.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/cdn_image.dart';
+import 'package:dears/widgets/review_tag_box.dart';
 import 'package:dears/widgets/star_rating_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -46,41 +48,32 @@ class ReviewListTile extends StatelessWidget {
               runSpacing: 4,
               children: List.generate(review.tags.length, (index) {
                 final tag = review.tags[index];
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: gray100,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(tag, style: captionLarge),
-                );
+                return ReviewTagBox(tag);
               }),
             ),
           ],
           const SizedBox(height: 12),
           Text(review.content, style: bodySmall),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 50,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
+          if (review.weddingPhotoUrls.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 50,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: review.weddingPhotoUrls.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  return CdnImage(
+                    review.weddingPhotoUrls[index],
+                    width: 50,
+                    height: 50,
                     borderRadius: BorderRadius.circular(4),
-                  ),
-                );
-              },
+                    fallback: const Icon(Icons.image),
+                  );
+                },
+              ),
             ),
-          ),
+          ],
           const SizedBox(height: 16),
           Align(
             alignment: Alignment.centerRight,

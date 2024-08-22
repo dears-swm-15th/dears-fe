@@ -14,7 +14,7 @@ abstract class FileClient {
   @PUT("{presignedUrl}")
   @MultiPart()
   Future<void> upload({
-    @Path() String presignedUrl,
-    @Part() File file,
+    @Path() required String presignedUrl,
+    @Part() required File file,
   });
 }

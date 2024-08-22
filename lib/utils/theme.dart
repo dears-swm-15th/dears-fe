@@ -118,6 +118,7 @@ final ThemeData theme = ThemeData(
   platform: TargetPlatform.iOS,
 
   // COLOR
+  colorSchemeSeed: blue500,
   scaffoldBackgroundColor: white,
 
   // TYPOGRAPHY & ICONOGRAPHY
@@ -150,14 +151,12 @@ final ThemeData theme = ThemeData(
   ),
   chipTheme: const ChipThemeData(
     color: WidgetStatePropertyAll(white),
-    checkmarkColor: blue500,
     labelPadding: EdgeInsets.zero,
     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-    side: BorderSide(color: blue500),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(30)),
     ),
-    labelStyle: TextStyle(color: blue500, fontWeight: FontWeight.w500),
+    labelStyle: bodySmall,
   ),
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(

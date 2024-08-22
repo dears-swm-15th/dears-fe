@@ -1,4 +1,6 @@
 import 'package:dears/models/review.dart';
+import 'package:dears/models/review_create_body.dart';
+import 'package:dears/models/review_create_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,8 +20,8 @@ abstract class ReviewClient {
   Future<List<Review>> getAllSoftDeleted();
 
   @POST("/customer/create")
-  Future<Review> create({
-    @Body() required Review data,
+  Future<ReviewCreateResponse> create({
+    @Body() required ReviewCreateBody data,
   });
 
   @POST("/customer/delete/{id}")
