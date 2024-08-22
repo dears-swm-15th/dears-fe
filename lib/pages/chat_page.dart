@@ -87,13 +87,19 @@ class ChatPage extends ConsumerWidget {
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         color: blue50,
-        child: ListView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.zero,
-          children: [
-            ...bubbles,
-            const SizedBox(height: 10),
-          ],
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: ListView(
+            // Initially scroll to the bottom
+            reverse: true,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            children: [
+              ...bubbles,
+              const SizedBox(height: 10),
+            ].reversed.toList(),
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
