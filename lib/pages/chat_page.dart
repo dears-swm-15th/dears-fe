@@ -89,26 +89,25 @@ class ChatPage extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: blue50,
-              child: CustomScrollView(
-                physics: const ClampingScrollPhysics(),
-                slivers: [
-                  ...bubbles.map((e) => SliverToBoxAdapter(child: e)),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 10),
-                  ),
-                ],
-              ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        color: blue50,
+        child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            ...bubbles.map((e) => SliverToBoxAdapter(child: e)),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 10),
             ),
-          ),
-          ChatTextField(chatroomId: chatroomId),
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
-        ],
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              MediaQuery.of(context).padding.bottom,
+        ),
+        child: ChatTextField(chatroomId: chatroomId),
       ),
     );
   }
