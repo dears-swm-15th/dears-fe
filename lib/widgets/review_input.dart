@@ -1,34 +1,27 @@
+import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/review_image_picker.dart';
 import 'package:dears/widgets/review_keyword_chips.dart';
 import 'package:dears/widgets/review_rating_selector.dart';
 import 'package:dears/widgets/review_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ReviewInput extends HookWidget {
-  final String type;
+class ReviewInput extends ConsumerWidget {
+  final int portfolioId;
 
-  const ReviewInput({
+  const ReviewInput(
+    this.portfolioId, {
     super.key,
-    required this.type,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final textController = useTextEditingController();
-    final isEmpty = useState(textController.text.isEmpty);
-
-    useEffect(
-      () {
-        void listener() {
-          isEmpty.value = textController.text.isEmpty;
-        }
-
-        textController.addListener(listener);
-        return () => textController.removeListener(listener);
-      },
-      const [],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final type = ref.watch(
+      reviewFormProvider(portfolioId).select((value) => value.type),
+    );
+    final enabled = ref.watch(
+      reviewFormProvider(portfolioId).select((value) => value.enabled),
     );
 
     return Column(
@@ -66,15 +59,15 @@ class ReviewInput extends HookWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const ReviewRatingSelector(),
+        ReviewRatingSelector(portfolioId),
         const SizedBox(height: 16),
         const Text("관련된 키워드를 모두 선택해주세요", style: titleSmall),
         const SizedBox(height: 10),
-        const ReviewKeywordChips(),
+        ReviewKeywordChips(portfolioId),
         const SizedBox(height: 16),
         Text("솔직한 $type 리뷰를 남겨주세요", style: titleSmall),
         const SizedBox(height: 10),
-        ReviewTextField(controller: textController),
+        ReviewTextField(portfolioId),
         const SizedBox(height: 16),
         RichText(
           text: TextSpan(
@@ -88,13 +81,17 @@ class ReviewInput extends HookWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const ReviewImagePicker(),
+        ReviewImagePicker(portfolioId),
         const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
           height: 44,
           child: FilledButton(
-            onPressed: isEmpty.value ? null : () {},
+            onPressed: enabled
+                ? () => ref
+                    .read(reviewFormProvider(portfolioId).notifier)
+                    .submit(portfolioId)
+                : null,
             child: const Text("리뷰 작성하기"),
           ),
         ),

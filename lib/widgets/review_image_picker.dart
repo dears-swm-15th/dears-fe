@@ -1,20 +1,28 @@
+import 'dart:io';
+
+import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ReviewImagePicker extends HookWidget {
-  const ReviewImagePicker({super.key});
+class ReviewImagePicker extends ConsumerWidget {
+  final int portfolioId;
+
+  const ReviewImagePicker(
+    this.portfolioId, {
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final images = useState(<int>{});
+  Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(
+      reviewFormProvider(portfolioId).select((value) => value.images),
+    );
 
     final picker = GestureDetector(
-      onTap: () {
-        final list = images.value..add(images.value.length);
-        images.value = {...list};
-      },
+      // TODO: implement using `image_picker` package
+      onTap: () {},
       child: Container(
         width: 60,
         height: 60,
@@ -40,9 +48,7 @@ class ReviewImagePicker extends HookWidget {
       runSpacing: 4,
       children: [
         picker,
-        ...List.generate(images.value.length, (index) {
-          final seed = index + 1;
-
+        ...List.generate(images.length, (index) {
           return SizedBox(
             width: 60,
             height: 60,
@@ -53,8 +59,8 @@ class ReviewImagePicker extends HookWidget {
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(4)),
-                child: Image.network(
-                  "https://picsum.photos/seed/$seed/200/300",
+                child: Image.file(
+                  File(images[index]),
                   fit: BoxFit.cover,
                 ),
               ),

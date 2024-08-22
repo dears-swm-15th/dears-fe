@@ -1,7 +1,8 @@
+import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 String? _getRatingText(int rating) {
   return switch (rating) {
@@ -13,14 +14,21 @@ String? _getRatingText(int rating) {
   };
 }
 
-class ReviewRatingSelector extends HookWidget {
-  const ReviewRatingSelector({super.key});
+class ReviewRatingSelector extends ConsumerWidget {
+  final int portfolioId;
+
+  const ReviewRatingSelector(
+    this.portfolioId, {
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final rating = useState(0);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rating = ref.watch(
+      reviewFormProvider(portfolioId).select((value) => value.rating),
+    );
 
-    final ratingText = _getRatingText(rating.value);
+    final ratingText = _getRatingText(rating);
     final text = ratingText == null
         ? const Text("별점을 입력해주세요", style: bodySmall)
         : RichText(
@@ -28,7 +36,7 @@ class ReviewRatingSelector extends HookWidget {
               style: bodySmall,
               children: [
                 TextSpan(
-                  text: "${rating.value}점 ",
+                  text: "$rating점 ",
                   style: const TextStyle(color: blue500),
                 ),
                 TextSpan(text: ratingText),
@@ -43,13 +51,15 @@ class ReviewRatingSelector extends HookWidget {
           children: [
             ...List.generate(5, (index) {
               return GestureDetector(
-                onTap: () => rating.value = index + 1,
+                onTap: () => ref
+                    .read(reviewFormProvider(portfolioId).notifier)
+                    .setRating(index + 1),
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child: Icon(
                     DearsIcons.star,
-                    color: index < rating.value ? yellow : gray100,
+                    color: index < rating ? yellow : gray100,
                   ),
                 ),
               );
