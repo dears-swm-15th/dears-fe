@@ -15,7 +15,7 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 part 'stomp_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {

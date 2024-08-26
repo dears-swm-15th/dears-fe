@@ -7,11 +7,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_list_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ChatList extends _$ChatList {
   @override
   Future<List<ChatroomOverview>> build() async {
-    final chatroomClient = await ref.read(chatroomClientProvider.future);
+    final chatroomClient = await ref.watch(chatroomClientProvider.future);
     final list = await chatroomClient.getAll();
 
     final stomp = ref.read(stompProvider.notifier);
