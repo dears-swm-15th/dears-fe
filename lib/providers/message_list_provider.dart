@@ -1,6 +1,5 @@
 import 'package:dears/models/message.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
-import 'package:dears/providers/stomp_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,13 +10,14 @@ class MessageList extends _$MessageList {
   @override
   Future<List<Message>> build(int chatroomId) async {
     final chatroomClient = await ref.watch(chatroomClientProvider.future);
+
     final chatroom = await chatroomClient.enter(chatroomId);
+    // TODO: do not send leave message until server supports it
+    // ref.onDispose(() {
+    //   ref.read(stompProvider.notifier).leave(chatroomId);
+    // });
+
     final chats = chatroom.chats;
-
-    ref.onDispose(() {
-      ref.read(stompProvider.notifier).leave(chatroomId);
-    });
-
     final role = (await ref.read(userInfoProvider.future)).role;
 
     return chats.map((e) {
