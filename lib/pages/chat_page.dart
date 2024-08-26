@@ -1,7 +1,6 @@
 import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/formats.dart';
-import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
@@ -76,10 +75,6 @@ class ChatPage extends ConsumerWidget {
         centerTitle: true,
         title: Text("${chatroom.othersName} 웨딩플래너"),
         actions: [
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(DearsIcons.more_vert),
-          ),
           FavoriteToggleButton(chatroom.portfolioId),
           const SizedBox(width: 8),
         ],
