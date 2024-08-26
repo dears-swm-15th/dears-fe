@@ -79,21 +79,24 @@ class ChatPage extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        color: blue50,
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ListView(
-            // Initially scroll to the bottom
-            reverse: true,
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            children: [
-              ...bubbles,
-              const SizedBox(height: 10),
-            ].reversed.toList(),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: blue50,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ListView(
+              // Initially scroll to the bottom
+              reverse: true,
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              children: [
+                ...bubbles,
+                const SizedBox(height: 10),
+              ].reversed.toList(),
+            ),
           ),
         ),
       ),

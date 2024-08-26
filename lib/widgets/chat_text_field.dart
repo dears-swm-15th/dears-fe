@@ -80,7 +80,6 @@ class ChatTextField extends HookConsumerWidget {
                 ),
                 maxLines: 4,
                 minLines: 1,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 scrollPhysics: const ClampingScrollPhysics(),
               ),
             ),
