@@ -135,7 +135,7 @@ class Stomp extends _$Stomp {
     );
 
     client.send(
-      destination: "/pub/${role.stompPrefix}/send",
+      destination: "/pub/${role.apiPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }
@@ -156,7 +156,7 @@ class Stomp extends _$Stomp {
     );
 
     client.send(
-      destination: "/pub/${role.stompPrefix}/send",
+      destination: "/pub/${role.apiPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }

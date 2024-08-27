@@ -15,7 +15,7 @@ enum MemberRole {
     };
   }
 
-  String get stompPrefix {
+  String get apiPrefix {
     return switch (this) {
       customer => "customer",
       weddingPlanner => "weddingplanner"
