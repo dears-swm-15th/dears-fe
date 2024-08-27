@@ -25,31 +25,27 @@ class RecentSearchWords extends _$RecentSearchWords {
     state.whenOrNull(data: (data) => prefs.setStringList(_key, data).ignore());
   }
 
-  void add(String value) {
-    update(
-      (data) {
-        data.remove(value);
-        if (data.length >= _capacity) {
-          data.removeLast();
-        }
+  Future<void> add(String value) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
 
-        return [value, ...data];
-      },
-      onError: (err, stackTrace) => [value],
-    );
+      data.remove(value);
+      if (data.length >= _capacity) {
+        data.removeLast();
+      }
+
+      return [value, ...data];
+    });
   }
 
-  void removeAt(int index) {
-    update(
-      (data) => [...data..removeAt(index)],
-      onError: (err, stackTrace) => [],
-    );
+  Future<void> removeAt(int index) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
+      return [...data..removeAt(index)];
+    });
   }
 
   void clear() {
-    update(
-      (data) => [],
-      onError: (err, stackTrace) => [],
-    );
+    state = const AsyncValue.data([]);
   }
 }

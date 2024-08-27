@@ -29,10 +29,10 @@ class MessageList extends _$MessageList {
     }).toList();
   }
 
-  void add(Message message) {
-    update(
-      (data) => [...data, message],
-      onError: (err, stackTrace) => [],
-    );
+  Future<void> add(Message message) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
+      return [...data, message];
+    });
   }
 }

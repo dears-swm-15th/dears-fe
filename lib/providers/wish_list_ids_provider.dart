@@ -13,10 +13,9 @@ class WishListIds extends _$WishListIds {
   }
 
   Future<void> toggle(int portfolioId) async {
-    final data = await future;
-
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
+      final data = await future;
+
       final wishlistClient = await ref.read(wishlistClientProvider.future);
 
       final isWishListed = data.contains(portfolioId);

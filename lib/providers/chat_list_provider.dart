@@ -14,29 +14,28 @@ class ChatList extends _$ChatList {
     return chatroomClient.getAll();
   }
 
-  void add(int chatroomId, Message message) {
-    update(
-      (data) {
-        final i = data.indexWhere((e) => e.id == chatroomId);
-        if (i == -1) {
-          return data;
-        }
+  Future<void> add(int chatroomId, Message message) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
 
-        final overview = data[i];
-        data.removeAt(i);
+      final i = data.indexWhere((e) => e.id == chatroomId);
+      if (i == -1) {
+        return data;
+      }
 
-        final unreadCount = ref.exists(messageListProvider(chatroomId))
-            ? 0
-            : overview.unreadMessageCount + 1;
+      final overview = data[i];
+      data.removeAt(i);
 
-        final newOverview = overview.copyWith(
-          lastMessage: message.message,
-          lastMessageCreatedAt: message.createdAt,
-          unreadMessageCount: unreadCount,
-        );
-        return [newOverview, ...data];
-      },
-      onError: (err, stackTrace) => [],
-    );
+      final unreadCount = ref.exists(messageListProvider(chatroomId))
+          ? 0
+          : overview.unreadMessageCount + 1;
+
+      final newOverview = overview.copyWith(
+        lastMessage: message.message,
+        lastMessageCreatedAt: message.createdAt,
+        unreadMessageCount: unreadCount,
+      );
+      return [newOverview, ...data];
+    });
   }
 }
