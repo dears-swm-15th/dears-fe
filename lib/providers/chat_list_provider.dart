@@ -2,7 +2,6 @@ import 'package:dears/models/chatroom_overview.dart';
 import 'package:dears/models/message.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
-import 'package:dears/providers/stomp_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_list_provider.g.dart';
@@ -12,15 +11,7 @@ class ChatList extends _$ChatList {
   @override
   Future<List<ChatroomOverview>> build() async {
     final chatroomClient = await ref.watch(chatroomClientProvider.future);
-    final list = await chatroomClient.getAll();
-
-    final stomp = ref.read(stompProvider.notifier);
-    for (final chatroom in list) {
-      final unsubscribeFn = await stomp.subscribe(chatroom.id);
-      ref.onDispose(() => unsubscribeFn?.call());
-    }
-
-    return list;
+    return chatroomClient.getAll();
   }
 
   void add(int chatroomId, Message message) {
