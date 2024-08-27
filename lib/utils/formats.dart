@@ -38,6 +38,9 @@ final CustomFormatter<DateTime> recent = CustomFormatter((date) {
   final now = DateTime.now();
 
   final diff = now.difference(date);
+  if (diff.inMinutes == 0) {
+    return "방금";
+  }
   if (diff.inHours == 0) {
     return "${diff.inMinutes}분 전";
   }
