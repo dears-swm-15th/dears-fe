@@ -13,8 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 44,
-        leadingWidth: 44 + 16,
+        leadingWidth: toolbarHeight + 16,
         leading: const Padding(
           padding: EdgeInsets.only(left: 16),
           child: ColoredBox(color: Colors.grey),

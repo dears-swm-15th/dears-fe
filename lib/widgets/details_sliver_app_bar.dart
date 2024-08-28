@@ -137,11 +137,12 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     ];
 
     final topPadding = MediaQuery.of(context).padding.top;
-    final collapsedHeight = topPadding + kToolbarHeight;
+    final collapsedHeight = topPadding + toolbarHeight;
 
     return SliverAppBar(
       pinned: true,
       expandedHeight: height - topPadding,
+      toolbarHeight: toolbarHeight,
       actions: actions,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {

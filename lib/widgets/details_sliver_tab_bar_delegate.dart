@@ -1,6 +1,6 @@
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-const double _height = 44;
 const double _indicatorWidth = 80;
 
 class DetailsSliverTabBarDelegate extends SliverPersistentHeaderDelegate {
@@ -13,10 +13,10 @@ class DetailsSliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  double get minExtent => _height;
+  double get minExtent => tabHeight;
 
   @override
-  double get maxExtent => _height;
+  double get maxExtent => tabHeight;
 
   @override
   Widget build(

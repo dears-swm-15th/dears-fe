@@ -93,6 +93,10 @@ const TextStyle captionSmall = TextStyle(
   height: 14 / 11,
 );
 
+// DIMENSION
+const double toolbarHeight = 44;
+const double tabHeight = 44;
+
 // SHADOW
 const List<BoxShadow> boxShadow = [
   BoxShadow(
@@ -136,6 +140,7 @@ final ThemeData theme = ThemeData(
     surfaceTintColor: white,
     centerTitle: false,
     titleSpacing: 0,
+    toolbarHeight: toolbarHeight,
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: white,

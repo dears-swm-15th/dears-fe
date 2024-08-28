@@ -1,4 +1,5 @@
 import 'package:dears/models/portfolio.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -20,7 +21,7 @@ class DetailsBackgroundCarousel extends HookWidget {
     return Stack(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).padding.top + kToolbarHeight + 180,
+          height: MediaQuery.of(context).padding.top + toolbarHeight + 180,
           child: PageView.builder(
             physics: const ClampingScrollPhysics(),
             onPageChanged: (value) => index.value = value,
