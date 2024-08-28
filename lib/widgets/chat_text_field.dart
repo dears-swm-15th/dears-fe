@@ -52,7 +52,6 @@ class ChatTextField extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           IconButton(
-            padding: const EdgeInsets.all(10),
             onPressed: () {},
             icon: Icon(
               isFocused.value ? DearsIcons.add : DearsIcons.link,
@@ -85,7 +84,6 @@ class ChatTextField extends HookConsumerWidget {
             ),
           ),
           IconButton(
-            padding: const EdgeInsets.all(10),
             color: blue500,
             disabledColor: black,
             onPressed: isEmpty.value

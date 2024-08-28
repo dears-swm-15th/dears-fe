@@ -168,6 +168,11 @@ final ThemeData theme = ThemeData(
       ),
     ),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      padding: const EdgeInsets.all(10),
+    ),
+  ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: blue500,

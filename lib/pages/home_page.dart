@@ -21,12 +21,10 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            padding: const EdgeInsets.all(10),
             onPressed: () {},
             icon: const Icon(DearsIcons.search),
           ),
           IconButton(
-            padding: const EdgeInsets.all(10),
             onPressed: () {},
             icon: const Icon(DearsIcons.notifications),
           ),

@@ -30,7 +30,6 @@ class _FavoriteToggleButtonState extends ConsumerState<FavoriteToggleButton> {
             false;
 
     return IconButton(
-      padding: const EdgeInsets.all(10),
       onPressed: toggle,
       isSelected: isWishListed,
       selectedIcon: const Icon(DearsIcons.favorite, color: red),
