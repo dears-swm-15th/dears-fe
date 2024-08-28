@@ -59,7 +59,7 @@ class SearchResultPage extends ConsumerWidget {
           padding: const EdgeInsets.only(right: 16),
           child: SearchTextField(
             text: query,
-            onSubmitted: (value) => context.replace("/search?q=$value"),
+            onSubmitted: (value) => context.pushReplacement("/search?q=$value"),
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
           ),
         ),
