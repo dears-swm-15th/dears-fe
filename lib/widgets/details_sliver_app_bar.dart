@@ -139,7 +139,13 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     final topPadding = MediaQuery.of(context).padding.top;
     final collapsedHeight = topPadding + toolbarHeight;
 
+    // TODO: change to custom sliver app bar with horizontal padding
     return SliverAppBar(
+      leadingWidth: toolbarHeight + 8,
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 8),
+        child: BackButton(),
+      ),
       pinned: true,
       expandedHeight: height - topPadding,
       toolbarHeight: toolbarHeight,
@@ -150,6 +156,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
 
           return FlexibleSpaceBar(
             title: isCollapsed ? title : null,
+            titlePadding: const EdgeInsets.only(bottom: 10),
             background: background,
           );
         },
