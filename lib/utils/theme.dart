@@ -126,6 +126,7 @@ final ThemeData theme = ThemeData(
   scaffoldBackgroundColor: white,
 
   // TYPOGRAPHY & ICONOGRAPHY
+  iconTheme: const IconThemeData(color: black),
   textTheme: const TextTheme(
     titleLarge: bodyLarge, // default text style for AppBar title
   ),
