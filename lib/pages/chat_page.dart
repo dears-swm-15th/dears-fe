@@ -1,3 +1,4 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/formats.dart';
@@ -21,14 +22,8 @@ class ChatPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chatroom = ref.watch(chatroomProvider(chatroomId)).valueOrNull;
-
     if (chatroom == null) {
-      return const Scaffold(
-        appBar: CustomAppBar(),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const LoadingPage();
     }
 
     final messageList = ref.watch(messageListProvider(chatroomId));

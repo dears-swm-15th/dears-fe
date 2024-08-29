@@ -1,6 +1,6 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/portfolio_provider.dart';
 import 'package:dears/utils/theme.dart';
-import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/details_bottom_bar.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
@@ -78,17 +78,10 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    final portfolio = ref
-        .watch(portfolioProvider(widget.portfolioId))
-        .whenOrNull(data: (data) => data);
-
+    final portfolio =
+        ref.watch(portfolioProvider(widget.portfolioId)).valueOrNull;
     if (portfolio == null) {
-      return const Scaffold(
-        appBar: CustomAppBar(),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const LoadingPage();
     }
 
     return Scaffold(
