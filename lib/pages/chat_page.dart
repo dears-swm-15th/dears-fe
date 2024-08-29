@@ -5,6 +5,7 @@ import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
 import 'package:dears/widgets/chat_text_field.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,9 +23,9 @@ class ChatPage extends ConsumerWidget {
     final chatroom = ref.watch(chatroomProvider(chatroomId)).valueOrNull;
 
     if (chatroom == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
+      return const Scaffold(
+        appBar: CustomAppBar(),
+        body: Center(
           child: CircularProgressIndicator(),
         ),
       );
@@ -71,12 +72,11 @@ class ChatPage extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         centerTitle: true,
         title: Text("${chatroom.othersName} 웨딩플래너"),
         actions: [
           FavoriteToggleButton(chatroom.portfolioId),
-          const SizedBox(width: 8),
         ],
       ),
       body: GestureDetector(

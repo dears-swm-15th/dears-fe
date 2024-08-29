@@ -1,5 +1,6 @@
 import 'package:dears/providers/search_result_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:dears/widgets/search_text_field.dart';
@@ -54,9 +55,9 @@ class SearchResultPage extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Padding(
-          padding: const EdgeInsets.only(right: 16),
+          padding: const EdgeInsets.only(left: 4, right: 8),
           child: SearchTextField(
             text: query,
             onSubmitted: (value) => context.pushReplacement("/search?q=$value"),

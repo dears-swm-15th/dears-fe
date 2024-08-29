@@ -1,5 +1,6 @@
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/home_carousel.dart';
 import 'package:dears/widgets/home_editor.dart';
 import 'package:dears/widgets/home_navigation_bar.dart';
@@ -12,11 +13,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: toolbarHeight + 16,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 16),
-          child: ColoredBox(color: Colors.grey),
+      appBar: CustomAppBar(
+        title: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: ColoredBox(
+            color: Colors.grey,
+            child: SizedBox.square(
+              dimension: toolbarHeight,
+            ),
+          ),
         ),
         actions: [
           IconButton(
@@ -27,7 +32,6 @@ class HomePage extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(DearsIcons.notifications),
           ),
-          const SizedBox(width: 8),
         ],
       ),
       body: ListView(

@@ -1,5 +1,6 @@
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/widgets/chat_list_tile.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/list_status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,8 +40,8 @@ class ChatListPage extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("채팅"),
+      appBar: const CustomAppBar(
+        title: Text("채팅"),
       ),
       body: Column(
         children: [

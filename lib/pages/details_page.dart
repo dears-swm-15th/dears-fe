@@ -1,5 +1,6 @@
 import 'package:dears/providers/portfolio_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/details_bottom_bar.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
@@ -82,9 +83,9 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
         .whenOrNull(data: (data) => data);
 
     if (portfolio == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
+      return const Scaffold(
+        appBar: CustomAppBar(),
+        body: Center(
           child: CircularProgressIndicator(),
         ),
       );
