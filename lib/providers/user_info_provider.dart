@@ -33,7 +33,6 @@ class UserInfo extends _$UserInfo {
   }
 
   Future<void> toggle() async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final data = await future;
       final user = User(role: data.role.toggled);
@@ -42,11 +41,11 @@ class UserInfo extends _$UserInfo {
   }
 
   Future<void> signUp() async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
+      final data = await future;
+
       final authClient = await ref.read(authClientProvider.future);
 
-      final data = await future;
       final member = await authClient.createMember(
         data: MemberCreateBody(role: data.role),
       );

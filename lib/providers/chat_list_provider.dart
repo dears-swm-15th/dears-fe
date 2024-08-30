@@ -2,50 +2,40 @@ import 'package:dears/models/chatroom_overview.dart';
 import 'package:dears/models/message.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
-import 'package:dears/providers/stomp_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_list_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ChatList extends _$ChatList {
   @override
   Future<List<ChatroomOverview>> build() async {
-    final chatroomClient = await ref.read(chatroomClientProvider.future);
-    final list = await chatroomClient.getAll();
-
-    final stomp = ref.read(stompProvider.notifier);
-    for (final chatroom in list) {
-      final unsubscribeFn = await stomp.subscribe(chatroom.id);
-      ref.onDispose(() => unsubscribeFn?.call());
-    }
-
-    return list;
+    final chatroomClient = await ref.watch(chatroomClientProvider.future);
+    return chatroomClient.getAll();
   }
 
-  void add(int chatroomId, Message message) {
-    update(
-      (data) {
-        final i = data.indexWhere((e) => e.id == chatroomId);
-        if (i == -1) {
-          return data;
-        }
+  Future<void> add(int chatroomId, Message message) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
 
-        final overview = data[i];
-        data.removeAt(i);
+      final i = data.indexWhere((e) => e.id == chatroomId);
+      if (i == -1) {
+        return data;
+      }
 
-        final unreadCount = ref.exists(messageListProvider(chatroomId))
-            ? 0
-            : overview.unreadMessageCount + 1;
+      final overview = data[i];
+      data.removeAt(i);
 
-        final newOverview = overview.copyWith(
-          lastMessage: message.message,
-          lastMessageCreatedAt: message.createdAt,
-          unreadMessageCount: unreadCount,
-        );
-        return [newOverview, ...data];
-      },
-      onError: (err, stackTrace) => [],
-    );
+      final unreadCount = ref.exists(messageListProvider(chatroomId))
+          ? 0
+          : overview.unreadMessageCount + 1;
+
+      final newOverview = overview.copyWith(
+        lastMessage: message.message,
+        lastMessageCreatedAt: message.createdAt,
+        unreadMessageCount: unreadCount,
+      );
+      return [newOverview, ...data];
+    });
   }
 }

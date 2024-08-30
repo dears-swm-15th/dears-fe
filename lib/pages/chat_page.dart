@@ -1,7 +1,6 @@
 import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/utils/formats.dart';
-import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
@@ -59,15 +58,10 @@ class ChatPage extends ConsumerWidget {
             createdAt = null;
           }
 
-          final isMe = item.isMe;
-          final isFirst = item.isMe != prev?.isMe;
-          final profileImageUrl =
-              !isMe && isFirst ? chatroom.othersProfileImageUrl : null;
-
           yield ChatBubble(
-            isMe: isMe,
-            isFirst: isFirst,
-            profileImageUrl: profileImageUrl,
+            chatroomId: chatroomId,
+            isMe: item.isMe,
+            isFirst: item.isMe != prev?.isMe,
             message: item.message,
             createdAt: createdAt,
           );
@@ -81,34 +75,37 @@ class ChatPage extends ConsumerWidget {
         centerTitle: true,
         title: Text("${chatroom.othersName} 웨딩플래너"),
         actions: [
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(DearsIcons.more_vert),
-          ),
           FavoriteToggleButton(chatroom.portfolioId),
           const SizedBox(width: 8),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: blue50,
-              child: CustomScrollView(
-                physics: const ClampingScrollPhysics(),
-                slivers: [
-                  ...bubbles.map((e) => SliverToBoxAdapter(child: e)),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 10),
-                  ),
-                ],
-              ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: blue50,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ListView(
+              // Initially scroll to the bottom
+              reverse: true,
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              children: [
+                ...bubbles,
+                const SizedBox(height: 10),
+              ].reversed.toList(),
             ),
           ),
-          ChatTextField(chatroomId: chatroomId),
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
-        ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              MediaQuery.of(context).padding.bottom,
+        ),
+        child: ChatTextField(chatroomId: chatroomId),
       ),
     );
   }

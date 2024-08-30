@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:dears/models/message.dart';
 import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
-import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
-import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/env.dart';
@@ -15,16 +13,13 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 part 'stomp_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {
-    final isSignedIn = await ref.watch(isSignedInProvider.future);
-    if (!isSignedIn) {
-      return null;
-    }
-
-    final uuid = await ref.read(accessTokenProvider.future);
+    final uuid = await ref.watch(
+      userInfoProvider.selectAsync((data) => data.uuid),
+    );
     if (uuid == null) {
       return null;
     }
@@ -43,20 +38,23 @@ class Stomp extends _$Stomp {
     return client;
   }
 
-  void _onConnect(StompFrame frame) {
-    ref.read(chatListProvider);
+  Future<void> _onConnect(StompFrame frame) async {
+    final chatList = await ref.read(chatListProvider.future);
+    for (final chatroom in chatList) {
+      subscribe(chatroom.id);
+    }
     _listenNew();
   }
 
-  Future<StompUnsubscribe?> subscribe(int chatroomId) async {
+  Future<void> subscribe(int chatroomId) async {
     final client = await future;
     if (client == null) {
-      return null;
+      return;
     }
 
     final role = (await ref.read(userInfoProvider.future)).role;
 
-    return client.subscribe(
+    final unsubscribeFn = client.subscribe(
       destination: "/sub/$chatroomId",
       callback: (frame) {
         final body = frame.body;
@@ -79,9 +77,13 @@ class Stomp extends _$Stomp {
         if (ref.exists(messageListProvider(chatroomId))) {
           ref.read(messageListProvider(chatroomId).notifier).add(message);
         }
-        ref.read(chatListProvider.notifier).add(chatroomId, message);
+        if (ref.exists(chatListProvider)) {
+          ref.read(chatListProvider.notifier).add(chatroomId, message);
+        }
       },
     );
+
+    ref.onDispose(unsubscribeFn);
   }
 
   Future<void> _listenNew() async {
@@ -95,7 +97,7 @@ class Stomp extends _$Stomp {
       return;
     }
 
-    client.subscribe(
+    final unsubscribeFn = client.subscribe(
       destination: "/sub/$uuid",
       callback: (frame) {
         final body = frame.body;
@@ -109,9 +111,12 @@ class Stomp extends _$Stomp {
           return;
         }
 
-        ref.invalidate(chatListProvider);
+        subscribe(stompMessage.chatroomId);
+        // Do not update `chatListProvider` not to let the user know
       },
     );
+
+    ref.onDispose(unsubscribeFn);
   }
 
   Future<void> send(int chatroomId, String content) async {
@@ -130,7 +135,7 @@ class Stomp extends _$Stomp {
     );
 
     client.send(
-      destination: "/pub/${role.stompPrefix}/send",
+      destination: "/pub/${role.apiPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }
@@ -151,7 +156,7 @@ class Stomp extends _$Stomp {
     );
 
     client.send(
-      destination: "/pub/${role.stompPrefix}/send",
+      destination: "/pub/${role.apiPrefix}/send",
       body: jsonEncode(stompMessage),
     );
   }

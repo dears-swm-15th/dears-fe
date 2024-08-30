@@ -31,20 +31,40 @@ class ChatTextField extends HookConsumerWidget {
       const [],
     );
 
+    final focusNode = useFocusNode();
+    final isFocused = useState(false);
+
+    useEffect(
+      () {
+        void listener() {
+          isFocused.value = focusNode.hasFocus;
+        }
+
+        focusNode.addListener(listener);
+        return () => focusNode.removeListener(listener);
+      },
+      const [],
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(DearsIcons.link),
+          IconButton(
+            padding: const EdgeInsets.all(10),
+            onPressed: () {},
+            icon: Icon(
+              isFocused.value ? DearsIcons.add : DearsIcons.link,
+              color: gray600,
+            ),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
               child: TextField(
                 controller: controller,
+                focusNode: focusNode,
                 style: bodySmall,
                 decoration: const InputDecoration(
                   hintText: "메시지를 입력해주세요",
@@ -60,7 +80,6 @@ class ChatTextField extends HookConsumerWidget {
                 ),
                 maxLines: 4,
                 minLines: 1,
-                onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 scrollPhysics: const ClampingScrollPhysics(),
               ),
             ),
