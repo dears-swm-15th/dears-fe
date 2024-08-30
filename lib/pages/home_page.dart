@@ -6,6 +6,7 @@ import 'package:dears/widgets/home_editor.dart';
 import 'package:dears/widgets/home_navigation_bar.dart';
 import 'package:dears/widgets/home_top_viewed_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.push("/search"),
             icon: const Icon(DearsIcons.search),
           ),
           IconButton(
