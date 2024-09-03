@@ -20,7 +20,7 @@ class InquiryPage extends ConsumerWidget {
         title: const Text("문의하기"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
