@@ -12,4 +12,7 @@ class InquiryRequestBody with _$InquiryRequestBody {
 
   factory InquiryRequestBody.fromJson(Map<String, dynamic> json) =>
       _$InquiryRequestBodyFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson();
 }
