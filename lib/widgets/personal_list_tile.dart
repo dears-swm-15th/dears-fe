@@ -51,6 +51,7 @@ class PersonalListTile extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           title,
+          const SizedBox(height: 4),
           DefaultTextStyle(
             style: const TextStyle(
               color: gray600,
