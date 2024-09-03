@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ReviewImagePicker extends ConsumerWidget {
   final int portfolioId;
@@ -21,8 +20,18 @@ class ReviewImagePicker extends ConsumerWidget {
     );
 
     final picker = GestureDetector(
-      // TODO: implement using `image_picker` package
-      onTap: () {},
+      onTap: () async {
+        final picker = ImagePicker();
+        final files = await picker.pickMultiImage();
+
+        final images = await Future.wait(
+          files.map((e) async {
+            final bytes = await e.readAsBytes();
+            return (e.name, bytes);
+          }),
+        );
+        ref.read(reviewFormProvider(portfolioId).notifier).addImages(images);
+      },
       child: Container(
         width: 60,
         height: 60,
@@ -59,8 +68,8 @@ class ReviewImagePicker extends ConsumerWidget {
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(4)),
-                child: Image.file(
-                  File(images[index]),
+                child: Image.memory(
+                  images[index].$2,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -21,6 +21,8 @@ class ReviewFormData with _$ReviewFormData {
     required int rating,
     required List<bool> tags,
     required String content,
-    required List<String> images,
+
+    // TODO: handle case where images are too large to be held in memory
+    required List<(String, Uint8List)> images,
   }) = _ReviewFormData;
 }

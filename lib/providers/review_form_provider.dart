@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dears/clients/file_client.dart';
 import 'package:dears/models/radar_key.dart';
@@ -45,8 +45,8 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(enabled: _enabled);
   }
 
-  void setImages(List<String> images) {
-    state = state.copyWith(images: images);
+  void addImages(Iterable<(String, Uint8List)> images) {
+    state = state.copyWith(images: [...state.images, ...images]);
   }
 
   Future<void> submit(int portfolioId) async {
@@ -62,7 +62,7 @@ class ReviewForm extends _$ReviewForm {
         ],
         content: state.content,
         weddingPhotoUrls: [
-          for (final (i, _) in state.images.indexed) "$i",
+          for (final image in state.images) image.$1,
         ],
 
         // TODO: implement to get data below from UI
@@ -76,7 +76,7 @@ class ReviewForm extends _$ReviewForm {
       for (final (i, url) in response.presignedWeddingPhotoUrls.indexed)
         fileClient.upload(
           presignedUrl: url,
-          file: File(state.images[i]),
+          file: state.images[i].$2,
         ),
     ]);
 
