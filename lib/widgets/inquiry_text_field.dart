@@ -27,7 +27,6 @@ class InquiryTextField extends HookConsumerWidget {
       inquiryFormProvider.select((value) => value.content),
       (previous, next) {
         if (controller.text != next) {
-          print("controller.text: ${controller.text}");
           controller.text = next;
         }
       },
