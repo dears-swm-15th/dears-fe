@@ -1,5 +1,6 @@
 import 'package:dears/providers/inquiry_form_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/inquiry_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,35 +41,15 @@ class InquiryPage extends ConsumerWidget {
               style: bodySmall,
             ),
             const SizedBox(height: 10),
-            TextField(
-              style: bodySmallLong,
-              decoration: const InputDecoration(
-                hintText: "내용을 작성해주세요",
-                hintStyle: TextStyle(color: gray600),
-                hintMaxLines: 3,
-                contentPadding: EdgeInsets.all(12),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: gray100),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: blue500),
-                ),
-              ),
-              maxLines: null,
-              minLines: 3,
-              onTapOutside: (event) => FocusScope.of(context).unfocus(),
-              onChanged: (value) {
-                ref.read(inquiryFormProvider.notifier).setContent(value);
-              },
-            ),
+            const InquiryTextField(),
             const SizedBox(height: 16),
             const Spacer(),
             FilledButton(
               onPressed: () async {
                 if (enabled) {
                   try {
-                    //  TODO: 문의 제출 후 결과 스낵바 스타일 수정
                     await ref.watch(inquiryFormProvider.notifier).submit();
+                    //TODO: 추후 snackbar style 수정
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -78,7 +59,6 @@ class InquiryPage extends ConsumerWidget {
                       context.pop();
                     }
                   } catch (e) {
-                    // 에러가 발생한 경우 처리
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
