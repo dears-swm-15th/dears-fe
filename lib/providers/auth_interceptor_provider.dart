@@ -14,6 +14,8 @@ Future<Interceptor> authInterceptor(AuthInterceptorRef ref) async {
         options.headers["Authorization"] = "Bearer $accessToken";
       }
 
+      options.headers[Headers.contentTypeHeader] = "application/json";
+
       return handler.next(options);
     },
   );
