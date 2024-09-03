@@ -9,7 +9,11 @@ part 'inquiry_form_provider.g.dart';
 class InquiryForm extends _$InquiryForm {
   @override
   InquiryFormData build() {
-    return InquiryFormData.empty();
+    return const InquiryFormData(
+      title: "고객센터 문의합니다.",
+      content: "",
+      enabled: false,
+    );
   }
 
   bool get _enabled => state.title.isNotEmpty && state.content.isNotEmpty;

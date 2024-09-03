@@ -11,12 +11,6 @@ class InquiryFormData with _$InquiryFormData {
     required String content,
   }) = _InquiryFormData;
 
-  factory InquiryFormData.empty() => const InquiryFormData(
-        enabled: false,
-        title: '고객센터 문의합니다.',
-        content: '',
-      );
-
   factory InquiryFormData.fromJson(Map<String, dynamic> json) =>
       _$InquiryFormDataFromJson(json);
 }
