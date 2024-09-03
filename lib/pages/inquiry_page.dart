@@ -48,7 +48,7 @@ class InquiryPage extends ConsumerWidget {
               onPressed: () async {
                 if (enabled) {
                   try {
-                    await ref.watch(inquiryFormProvider.notifier).submit();
+                    await ref.read(inquiryFormProvider.notifier).submit();
                     //TODO: 추후 snackbar style 수정
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -80,7 +80,7 @@ class InquiryPage extends ConsumerWidget {
               style: FilledButton.styleFrom(
                 minimumSize: const Size(double.infinity, 44),
               ),
-              child: const Text('문의하기'),
+              child: const Text("문의하기"),
             ),
           ],
         ),
