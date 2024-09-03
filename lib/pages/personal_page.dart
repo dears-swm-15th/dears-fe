@@ -1,5 +1,6 @@
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
 import 'package:dears/widgets/personal_profile_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,8 @@ class PersonalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("마이페이지"),
+      appBar: const CustomAppBar(
+        title: Text("마이페이지"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

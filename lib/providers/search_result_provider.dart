@@ -10,7 +10,9 @@ Future<List<PortfolioOverview>> searchResult(
   SearchResultRef ref,
   String query,
 ) async {
-  ref.read(recentSearchWordsProvider.notifier).add(query);
+  if (query.isNotEmpty) {
+    ref.read(recentSearchWordsProvider.notifier).add(query);
+  }
 
   final portfolioClient = await ref.watch(portfolioClientProvider.future);
   return portfolioClient.search(content: query);

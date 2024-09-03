@@ -1,5 +1,6 @@
 import 'package:dears/providers/wishlist_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +63,8 @@ class _FavoritePageState extends ConsumerState<FavoritePage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("하트"),
+      appBar: const CustomAppBar(
+        title: Text("하트"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

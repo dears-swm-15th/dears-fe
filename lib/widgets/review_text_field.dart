@@ -46,6 +46,7 @@ class ReviewTextField extends HookConsumerWidget {
         hintText: "다른 사용자들의 결혼 준비에 도움이 되도록 상세한 리뷰를 작성해주세요.",
         hintStyle: TextStyle(color: gray600),
         hintMaxLines: 3,
+        counterStyle: TextStyle(color: gray600),
         contentPadding: EdgeInsets.all(12),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: gray100),
@@ -56,6 +57,7 @@ class ReviewTextField extends HookConsumerWidget {
       ),
       maxLines: null,
       minLines: 3,
+      maxLength: 1000,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
     );
   }

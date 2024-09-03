@@ -27,6 +27,10 @@ final CustomFormatter<double?> rating = CustomFormatter((value) {
   return _rating.format(value);
 });
 
+final CustomFormatter<int> count = CustomFormatter((value) {
+  return value > 999 ? "999+" : "$value";
+});
+
 final CustomFormatter<DateTime> time = CustomFormatter((date) {
   final a = date.hour < 12 ? "오전" : "오후";
   final h = (date.hour + 12 - 1) % 12 + 1;

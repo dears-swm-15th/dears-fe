@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dears/models/chatroom_overview.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
@@ -21,7 +19,6 @@ class ChatListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final message = chat.lastMessage ?? "";
     final createdAt = chat.lastMessageCreatedAt.andThen(recent.format) ?? "";
-    final unreadCount = min(chat.unreadMessageCount, 99);
 
     return GestureDetector(
       onTap: () => context.push("/chats/${chat.id}"),
@@ -56,33 +53,36 @@ class ChatListTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          message,
-                          style: captionLarge.copyWith(color: gray600),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (unreadCount > 0) ...[
-                        const SizedBox(width: 18),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 18,
-                          height: 18,
-                          decoration: const BoxDecoration(
-                            color: blue500,
-                            shape: BoxShape.circle,
-                          ),
+                  SizedBox(
+                    height: 18,
+                    child: Row(
+                      children: [
+                        Expanded(
                           child: Text(
-                            "$unreadCount",
-                            style: captionSmall.copyWith(color: white),
+                            message,
+                            style: captionLarge.copyWith(color: gray600),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        if (chat.unreadMessageCount > 0) ...[
+                          const SizedBox(width: 18),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            constraints: const BoxConstraints(minWidth: 18),
+                            decoration: const ShapeDecoration(
+                              color: blue500,
+                              shape: StadiumBorder(),
+                            ),
+                            child: Text(
+                              count.format(chat.unreadMessageCount),
+                              style: captionSmall.copyWith(color: white),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                        ],
                       ],
-                      const SizedBox(width: 6),
-                    ],
+                    ),
                   ),
                 ],
               ),

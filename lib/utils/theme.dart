@@ -93,6 +93,10 @@ const TextStyle captionSmall = TextStyle(
   height: 14 / 11,
 );
 
+// DIMENSION
+const double toolbarHeight = 44;
+const double tabHeight = 44;
+
 // SHADOW
 const List<BoxShadow> boxShadow = [
   BoxShadow(
@@ -122,6 +126,7 @@ final ThemeData theme = ThemeData(
   scaffoldBackgroundColor: white,
 
   // TYPOGRAPHY & ICONOGRAPHY
+  iconTheme: const IconThemeData(color: black),
   textTheme: const TextTheme(
     titleLarge: bodyLarge, // default text style for AppBar title
   ),
@@ -136,6 +141,7 @@ final ThemeData theme = ThemeData(
     surfaceTintColor: white,
     centerTitle: false,
     titleSpacing: 0,
+    toolbarHeight: toolbarHeight,
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: white,
@@ -166,6 +172,11 @@ final ThemeData theme = ThemeData(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
+    ),
+  ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      padding: const EdgeInsets.all(10),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(

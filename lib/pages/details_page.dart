@@ -1,4 +1,6 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/portfolio_provider.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/details_bottom_bar.dart';
 import 'package:dears/widgets/details_introduction_tab.dart';
 import 'package:dears/widgets/details_review_tab.dart';
@@ -49,7 +51,7 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
       final offset = renderBox.localToGlobal(Offset.zero);
       final topPadding = MediaQuery.of(context).padding.top;
-      return offset.dy <= topPadding + kToolbarHeight + 44;
+      return offset.dy <= topPadding + toolbarHeight + tabHeight;
     });
 
     if (i == -1) {
@@ -76,17 +78,10 @@ class _DetailsPageState extends ConsumerState<DetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    final portfolio = ref
-        .watch(portfolioProvider(widget.portfolioId))
-        .whenOrNull(data: (data) => data);
-
+    final portfolio =
+        ref.watch(portfolioProvider(widget.portfolioId)).valueOrNull;
     if (portfolio == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const LoadingPage();
     }
 
     return Scaffold(

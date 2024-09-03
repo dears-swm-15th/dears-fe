@@ -1,3 +1,4 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
 import 'package:dears/providers/stomp_provider.dart';
@@ -48,8 +49,6 @@ class _ChatRedirectPageState extends ConsumerState<ChatRedirectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-    );
+    return const LoadingPage();
   }
 }
