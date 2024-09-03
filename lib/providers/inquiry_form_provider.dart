@@ -20,7 +20,6 @@ class InquiryForm extends _$InquiryForm {
   }
 
   void setContent(String content) {
-    print(content);
     state = state.copyWith(content: content);
     state = state.copyWith(enabled: _enabled);
   }

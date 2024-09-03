@@ -98,7 +98,8 @@ class InquiryPage extends ConsumerWidget {
                 }
               },
               style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 44)),
+                minimumSize: const Size(double.infinity, 44),
+              ),
               child: const Text('문의하기'),
             ),
           ],
