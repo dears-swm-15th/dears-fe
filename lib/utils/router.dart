@@ -4,6 +4,7 @@ import 'package:dears/pages/chat_redirect_page.dart';
 import 'package:dears/pages/details_page.dart';
 import 'package:dears/pages/favorite_page.dart';
 import 'package:dears/pages/home_page.dart';
+import 'package:dears/pages/inquiry_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
@@ -48,6 +49,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: "/personal",
       builder: (context, state) => const PersonalPage(),
+    ),
+    GoRoute(
+      path: "/inquiry",
+      builder: (context, state) => const InquiryPage(),
     ),
     GoRoute(
       path: "/details/:portfolioId",

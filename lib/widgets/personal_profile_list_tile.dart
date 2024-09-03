@@ -23,9 +23,14 @@ class PersonalProfileListTile extends ConsumerWidget {
       orElse: () => "",
     );
 
+    final email = profile.maybeWhen(
+      data: (data) => data.email,
+      orElse: () => "",
+    );
+
     return PersonalListTile(
       onTap: () => ref.read(userInfoProvider.notifier).signUp(),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       leading: CdnImage.circle(
         url,
         dimension: 72,
@@ -33,11 +38,9 @@ class PersonalProfileListTile extends ConsumerWidget {
       ),
       titleSpacing: 8,
       title: Text(name, style: titleMedium),
-      subtitle: const Text("example@gmail.com"),
-      trailing: const Padding(
-        padding: EdgeInsets.all(10),
-        child: Icon(DearsIcons.caret_right, size: 24),
-      ),
+      subtitle: Text(email),
+      trailing: const Icon(DearsIcons.caret_right, size: 24),
+      //Icon(DearsIcons.pencil_simple, size: 24),
     );
   }
 }

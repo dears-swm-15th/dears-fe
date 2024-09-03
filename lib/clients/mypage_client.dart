@@ -1,3 +1,4 @@
+import 'package:dears/models/inquiry_request_body.dart';
 import 'package:dears/models/profile.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -10,4 +11,9 @@ abstract class MypageClient {
 
   @GET("/customer/me")
   Future<Profile> getProfile();
+
+  @POST("/customer/customerservice")
+  Future<void> submit({
+    @Body() required InquiryRequestBody data,
+  });
 }
