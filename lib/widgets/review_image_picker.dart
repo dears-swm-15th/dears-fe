@@ -53,27 +53,43 @@ class ReviewImagePicker extends ConsumerWidget {
     );
 
     return Wrap(
-      spacing: 8,
-      runSpacing: 4,
+      spacing: 10,
+      runSpacing: 8,
       children: [
         picker,
         ...List.generate(images.length, (index) {
-          return SizedBox(
-            width: 60,
-            height: 60,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                color: gray100,
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                child: Image.memory(
-                  images[index].$2,
-                  fit: BoxFit.cover,
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    color: gray100,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                    child: Image.memory(
+                      images[index].$2,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Positioned(
+                top: -6,
+                right: -6,
+                child: GestureDetector(
+                  onTap: () => ref
+                      .read(reviewFormProvider(portfolioId).notifier)
+                      .removeImageAt(index),
+                  behavior: HitTestBehavior.opaque,
+                  child: const Icon(DearsIcons.cancel, size: 20),
+                ),
+              ),
+            ],
           );
         }),
       ],

@@ -49,6 +49,10 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(images: [...state.images, ...images]);
   }
 
+  void removeImageAt(int index) {
+    state = state.copyWith(images: [...state.images]..removeAt(index));
+  }
+
   Future<void> submit(int portfolioId) async {
     final reviewClient = await ref.read(reviewClientProvider.future);
 
