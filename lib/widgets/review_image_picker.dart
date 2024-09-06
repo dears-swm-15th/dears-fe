@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+const int _imageLimit = 5;
+
 class ReviewImagePicker extends ConsumerWidget {
   final int portfolioId;
 
@@ -18,14 +20,23 @@ class ReviewImagePicker extends ConsumerWidget {
     final images = ref.watch(
       reviewFormProvider(portfolioId).select((value) => value.images),
     );
+    final imageCount = images.length;
 
     final picker = GestureDetector(
       onTap: () async {
+        final count = _imageLimit - imageCount;
+        if (count <= 0) {
+          // TODO: give user feedback
+          return;
+        }
+
         final picker = ImagePicker();
         final files = await picker.pickMultiImage();
 
+        // TODO: give user feedback when selected images exceed the limit
+
         final images = await Future.wait(
-          files.map((e) async {
+          files.take(count).map((e) async {
             final bytes = await e.readAsBytes();
             return (e.name, bytes);
           }),
@@ -44,7 +55,7 @@ class ReviewImagePicker extends ConsumerWidget {
           children: [
             const Icon(DearsIcons.camera, color: gray600),
             Text(
-              "선택",
+              "$imageCount/$_imageLimit",
               style: captionSmall.copyWith(color: gray600),
             ),
           ],
