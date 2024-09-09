@@ -1,6 +1,6 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
 part 'file_client.g.dart';
@@ -12,9 +12,9 @@ abstract class FileClient {
   factory FileClient(Dio dio, {String baseUrl}) = _FileClient;
 
   @PUT("{presignedUrl}")
-  @MultiPart()
+  @Headers({"content-type": "application/octet-stream"})
   Future<void> upload({
     @Path() required String presignedUrl,
-    @Part() required File file,
+    @Body() required Uint8List file,
   });
 }
