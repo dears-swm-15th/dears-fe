@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dears/models/member_create_body.dart';
+import 'package:dears/models/member_role.dart';
 import 'package:dears/models/user.dart';
 import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/auth_client_provider.dart';
@@ -53,6 +54,28 @@ class UserInfo extends _$UserInfo {
       await ref.read(accessTokenProvider.notifier).setValue(member.uuid);
 
       final user = data.copyWith(uuid: member.uuid);
+      return _saveEncoded(user);
+    });
+  }
+
+  // TODO: need to fix this
+  Future<void> signUpWithRole(MemberRole role) async {
+    state = await AsyncValue.guard(() async {
+      final authClient = await ref.read(authClientProvider.future);
+      final member = await authClient.createMember(
+        data: MemberCreateBody(role: role),
+      );
+      await ref.read(accessTokenProvider.notifier).setValue(member.uuid);
+      final user = User(role: role, uuid: member.uuid);
+      return _saveEncoded(user);
+    });
+  }
+
+  Future<void> signOut() async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
+      final user = data.copyWith(uuid: null);
+      await ref.read(accessTokenProvider.notifier).clear();
       return _saveEncoded(user);
     });
   }
