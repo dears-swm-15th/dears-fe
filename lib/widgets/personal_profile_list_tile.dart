@@ -29,7 +29,7 @@ class PersonalProfileListTile extends ConsumerWidget {
     );
 
     return PersonalListTile(
-      onTap: () => ref.read(userInfoProvider.notifier).signUp(),
+      onTap: () => ref.read(userInfoProvider.notifier).logout(),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       leading: CdnImage.circle(
         url,

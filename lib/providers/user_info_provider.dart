@@ -57,7 +57,6 @@ class UserInfo extends _$UserInfo {
       return _saveEncoded(user);
     });
   }
-
   // TODO: need to fix this
   Future<void> signUpWithRole(MemberRole role) async {
     state = await AsyncValue.guard(() async {
@@ -68,6 +67,15 @@ class UserInfo extends _$UserInfo {
       await ref.read(accessTokenProvider.notifier).setValue(member.uuid);
       final user = User(role: role, uuid: member.uuid);
       return _saveEncoded(user);
+    });
+  }
+  
+  Future<void> logout() async {
+    state = await AsyncValue.guard(() async {
+      final prefs = ref.read(prefsProvider);
+      await prefs.remove(_key);
+      await ref.read(accessTokenProvider.notifier).clear();
+      return User.defaultValue;
     });
   }
 }
