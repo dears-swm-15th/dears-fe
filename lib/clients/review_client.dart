@@ -19,18 +19,18 @@ abstract class ReviewClient {
   @GET("/shared/soft-deleted")
   Future<List<Review>> getAllSoftDeleted();
 
-  @POST("/customer/create")
+  @POST("/{role}/create")
   Future<ReviewCreateResponse> create({
     @Body() required ReviewCreateBody data,
   });
 
-  @POST("/customer/delete/{id}")
+  @POST("/{role}/delete/{id}")
   Future<void> delete(@Path() int id);
 
-  @GET("/customer/me")
+  @GET("/{role}/me")
   Future<List<Review>> getAllMine();
 
-  @POST("/customer/update/{id}")
+  @POST("/{role}/update/{id}")
   Future<Review> update(
     @Path() int id, {
     @Body() required Review data,
