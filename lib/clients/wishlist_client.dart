@@ -8,15 +8,15 @@ part 'wishlist_client.g.dart';
 abstract class WishlistClient {
   factory WishlistClient(Dio dio, {String baseUrl}) = _WishlistClient;
 
-  @POST("/customer/delete/{portfolioId}")
+  @POST("/{role}/delete/{portfolioId}")
   Future<void> delete(@Path() int portfolioId);
 
-  @GET("/customer/me")
+  @GET("/{role}/me")
   Future<List<PortfolioOverview>> getAll({
     @Query("page") int? page,
     @Query("size") int? size,
   });
 
-  @POST("/customer/post/{portfolioId}")
+  @POST("/{role}/post/{portfolioId}")
   Future<void> add(@Path() int portfolioId);
 }

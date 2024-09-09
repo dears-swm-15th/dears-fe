@@ -12,12 +12,12 @@ abstract class ChatroomClient {
   @POST("/shared/delete/{id}")
   Future<void> exit(@Path() int id);
 
-  @POST("/customer/{portfolioId}")
+  @POST("/{role}/{portfolioId}")
   Future<Chatroom> createOrEnter(@Path() int portfolioId);
 
-  @GET("/customer/all")
+  @GET("/{role}/all")
   Future<List<ChatroomOverview>> getAll();
 
-  @POST("/customer/enter/{id}")
+  @POST("/{role}/enter/{id}")
   Future<Chatroom> enter(@Path() int id);
 }

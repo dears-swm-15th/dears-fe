@@ -1,4 +1,5 @@
 import 'package:dears/providers/auth_interceptor_provider.dart';
+import 'package:dears/providers/role_interceptor_provider.dart';
 import 'package:dears/utils/dio.dart';
 import 'package:dears/utils/env.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +15,9 @@ Future<Dio> apiDio(ApiDioRef ref) async {
     // `Dio.options.baseUrl` should end with a trailing slash
     // and `RestApi.baseUrl` should not start with a leading slash.
     ..options.baseUrl = "$baseUrl/api/";
+
+  final roleInterceptor = await ref.watch(roleInterceptorProvider.future);
+  dio.interceptors.add(roleInterceptor);
 
   final authInterceptor = await ref.watch(authInterceptorProvider.future);
   dio.interceptors.add(authInterceptor);

@@ -9,10 +9,10 @@ part 'mypage_client.g.dart';
 abstract class MypageClient {
   factory MypageClient(Dio dio, {String baseUrl}) = _MypageClient;
 
-  @GET("/customer/me")
+  @GET("/{role}/me")
   Future<Profile> getProfile();
 
-  @POST("/customer/customerservice")
+  @POST("/{role}/customerservice")
   Future<void> submit({
     @Body() required InquiryRequestBody data,
   });

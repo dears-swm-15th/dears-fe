@@ -30,15 +30,15 @@ abstract class PortfolioClient {
   @GET("/shared/top5")
   Future<List<PortfolioOverview>> getTopViewed();
 
-  @POST("/weddingplanner/create")
+  @POST("/{role}/create")
   Future<Portfolio> create({
     @Body() required Portfolio body,
   });
 
-  @POST("/weddingplanner/delete/{id}")
+  @POST("/{role}/delete/{id}")
   Future<void> delete(@Path() int id);
 
-  @POST("/weddingplanner/update/{id}")
+  @POST("/{role}/update/{id}")
   Future<Portfolio> update(
     @Path() int id, {
     @Body() required Portfolio body,
