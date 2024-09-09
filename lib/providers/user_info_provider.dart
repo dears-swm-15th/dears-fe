@@ -72,10 +72,10 @@ class UserInfo extends _$UserInfo {
   
   Future<void> logout() async {
     state = await AsyncValue.guard(() async {
-      final prefs = ref.read(prefsProvider);
-      await prefs.remove(_key);
+      final data = await future;
+      final user = data.copyWith(uuid: null);
       await ref.read(accessTokenProvider.notifier).clear();
-      return User.defaultValue;
+      return _saveEncoded(user);
     });
   }
 }
