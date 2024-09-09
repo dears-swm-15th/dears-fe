@@ -8,10 +8,10 @@ import 'package:dears/pages/home_page.dart';
 import 'package:dears/pages/inquiry_page.dart';
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/pages/personal_page.dart';
+import 'package:dears/pages/planner_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
-import 'package:dears/providers/planner_page.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,15 +31,13 @@ GoRouter goRouter(GoRouterRef ref) {
             }
           } else {
             if (state.matchedLocation == "/") {
-              if (user.role == MemberRole.customer) {
-                return "/";
-              } else if (user.role == MemberRole.weddingPlanner) {
-                return "/planner";
-              }
+              return switch (user.role) {
+                MemberRole.weddingPlanner => "/planner",
+                MemberRole.customer => "/",
+              };
             }
             return null;
           }
-          // No redirection required if the user is on the correct page.
           return null;
         },
         orElse: () {
