@@ -11,6 +11,7 @@ import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
+import 'package:dears/providers/planner_page.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,18 +25,29 @@ GoRouter goRouter(GoRouterRef ref) {
     redirect: (context, state) {
       return userInfo.maybeWhen(
         data: (user) {
-          if (user.uuid != null)
-            {
+          if (user.uuid == null) {
+            if (state.matchedLocation != "/select-role") {
+              return "/select-role";
+            }
+          } else {
+            if(state.matchedLocation == "/") {
               if (user.role == MemberRole.customer) {
                 return "/";
-              } else {
+              } else if (user.role == MemberRole.weddingPlanner) {
                 return "/planner";
               }
             }
-          return "/select-role";
+            return null;
+          }
+          // No redirection required if the user is on the correct page.
+          return null;
         },
         orElse: () {
-          return "/loading";
+          // If the userInfo is still loading, redirect to the loading page.
+          if (state.matchedLocation != "/loading") {
+            return "/loading";
+          }
+          return null;
         },
       );
     },
@@ -98,6 +110,8 @@ GoRouter goRouter(GoRouterRef ref) {
           return const LoadingPage();
         },
       ),
+      GoRoute(
+          path: "/planner", builder: (context, state) => const PlannerPage()),
     ],
   );
 }
