@@ -30,7 +30,7 @@ GoRouter goRouter(GoRouterRef ref) {
               return "/select-role";
             }
           } else {
-            if(state.matchedLocation == "/") {
+            if (state.matchedLocation == "/") {
               if (user.role == MemberRole.customer) {
                 return "/";
               } else if (user.role == MemberRole.weddingPlanner) {
@@ -111,7 +111,9 @@ GoRouter goRouter(GoRouterRef ref) {
         },
       ),
       GoRoute(
-          path: "/planner", builder: (context, state) => const PlannerPage()),
+        path: "/planner",
+        builder: (context, state) => const PlannerPage(),
+      ),
     ],
   );
 }
