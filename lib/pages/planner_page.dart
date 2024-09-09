@@ -7,17 +7,16 @@ class PlannerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Planner Page'),
+        title: const Text("Planner Page"),
       ),
       body: Center(
         child: FilledButton(
           onPressed: () {
-            ref.read(userInfoProvider.notifier).logout();
+            ref.read(userInfoProvider.notifier).signOut();
           },
-          child: const Text("Logout"),
+          child: const Text("Sign Out"),
         ),
       ),
     );

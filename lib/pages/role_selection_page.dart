@@ -17,7 +17,7 @@ class RoleSelectionPage extends ConsumerWidget {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.only(top: 100.0),
+              padding: EdgeInsets.only(top: 100),
               child: Column(
                 children: [
                   ImageIcon(
@@ -61,7 +61,7 @@ class RoleSelectionPage extends ConsumerWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   // 예비 신혼부부 버튼
@@ -76,7 +76,9 @@ class RoleSelectionPage extends ConsumerWidget {
                           colorTitle: "예비 신혼부부",
                           normalTitle: "로 시작할까요?",
                           onAcceptPressed: () {
-                            ref.read(userInfoProvider.notifier).signUpWithRole(MemberRole.customer);
+                            ref
+                                .read(userInfoProvider.notifier)
+                                .signUpWithRole(MemberRole.customer);
                             context.pop();
                           },
                         ),
@@ -96,7 +98,9 @@ class RoleSelectionPage extends ConsumerWidget {
                           colorTitle: "웨딩플래너",
                           normalTitle: "로 시작할까요?",
                           onAcceptPressed: () {
-                            ref.read(userInfoProvider.notifier).signUpWithRole(MemberRole.weddingPlanner);
+                            ref
+                                .read(userInfoProvider.notifier)
+                                .signUpWithRole(MemberRole.weddingPlanner);
                             context.pop();
                           },
                         ),

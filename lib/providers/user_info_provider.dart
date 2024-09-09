@@ -57,6 +57,7 @@ class UserInfo extends _$UserInfo {
       return _saveEncoded(user);
     });
   }
+
   // TODO: need to fix this
   Future<void> signUpWithRole(MemberRole role) async {
     state = await AsyncValue.guard(() async {
@@ -69,8 +70,8 @@ class UserInfo extends _$UserInfo {
       return _saveEncoded(user);
     });
   }
-  
-  Future<void> logout() async {
+
+  Future<void> signOut() async {
     state = await AsyncValue.guard(() async {
       final data = await future;
       final user = data.copyWith(uuid: null);

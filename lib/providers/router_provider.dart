@@ -21,6 +21,7 @@ part 'router_provider.g.dart';
 @riverpod
 GoRouter goRouter(GoRouterRef ref) {
   final userInfo = ref.watch(userInfoProvider);
+
   return GoRouter(
     redirect: (context, state) {
       return userInfo.maybeWhen(
@@ -29,14 +30,11 @@ GoRouter goRouter(GoRouterRef ref) {
             if (state.matchedLocation != "/select-role") {
               return "/select-role";
             }
-          } else {
-            if (state.matchedLocation == "/") {
-              return switch (user.role) {
-                MemberRole.weddingPlanner => "/planner",
-                MemberRole.customer => "/",
-              };
-            }
-            return null;
+          } else if (state.matchedLocation == "/") {
+            return switch (user.role) {
+              MemberRole.weddingPlanner => "/planner",
+              MemberRole.customer => "/",
+            };
           }
           return null;
         },
@@ -104,9 +102,7 @@ GoRouter goRouter(GoRouterRef ref) {
       ),
       GoRoute(
         path: "/loading",
-        builder: (context, state) {
-          return const LoadingPage();
-        },
+        builder: (context, state) => const LoadingPage(),
       ),
       GoRoute(
         path: "/planner",

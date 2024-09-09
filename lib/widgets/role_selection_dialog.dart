@@ -18,8 +18,7 @@ class RoleSelectionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        padding:
-            const EdgeInsets.only(top: 20, bottom: 16, left: 16, right: 16),
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
@@ -59,7 +58,7 @@ class RoleSelectionDialog extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              '한 번 설정된 역할은 변경할 수 없습니다',
+              "한 번 설정된 역할은 변경할 수 없습니다",
               style: TextStyle(
                 color: gray600,
                 fontSize: 15,
@@ -76,7 +75,7 @@ class RoleSelectionDialog extends StatelessWidget {
                       Navigator.of(context).pop(); // 다이얼로그 닫기
                     },
                     child: Text(
-                      '취소',
+                      "취소",
                       style: titleSmall.copyWith(color: gray800),
                     ),
                   ),
@@ -86,7 +85,7 @@ class RoleSelectionDialog extends StatelessWidget {
                   child: FilledButton(
                     onPressed: onAcceptPressed,
                     child: const Text(
-                      '네, 좋아요',
+                      "네, 좋아요",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
