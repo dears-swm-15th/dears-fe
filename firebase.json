@@ -12,7 +12,7 @@
         "default": {
           "projectId": "dears-40a91",
           "appId": "1:263185896491:ios:b153ca3ce8333a0aff866e",
-          "uploadDebugSymbols": false,
+          "uploadDebugSymbols": true,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }
       },
