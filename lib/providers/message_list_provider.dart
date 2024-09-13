@@ -5,7 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'message_list_provider.g.dart';
 
-/// List of messages in a chatroom ordered by createdAt in descending order.
+/// List of messages in a chatroom ordered by [Message.createdAt]
+/// in **descending** order.
 @riverpod
 class MessageList extends _$MessageList {
   @override
