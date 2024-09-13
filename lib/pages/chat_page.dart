@@ -26,44 +26,63 @@ class ChatPage extends ConsumerWidget {
       return const LoadingPage();
     }
 
-    final messageList = ref.watch(messageListProvider(chatroomId));
+    final messages =
+        ref.watch(messageListProvider(chatroomId)).valueOrNull ?? [];
 
-    final bubbles = messageList.maybeWhen<Iterable<Widget>>(
-      data: (data) sync* {
-        for (final (i, point) in data.indexed) {
-          final newer = i == 0 ? null : data[i - 1];
-          final older = i == data.length - 1 ? null : data[i + 1];
+    final bubbleListView = ListView.builder(
+      // Initially scroll to the bottom
+      reverse: true,
+      physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
+        final point = messages[index];
+        final newer = index == 0 ? null : messages[index - 1];
+        final older = index == messages.length - 1 ? null : messages[index + 1];
 
-          DateTime? createdAt = point.createdAt;
-          if (point.isMe == newer?.isMe &&
-              isSameMinute(point.createdAt, newer?.createdAt)) {
-            createdAt = null;
-          }
+        DateTime? createdAt = point.createdAt;
+        if (point.isMe == newer?.isMe &&
+            isSameMinute(point.createdAt, newer?.createdAt)) {
+          createdAt = null;
+        }
 
-          yield ChatBubble(
-            chatroomId: chatroomId,
-            isMe: point.isMe,
-            isFirst: point.isMe != older?.isMe,
-            message: point.message,
-            createdAt: createdAt,
-          );
+        Widget bubble = ChatBubble(
+          chatroomId: chatroomId,
+          isMe: point.isMe,
+          isFirst: point.isMe != older?.isMe,
+          message: point.message,
+          createdAt: createdAt,
+        );
 
-          if (!DateUtils.isSameDay(point.createdAt, older?.createdAt)) {
-            final date = fullDate.format(point.createdAt);
+        if (!DateUtils.isSameDay(point.createdAt, older?.createdAt)) {
+          final date = fullDate.format(point.createdAt);
 
-            yield Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(
-                child: Text(
-                  date,
-                  style: captionLarge.copyWith(color: gray800),
+          bubble = Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Center(
+                  child: Text(
+                    date,
+                    style: captionLarge.copyWith(color: gray800),
+                  ),
                 ),
               ),
-            );
-          }
+              bubble,
+            ],
+          );
         }
+
+        if (newer == null) {
+          bubble = Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: bubble,
+          );
+        }
+
+        return bubble;
       },
-      orElse: () => [],
     );
 
     return Scaffold(
@@ -81,17 +100,7 @@ class ChatPage extends ConsumerWidget {
           color: blue50,
           child: Align(
             alignment: Alignment.topCenter,
-            child: ListView(
-              // Initially scroll to the bottom
-              reverse: true,
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              children: [
-                const SizedBox(height: 10),
-                ...bubbles,
-              ],
-            ),
+            child: bubbleListView,
           ),
         ),
       ),
