@@ -30,12 +30,26 @@ class ChatPage extends ConsumerWidget {
 
     final bubbles = messageList.maybeWhen<Iterable<Widget>>(
       data: (data) sync* {
-        for (final (i, item) in data.indexed) {
-          final prev = i == 0 ? null : data[i - 1];
-          final next = i == data.length - 1 ? null : data[i + 1];
+        for (final (i, point) in data.indexed) {
+          final newer = i == 0 ? null : data[i - 1];
+          final older = i == data.length - 1 ? null : data[i + 1];
 
-          if (!DateUtils.isSameDay(item.createdAt, prev?.createdAt)) {
-            final date = fullDate.format(item.createdAt);
+          DateTime? createdAt = point.createdAt;
+          if (point.isMe == newer?.isMe &&
+              isSameMinute(point.createdAt, newer?.createdAt)) {
+            createdAt = null;
+          }
+
+          yield ChatBubble(
+            chatroomId: chatroomId,
+            isMe: point.isMe,
+            isFirst: point.isMe != older?.isMe,
+            message: point.message,
+            createdAt: createdAt,
+          );
+
+          if (!DateUtils.isSameDay(point.createdAt, older?.createdAt)) {
+            final date = fullDate.format(point.createdAt);
 
             yield Padding(
               padding: const EdgeInsets.only(top: 20),
@@ -47,20 +61,6 @@ class ChatPage extends ConsumerWidget {
               ),
             );
           }
-
-          DateTime? createdAt = item.createdAt;
-          if (item.isMe == next?.isMe &&
-              isSameMinute(item.createdAt, next?.createdAt)) {
-            createdAt = null;
-          }
-
-          yield ChatBubble(
-            chatroomId: chatroomId,
-            isMe: item.isMe,
-            isFirst: item.isMe != prev?.isMe,
-            message: item.message,
-            createdAt: createdAt,
-          );
         }
       },
       orElse: () => [],
@@ -88,9 +88,9 @@ class ChatPage extends ConsumerWidget {
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               children: [
-                ...bubbles,
                 const SizedBox(height: 10),
-              ].reversed.toList(),
+                ...bubbles,
+              ],
             ),
           ),
         ),
