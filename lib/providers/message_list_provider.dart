@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'message_list_provider.g.dart';
 
+/// List of messages in a chatroom ordered by [Message.createdAt]
+/// in **descending** order.
 @riverpod
 class MessageList extends _$MessageList {
   @override
@@ -20,7 +22,7 @@ class MessageList extends _$MessageList {
     final chats = chatroom.chats;
     final role = (await ref.read(userInfoProvider.future)).role;
 
-    return chats.map((e) {
+    return chats.reversed.map((e) {
       return Message(
         isMe: e.role == role,
         message: e.content,
@@ -32,7 +34,7 @@ class MessageList extends _$MessageList {
   Future<void> add(Message message) async {
     state = await AsyncValue.guard(() async {
       final data = await future;
-      return [...data, message];
+      return [message, ...data];
     });
   }
 }
