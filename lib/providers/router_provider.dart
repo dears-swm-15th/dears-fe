@@ -12,7 +12,10 @@ import 'package:dears/pages/planner_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
+import 'package:dears/pages/sign_in_page.dart';
+import 'package:dears/providers/is_role_fixed_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/utils/logger.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,37 +23,37 @@ part 'router_provider.g.dart';
 
 @riverpod
 GoRouter goRouter(GoRouterRef ref) {
-  final userInfo = ref.watch(userInfoProvider);
-
   return GoRouter(
-    redirect: (context, state) {
-      return userInfo.maybeWhen(
-        data: (user) {
-          if (user.uuid == null) {
-            if (state.matchedLocation != "/select-role") {
-              return "/select-role";
-            }
-          } else if (state.matchedLocation == "/") {
-            return switch (user.role) {
-              MemberRole.weddingPlanner => "/planner",
-              MemberRole.customer => "/",
-            };
-          }
-          return null;
-        },
-        orElse: () {
-          // If the userInfo is still loading, redirect to the loading page.
-          if (state.matchedLocation != "/loading") {
-            return "/loading";
-          }
-          return null;
-        },
-      );
+    redirect: (context, state) async {
+      logger.t("at global redirect, matched: ${state.matchedLocation}");
+
+      final user = await ref.read(userInfoProvider.future);
+      if (user.uuid == null) {
+        final isRoleFixed = await ref.read(isRoleFixedProvider.future);
+        if (!isRoleFixed) {
+          return "/select-role";
+        }
+        return "/sign-in";
+      }
+      return null;
     },
     routes: [
       GoRoute(
         path: "/",
+        redirect: (context, state) async {
+          logger.t("at '/' redirect, matched: ${state.matchedLocation}");
+
+          final user = await ref.read(userInfoProvider.future);
+          if (user.role == MemberRole.weddingPlanner) {
+            return "/planner";
+          }
+          return null;
+        },
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: "/sign-in",
+        builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
         path: "/search",

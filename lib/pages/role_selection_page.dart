@@ -75,11 +75,14 @@ class RoleSelectionPage extends ConsumerWidget {
                         builder: (context) => RoleSelectionDialog(
                           colorTitle: "예비 신혼부부",
                           normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () {
-                            ref
+                          onAcceptPressed: () async {
+                            await ref
                                 .read(userInfoProvider.notifier)
-                                .signUpWithRole(MemberRole.customer);
+                                .setRole(MemberRole.customer);
+
+                            if (!context.mounted) return;
                             context.pop();
+                            context.push("/sign-in");
                           },
                         ),
                       );
@@ -97,11 +100,14 @@ class RoleSelectionPage extends ConsumerWidget {
                         builder: (context) => RoleSelectionDialog(
                           colorTitle: "웨딩플래너",
                           normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () {
-                            ref
+                          onAcceptPressed: () async {
+                            await ref
                                 .read(userInfoProvider.notifier)
-                                .signUpWithRole(MemberRole.weddingPlanner);
+                                .setRole(MemberRole.weddingPlanner);
+
+                            if (!context.mounted) return;
                             context.pop();
+                            context.push("/sign-in");
                           },
                         ),
                       );

@@ -5,6 +5,7 @@ import 'package:dears/models/member_role.dart';
 import 'package:dears/models/user.dart';
 import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/auth_client_provider.dart';
+import 'package:dears/providers/is_role_fixed_provider.dart';
 import 'package:dears/providers/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -33,11 +34,15 @@ class UserInfo extends _$UserInfo {
     return user;
   }
 
-  Future<void> toggle() async {
+  // TODO: validate that role is unfixed
+  Future<void> setRole(MemberRole role) async {
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final data = await future;
-      final user = User(role: data.role.toggled);
-      return _saveEncoded(user);
+      final user = User(role: role);
+
+      await _saveEncoded(user);
+      await ref.read(isRoleFixedProvider.notifier).fix();
+      return user;
     });
   }
 
