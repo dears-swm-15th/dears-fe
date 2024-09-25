@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:dears/utils/logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainObserver extends ProviderObserver {
@@ -11,10 +11,6 @@ class MainObserver extends ProviderObserver {
     StackTrace stackTrace,
     ProviderContainer container,
   ) {
-    if (kDebugMode) {
-      print(provider);
-      print(error);
-      print("\n$stackTrace");
-    }
+    logger.d(provider, error: error, stackTrace: stackTrace);
   }
 }

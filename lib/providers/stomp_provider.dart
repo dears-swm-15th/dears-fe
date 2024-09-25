@@ -7,7 +7,7 @@ import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/env.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dears/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
@@ -29,8 +29,8 @@ class Stomp extends _$Stomp {
         url: "$baseUrl/stomp/chat",
         stompConnectHeaders: {"Authorization": uuid},
         onConnect: _onConnect,
-        onWebSocketError: kDebugMode ? print : (_) {},
-        onDebugMessage: kDebugMode ? print : (_) {},
+        onWebSocketError: logger.e,
+        onDebugMessage: logger.d,
       ),
     )..activate();
     ref.onDispose(client.deactivate);
