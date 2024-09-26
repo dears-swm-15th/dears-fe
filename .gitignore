@@ -44,6 +44,8 @@ app.*.map.json
 
 *.env
 !example.env
+ios/Flutter/Environment.xcconfig
+android/environment.properties
 
 *.freezed.dart
 *.g.dart
