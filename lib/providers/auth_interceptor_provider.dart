@@ -7,11 +7,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_interceptor_provider.g.dart';
 
 @riverpod
-Future<Interceptor> authInterceptor(AuthInterceptorRef ref) async {
-  final accessToken = await ref.watch(accessTokenProvider.future);
-
+Interceptor authInterceptor(AuthInterceptorRef ref) {
   return InterceptorsWrapper(
-    onRequest: (options, handler) {
+    onRequest: (options, handler) async {
+      final accessToken = await ref.read(accessTokenProvider.future);
       if (accessToken != null) {
         options.headers["Authorization"] = "Bearer $accessToken";
       }

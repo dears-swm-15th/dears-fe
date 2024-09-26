@@ -19,7 +19,7 @@ Future<Dio> apiDio(ApiDioRef ref) async {
   final roleInterceptor = await ref.watch(roleInterceptorProvider.future);
   dio.interceptors.add(roleInterceptor);
 
-  final authInterceptor = await ref.watch(authInterceptorProvider.future);
+  final authInterceptor = ref.watch(authInterceptorProvider);
   dio.interceptors.add(authInterceptor);
 
   dio.interceptors.add(logInterceptor);
