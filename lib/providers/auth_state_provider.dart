@@ -2,7 +2,9 @@ import 'package:dears/clients/oauth2_client.dart';
 import 'package:dears/models/auth_token.dart';
 import 'package:dears/models/kakao_oauth2_body.dart';
 import 'package:dears/models/member_role.dart';
+import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/oauth2_client_provider.dart';
+import 'package:dears/providers/refresh_token_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:flutter/services.dart';
@@ -27,8 +29,27 @@ class AuthState extends _$AuthState {
     final user = await ref.read(userInfoProvider.future);
     final role = user.role;
 
-    final authToken = await provider.signIn(client, token, role);
-    logger.d(authToken);
+    final auth = await provider.signIn(client, token, role);
+    await ref.read(userInfoProvider.notifier).setUuid(auth.uuid);
+    await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
+    await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+  }
+
+  Future<void> refresh(String refreshToken) async {
+    // Indicate that the access token is being refreshed
+    await ref.read(accessTokenProvider.notifier).clear();
+    await ref.read(refreshTokenProvider.notifier).clear();
+
+    final client = await ref.read(oauth2ClientProvider.future);
+    final auth = await client.reissue(refreshToken);
+    await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
+    await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+  }
+
+  Future<void> signOut() async {
+    await ref.read(userInfoProvider.notifier).setUuid(null);
+    await ref.read(accessTokenProvider.notifier).clear();
+    await ref.read(refreshTokenProvider.notifier).clear();
   }
 }
 

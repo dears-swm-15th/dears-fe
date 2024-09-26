@@ -46,6 +46,14 @@ class UserInfo extends _$UserInfo {
     });
   }
 
+  Future<void> setUuid(String? uuid) async {
+    state = await AsyncValue.guard(() async {
+      final data = await future;
+      final user = data.copyWith(uuid: uuid);
+      return _saveEncoded(user);
+    });
+  }
+
   Future<void> signUp() async {
     state = await AsyncValue.guard(() async {
       final data = await future;

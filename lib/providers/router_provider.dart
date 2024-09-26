@@ -14,8 +14,10 @@ import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
 import 'package:dears/pages/sign_in_page.dart';
 import 'package:dears/providers/is_role_fixed_provider.dart';
+import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/logger.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,7 +25,18 @@ part 'router_provider.g.dart';
 
 @riverpod
 GoRouter goRouter(GoRouterRef ref) {
+  final isSignedIn = ValueNotifier(false);
+  ref.onDispose(isSignedIn.dispose);
+
+  ref.listen(
+    isSignedInProvider.selectAsync((data) => data),
+    (previous, next) async {
+      isSignedIn.value = await next;
+    },
+  );
+
   return GoRouter(
+    refreshListenable: isSignedIn,
     redirect: (context, state) async {
       logger.t("at global redirect, matched: ${state.matchedLocation}");
 
