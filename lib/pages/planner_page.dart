@@ -1,4 +1,4 @@
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/auth_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,7 +14,7 @@ class PlannerPage extends ConsumerWidget {
       body: Center(
         child: FilledButton(
           onPressed: () {
-            ref.read(userInfoProvider.notifier).signOut();
+            ref.read(authStateProvider.notifier).signOut();
           },
           child: const Text("Sign Out"),
         ),
