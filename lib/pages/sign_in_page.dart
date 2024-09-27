@@ -17,6 +17,36 @@ class SignInPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Spacer(),
+              Image.asset("assets/logo.png", width: 100),
+              const SizedBox(height: 10),
+              RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  style: TextStyle(
+                    color: blue500,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "투명",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(text: "하고 "),
+                    TextSpan(
+                      text: "합리",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(text: "적인\n웨딩 준비 "),
+                    TextSpan(
+                      text: "Dears",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(flex: 2),
               GestureDetector(
                 onTap: () async {
                   try {
@@ -97,6 +127,7 @@ class SignInPage extends ConsumerWidget {
                   ),
                 ),
               ),
+              const Spacer(),
             ],
           ),
         ),
