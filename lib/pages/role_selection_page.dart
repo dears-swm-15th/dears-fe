@@ -81,8 +81,7 @@ class RoleSelectionPage extends ConsumerWidget {
                                 .fix(MemberRole.customer);
 
                             if (!context.mounted) return;
-                            context.pop();
-                            context.push("/sign-in");
+                            context.go("/sign-in");
                           },
                         ),
                       );
@@ -106,8 +105,7 @@ class RoleSelectionPage extends ConsumerWidget {
                                 .fix(MemberRole.weddingPlanner);
 
                             if (!context.mounted) return;
-                            context.pop();
-                            context.push("/sign-in");
+                            context.go("/sign-in");
                           },
                         ),
                       );
