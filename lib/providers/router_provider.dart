@@ -29,7 +29,7 @@ GoRouter goRouter(GoRouterRef ref) {
   ref.onDispose(isSignedIn.dispose);
 
   ref.listen(
-    isSignedInProvider.selectAsync((data) => data),
+    isSignedInProvider,
     (previous, next) async {
       isSignedIn.value = await next;
     },
