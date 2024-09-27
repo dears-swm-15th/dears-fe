@@ -8,13 +8,6 @@ enum MemberRole {
 
   static const defaultValue = customer;
 
-  MemberRole get toggled {
-    return switch (this) {
-      customer => weddingPlanner,
-      weddingPlanner => customer
-    };
-  }
-
   String get apiPrefix {
     return switch (this) {
       customer => "customer",
