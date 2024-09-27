@@ -2,6 +2,7 @@ import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignInPage extends ConsumerWidget {
@@ -22,6 +23,9 @@ class SignInPage extends ConsumerWidget {
                     await ref
                         .read(authStateProvider.notifier)
                         .signIn(const GoogleOAuth2Provider());
+
+                    if (!context.mounted) return;
+                    context.go("/");
                   } catch (e, s) {
                     logger.d(
                       "failed to sign in with Google",
@@ -60,6 +64,9 @@ class SignInPage extends ConsumerWidget {
                     await ref
                         .read(authStateProvider.notifier)
                         .signIn(const KakaoOAuth2Provider());
+
+                    if (!context.mounted) return;
+                    context.go("/");
                   } catch (e, s) {
                     logger.d(
                       "failed to sign in with Kakao",
