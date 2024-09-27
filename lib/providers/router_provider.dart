@@ -33,6 +33,7 @@ GoRouter goRouter(GoRouterRef ref) {
     (previous, next) async {
       isSignedIn.value = await next;
     },
+    fireImmediately: true,
   );
 
   return GoRouter(
