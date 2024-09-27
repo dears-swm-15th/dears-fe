@@ -43,7 +43,7 @@ GoRouter goRouter(GoRouterRef ref) {
 
       final uuid = await ref.read(uuidProvider.future);
       if (uuid == null) {
-        final isRoleFixed = await ref.read(roleProvider.notifier).isFixed;
+        final isRoleFixed = await ref.read(roleProvider.notifier).isFixed();
         if (!isRoleFixed) {
           return "/select-role";
         }

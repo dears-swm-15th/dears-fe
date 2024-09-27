@@ -24,7 +24,9 @@ class Role extends _$Role {
     });
   }
 
-  Future<bool> get isFixed {
+  // TODO: refactor to be more rational for not being dependent on any state,
+  //  e.g. only for the sake of checking if the role is fixed at the moment.
+  Future<bool> isFixed() {
     final prefs = ref.read(prefsProvider);
     return prefs.containsKey(_key);
   }
