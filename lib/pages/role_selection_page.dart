@@ -1,5 +1,5 @@
 import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/widgets/role_selection_button.dart';
 import 'package:dears/widgets/role_selection_dialog.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +77,8 @@ class RoleSelectionPage extends ConsumerWidget {
                           normalTitle: "로 시작할까요?",
                           onAcceptPressed: () async {
                             await ref
-                                .read(userInfoProvider.notifier)
-                                .setRole(MemberRole.customer);
+                                .read(roleProvider.notifier)
+                                .fix(MemberRole.customer);
 
                             if (!context.mounted) return;
                             context.pop();
@@ -102,8 +102,8 @@ class RoleSelectionPage extends ConsumerWidget {
                           normalTitle: "로 시작할까요?",
                           onAcceptPressed: () async {
                             await ref
-                                .read(userInfoProvider.notifier)
-                                .setRole(MemberRole.weddingPlanner);
+                                .read(roleProvider.notifier)
+                                .fix(MemberRole.weddingPlanner);
 
                             if (!context.mounted) return;
                             context.pop();

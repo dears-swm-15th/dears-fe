@@ -13,9 +13,8 @@ import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
 import 'package:dears/pages/sign_in_page.dart';
-import 'package:dears/providers/is_role_fixed_provider.dart';
 import 'package:dears/providers/is_signed_in_provider.dart';
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:flutter/foundation.dart';
@@ -43,7 +42,7 @@ GoRouter goRouter(GoRouterRef ref) {
 
       final uuid = await ref.read(uuidProvider.future);
       if (uuid == null) {
-        final isRoleFixed = await ref.read(isRoleFixedProvider.future);
+        final isRoleFixed = await ref.read(roleProvider.notifier).isFixed;
         if (!isRoleFixed) {
           return "/select-role";
         }
@@ -57,8 +56,8 @@ GoRouter goRouter(GoRouterRef ref) {
         redirect: (context, state) async {
           logger.t("at '/' redirect, matched: ${state.matchedLocation}");
 
-          final user = await ref.read(userInfoProvider.future);
-          if (user.role == MemberRole.weddingPlanner) {
+          final role = await ref.read(roleProvider.future);
+          if (role == MemberRole.weddingPlanner) {
             return "/planner";
           }
           return null;

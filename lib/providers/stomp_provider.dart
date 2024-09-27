@@ -5,7 +5,7 @@ import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/env.dart';
 import 'package:dears/utils/logger.dart';
@@ -51,7 +51,7 @@ class Stomp extends _$Stomp {
       return;
     }
 
-    final role = (await ref.read(userInfoProvider.future)).role;
+    final role = await ref.read(roleProvider.future);
 
     final unsubscribeFn = client.subscribe(
       destination: "/sub/$chatroomId",
@@ -124,7 +124,7 @@ class Stomp extends _$Stomp {
       return;
     }
 
-    final role = (await ref.read(userInfoProvider.future)).role;
+    final role = await ref.read(roleProvider.future);
 
     final stompMessage = StompMessage(
       type: MessageType.send,
@@ -145,7 +145,7 @@ class Stomp extends _$Stomp {
       return;
     }
 
-    final role = (await ref.read(userInfoProvider.future)).role;
+    final role = await ref.read(roleProvider.future);
 
     final stompMessage = StompMessage(
       type: MessageType.leave,

@@ -1,4 +1,4 @@
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,9 +9,7 @@ part 'role_interceptor_provider.g.dart';
 /// if the path starts with `/{role}`.
 @riverpod
 Future<Interceptor> roleInterceptor(RoleInterceptorRef ref) async {
-  final role = await ref.watch(
-    userInfoProvider.selectAsync((data) => data.role),
-  );
+  final role = await ref.watch(roleProvider.future);
 
   return InterceptorsWrapper(
     onRequest: (options, handler) {

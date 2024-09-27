@@ -1,6 +1,6 @@
 import 'package:dears/models/message.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'message_list_provider.g.dart';
@@ -20,7 +20,7 @@ class MessageList extends _$MessageList {
     // });
 
     final chats = chatroom.chats;
-    final role = (await ref.read(userInfoProvider.future)).role;
+    final role = await ref.read(roleProvider.future);
 
     return chats.reversed.map((e) {
       return Message(
