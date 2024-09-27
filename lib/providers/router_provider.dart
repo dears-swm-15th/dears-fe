@@ -16,6 +16,7 @@ import 'package:dears/pages/sign_in_page.dart';
 import 'package:dears/providers/is_role_fixed_provider.dart';
 import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -40,8 +41,8 @@ GoRouter goRouter(GoRouterRef ref) {
     redirect: (context, state) async {
       logger.t("at global redirect, matched: ${state.matchedLocation}");
 
-      final user = await ref.read(userInfoProvider.future);
-      if (user.uuid == null) {
+      final uuid = await ref.read(uuidProvider.future);
+      if (uuid == null) {
         final isRoleFixed = await ref.read(isRoleFixedProvider.future);
         if (!isRoleFixed) {
           return "/select-role";

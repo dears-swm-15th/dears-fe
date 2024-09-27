@@ -6,6 +6,7 @@ import 'package:dears/models/stomp_message.dart';
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/env.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,9 +18,7 @@ part 'stomp_provider.g.dart';
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {
-    final uuid = await ref.watch(
-      userInfoProvider.selectAsync((data) => data.uuid),
-    );
+    final uuid = await ref.watch(uuidProvider.future);
     if (uuid == null) {
       return null;
     }
@@ -92,7 +91,7 @@ class Stomp extends _$Stomp {
       return;
     }
 
-    final uuid = (await ref.read(userInfoProvider.future)).uuid;
+    final uuid = await ref.read(uuidProvider.future);
     if (uuid == null) {
       return;
     }

@@ -9,7 +9,6 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     required MemberRole role,
-    String? uuid,
   }) = _User;
 
   static const defaultValue = User(role: MemberRole.defaultValue);

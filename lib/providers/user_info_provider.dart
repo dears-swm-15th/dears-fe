@@ -42,12 +42,4 @@ class UserInfo extends _$UserInfo {
       return user;
     });
   }
-
-  Future<void> setUuid(String? uuid) async {
-    state = await AsyncValue.guard(() async {
-      final data = await future;
-      final user = data.copyWith(uuid: uuid);
-      return _saveEncoded(user);
-    });
-  }
 }
