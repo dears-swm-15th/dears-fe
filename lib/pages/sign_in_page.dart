@@ -1,5 +1,6 @@
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/logger.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,6 +16,44 @@ class SignInPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              GestureDetector(
+                onTap: () async {
+                  try {
+                    await ref
+                        .read(authStateProvider.notifier)
+                        .signIn(const GoogleOAuth2Provider());
+                  } catch (e, s) {
+                    logger.d(
+                      "failed to sign in with Google",
+                      error: e,
+                      stackTrace: s,
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: gray600),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/g-logo.png",
+                        width: 18,
+                      ),
+                      const Spacer(),
+                      const Text("Google로 로그인"),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
                   try {

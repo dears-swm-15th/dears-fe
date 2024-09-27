@@ -1,5 +1,6 @@
 import 'package:dears/clients/oauth2_client.dart';
 import 'package:dears/models/auth_token.dart';
+import 'package:dears/models/google_oauth2_body.dart';
 import 'package:dears/models/kakao_oauth2_body.dart';
 import 'package:dears/models/member_role.dart';
 import 'package:dears/providers/access_token_provider.dart';
@@ -9,6 +10,7 @@ import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -59,6 +61,29 @@ sealed class OAuth2Provider {
   Future<String?> getToken();
 
   Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role);
+}
+
+class GoogleOAuth2Provider extends OAuth2Provider {
+  const GoogleOAuth2Provider();
+
+  @override
+  Future<String?> getToken() async {
+    final settings = GoogleSignIn(
+      scopes: [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
+      ],
+    );
+    final account = await settings.signIn();
+    final auth = await account?.authentication;
+    return auth?.accessToken;
+  }
+
+  @override
+  Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role) {
+    final data = GoogleOAuth2Body(googleAccessToken: token, role: role);
+    return client.signInWithGoogle(data: data);
+  }
 }
 
 class KakaoOAuth2Provider extends OAuth2Provider {
