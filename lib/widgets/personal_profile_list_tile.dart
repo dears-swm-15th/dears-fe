@@ -1,5 +1,5 @@
+import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/profile_provider.dart';
-import 'package:dears/providers/user_info_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
@@ -29,7 +29,7 @@ class PersonalProfileListTile extends ConsumerWidget {
     );
 
     return PersonalListTile(
-      onTap: () => ref.read(userInfoProvider.notifier).signOut(),
+      onTap: () => ref.read(authStateProvider.notifier).signOut(),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       leading: CdnImage.circle(
         url,

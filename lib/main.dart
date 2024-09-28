@@ -1,6 +1,7 @@
 import 'package:dears/firebase_options.dart';
 import 'package:dears/providers/router_provider.dart';
 import 'package:dears/providers/stomp_provider.dart';
+import 'package:dears/utils/env.dart';
 import 'package:dears/utils/provider_observer.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,8 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
 
   runApp(
     const ProviderScope(

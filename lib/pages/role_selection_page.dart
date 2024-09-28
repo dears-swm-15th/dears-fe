@@ -1,5 +1,5 @@
 import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/user_info_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/widgets/role_selection_button.dart';
 import 'package:dears/widgets/role_selection_dialog.dart';
 import 'package:flutter/material.dart';
@@ -75,11 +75,13 @@ class RoleSelectionPage extends ConsumerWidget {
                         builder: (context) => RoleSelectionDialog(
                           colorTitle: "예비 신혼부부",
                           normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () {
-                            ref
-                                .read(userInfoProvider.notifier)
-                                .signUpWithRole(MemberRole.customer);
-                            context.pop();
+                          onAcceptPressed: () async {
+                            await ref
+                                .read(roleProvider.notifier)
+                                .fix(MemberRole.customer);
+
+                            if (!context.mounted) return;
+                            context.go("/sign-in");
                           },
                         ),
                       );
@@ -97,11 +99,13 @@ class RoleSelectionPage extends ConsumerWidget {
                         builder: (context) => RoleSelectionDialog(
                           colorTitle: "웨딩플래너",
                           normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () {
-                            ref
-                                .read(userInfoProvider.notifier)
-                                .signUpWithRole(MemberRole.weddingPlanner);
-                            context.pop();
+                          onAcceptPressed: () async {
+                            await ref
+                                .read(roleProvider.notifier)
+                                .fix(MemberRole.weddingPlanner);
+
+                            if (!context.mounted) return;
+                            context.go("/sign-in");
                           },
                         ),
                       );
