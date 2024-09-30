@@ -24,7 +24,7 @@ class AuthState extends _$AuthState {
   Future<void> signIn(OAuth2Provider provider) async {
     final token = await provider.getToken();
     if (token == null) {
-      throw Exception("failed to get token");
+      throw const TokenIssuanceException();
     }
 
     final client = await ref.read(oauth2ClientProvider.future);
@@ -145,4 +145,11 @@ class KakaoOAuth2Provider extends OAuth2Provider {
     final data = KakaoOAuth2Body(kakaoAccessToken: token, role: role);
     return client.signInWithKakao(data: data);
   }
+}
+
+class TokenIssuanceException implements Exception {
+  const TokenIssuanceException();
+
+  @override
+  String toString() => "TokenIssuanceException: failed to issue token";
 }
