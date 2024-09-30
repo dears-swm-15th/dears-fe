@@ -24,6 +24,7 @@ class ReviewForm extends _$ReviewForm {
       images: [],
       consultingFee: null,
       estimate: null,
+      radarIndexes: {},
     );
   }
 
@@ -67,6 +68,18 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(enabled: _enabled);
   }
 
+  void setRadarIndex(RadarKey key, int? value) {
+    if (value != null) {
+      state = state.copyWith(
+        radarIndexes: {...state.radarIndexes, key: value},
+      );
+    } else {
+      state = state.copyWith(
+        radarIndexes: {...state.radarIndexes}..remove(key),
+      );
+    }
+  }
+
   Future<void> submit(int portfolioId) async {
     final reviewClient = await ref.read(reviewClientProvider.future);
 
@@ -84,10 +97,9 @@ class ReviewForm extends _$ReviewForm {
         ],
         consultingFee: state.consultingFee,
         estimate: state.estimate,
-
-        // TODO: implement to get data below from UI
         radar: {
-          for (final key in RadarKey.values) key: 5,
+          for (final MapEntry(:key, :value) in state.radarIndexes.entries)
+            key: 2 * value + 1,
         },
       ),
     );

@@ -5,6 +5,7 @@ import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/review_input.dart';
+import 'package:dears/widgets/review_radar_selector_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -90,6 +91,11 @@ class ReviewEditPage extends ConsumerWidget {
           const SizedBox(height: 30),
           const Divider(thickness: 4, color: blue50),
           const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ReviewRadarSelectorList(portfolioId),
+          ),
+          const SizedBox(height: 50),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             color: blue50,

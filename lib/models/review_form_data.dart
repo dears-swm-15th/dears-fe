@@ -1,3 +1,4 @@
+import 'package:dears/models/radar_key.dart';
 import 'package:dears/models/review_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,5 +27,6 @@ class ReviewFormData with _$ReviewFormData {
     required List<(String, Uint8List)> images,
     required int? consultingFee,
     required int? estimate,
+    required Map<RadarKey, int> radarIndexes,
   }) = _ReviewFormData;
 }
