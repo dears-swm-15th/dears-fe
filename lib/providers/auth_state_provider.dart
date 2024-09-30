@@ -74,9 +74,19 @@ class GoogleOAuth2Provider extends OAuth2Provider {
         "https://www.googleapis.com/auth/userinfo.profile",
       ],
     );
-    final account = await settings.signIn();
-    final auth = await account?.authentication;
-    return auth?.accessToken;
+
+    try {
+      final account = await settings.signIn();
+      final auth = await account?.authentication;
+      return auth?.accessToken;
+    } on PlatformException catch (e) {
+      if (e.code == GoogleSignIn.kSignInFailedError) {
+        logger.d("failed to sign in with Google: $e");
+        return null;
+      }
+
+      rethrow;
+    }
   }
 
   @override
