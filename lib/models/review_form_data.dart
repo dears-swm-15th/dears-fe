@@ -17,7 +17,6 @@ const List<String> reviewKeywords = [
 @freezed
 class ReviewFormData with _$ReviewFormData {
   const factory ReviewFormData({
-    required bool enabled,
     required ReviewType type,
     required int rating,
     required List<bool> tags,
@@ -29,4 +28,8 @@ class ReviewFormData with _$ReviewFormData {
     required int? estimate,
     required Map<RadarKey, int> radarIndexes,
   }) = _ReviewFormData;
+
+  const ReviewFormData._();
+
+  bool get enabled => rating != 0 && content.isNotEmpty;
 }

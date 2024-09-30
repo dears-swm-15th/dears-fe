@@ -16,7 +16,6 @@ class ReviewForm extends _$ReviewForm {
   @override
   ReviewFormData build(int portfolioId) {
     return ReviewFormData(
-      enabled: false,
       type: ReviewType.values[0],
       rating: 0,
       tags: List.filled(reviewKeywords.length, false),
@@ -28,15 +27,12 @@ class ReviewForm extends _$ReviewForm {
     );
   }
 
-  bool get _enabled => state.rating != 0 && state.content.isNotEmpty;
-
   void setType(ReviewType type) {
     state = state.copyWith(type: type);
   }
 
   void setRating(int rating) {
     state = state.copyWith(rating: rating);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void setTags(List<bool> tags) {
@@ -45,7 +41,6 @@ class ReviewForm extends _$ReviewForm {
 
   void setContent(String content) {
     state = state.copyWith(content: content);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void addImages(Iterable<(String, Uint8List)> images) {
@@ -59,13 +54,11 @@ class ReviewForm extends _$ReviewForm {
   void setConsultingFee(String text) {
     final consultingFee = text.isEmpty ? null : int.tryParse(text);
     state = state.copyWith(consultingFee: consultingFee);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void setEstimate(String text) {
     final estimate = text.isEmpty ? null : int.tryParse(text);
     state = state.copyWith(estimate: estimate);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void setRadarIndex(RadarKey key, int? value) {
