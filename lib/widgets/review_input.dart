@@ -1,5 +1,6 @@
 import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/review_cost_field.dart';
 import 'package:dears/widgets/review_image_picker.dart';
 import 'package:dears/widgets/review_keyword_chips.dart';
 import 'package:dears/widgets/review_rating_selector.dart';
@@ -20,14 +21,10 @@ class ReviewInput extends ConsumerWidget {
     final type = ref.watch(
       reviewFormProvider(portfolioId).select((value) => value.type),
     );
-    final enabled = ref.watch(
-      reviewFormProvider(portfolioId).select((value) => value.enabled),
-    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -82,19 +79,10 @@ class ReviewInput extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         ReviewImagePicker(portfolioId),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          height: 44,
-          child: FilledButton(
-            onPressed: enabled
-                ? () => ref
-                    .read(reviewFormProvider(portfolioId).notifier)
-                    .submit(portfolioId)
-                : null,
-            child: const Text("리뷰 작성하기"),
-          ),
-        ),
+        const SizedBox(height: 24),
+        const Text("가격 정보를 입력해주세요", style: titleSmall),
+        const SizedBox(height: 10),
+        ReviewCostField(portfolioId),
       ],
     );
   }

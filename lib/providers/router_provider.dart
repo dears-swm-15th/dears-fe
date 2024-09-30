@@ -9,6 +9,7 @@ import 'package:dears/pages/inquiry_page.dart';
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/planner_page.dart';
+import 'package:dears/pages/review_edit_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
@@ -17,7 +18,7 @@ import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -112,6 +113,19 @@ GoRouter goRouter(GoRouterRef ref) {
         builder: (context, state) => DetailsPage(
           portfolioId: int.parse(state.pathParameters["portfolioId"]!),
         ),
+        routes: [
+          GoRoute(
+            path: "review/edit",
+            pageBuilder: (context, state) {
+              final portfolioId = state.pathParameters["portfolioId"]!;
+
+              return MaterialPage(
+                fullscreenDialog: true,
+                child: ReviewEditPage(portfolioId: int.parse(portfolioId)),
+              );
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: "/select-role",

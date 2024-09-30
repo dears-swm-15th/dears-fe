@@ -22,6 +22,8 @@ class ReviewForm extends _$ReviewForm {
       tags: List.filled(reviewKeywords.length, false),
       content: "",
       images: [],
+      consultingFee: null,
+      estimate: null,
     );
   }
 
@@ -53,6 +55,18 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(images: [...state.images]..removeAt(index));
   }
 
+  void setConsultingFee(String text) {
+    final consultingFee = text.isEmpty ? null : int.tryParse(text);
+    state = state.copyWith(consultingFee: consultingFee);
+    state = state.copyWith(enabled: _enabled);
+  }
+
+  void setEstimate(String text) {
+    final estimate = text.isEmpty ? null : int.tryParse(text);
+    state = state.copyWith(estimate: estimate);
+    state = state.copyWith(enabled: _enabled);
+  }
+
   Future<void> submit(int portfolioId) async {
     final reviewClient = await ref.read(reviewClientProvider.future);
 
@@ -68,9 +82,10 @@ class ReviewForm extends _$ReviewForm {
         weddingPhotoUrls: [
           for (final image in state.images) image.$1,
         ],
+        consultingFee: state.consultingFee,
+        estimate: state.estimate,
 
         // TODO: implement to get data below from UI
-        estimate: 300000,
         radar: {
           for (final key in RadarKey.values) key: 5,
         },

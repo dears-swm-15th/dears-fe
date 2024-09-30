@@ -1,10 +1,10 @@
 import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/providers/review_list_provider.dart';
 import 'package:dears/utils/theme.dart';
-import 'package:dears/widgets/review_input.dart';
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:dears/widgets/review_type_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsReviewTab extends ConsumerWidget {
@@ -99,7 +99,16 @@ class DetailsReviewTab extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          ReviewInput(portfolioId),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              fixedSize: const Size.fromHeight(44),
+            ),
+            onPressed: () {
+              final location = "/details/$portfolioId";
+              context.push("$location/review/edit");
+            },
+            child: const Text("리뷰 작성하러 가기"),
+          ),
           const SizedBox(height: 16),
           RichText(
             text: TextSpan(

@@ -24,5 +24,7 @@ class ReviewFormData with _$ReviewFormData {
 
     // TODO: handle case where images are too large to be held in memory
     required List<(String, Uint8List)> images,
+    required int? consultingFee,
+    required int? estimate,
   }) = _ReviewFormData;
 }

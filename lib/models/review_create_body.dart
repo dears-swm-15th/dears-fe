@@ -13,7 +13,8 @@ class ReviewCreateBody with _$ReviewCreateBody {
     required List<String> tags,
     required String content,
     required List<String> weddingPhotoUrls,
-    required int estimate,
+    int? consultingFee,
+    int? estimate,
     required Map<RadarKey, int> radar,
   }) = _ReviewCreateBody;
 
