@@ -202,4 +202,20 @@ final ThemeData theme = ThemeData(
       fontWeight: FontWeight.w500,
     ),
   ),
+
+  inputDecorationTheme: const InputDecorationTheme(
+    hintStyle: TextStyle(color: gray600),
+    // 힌트 텍스트 색상
+    counterStyle: TextStyle(color: gray600),
+    contentPadding: EdgeInsets.all(12),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: gray100), // 입력 필드 외곽선 비활성 상태
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: blue500), // 입력 필드 외곽선 활성 상태
+    ),
+  ),
+  
 );
+
+
