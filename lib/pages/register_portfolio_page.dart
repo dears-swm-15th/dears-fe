@@ -6,8 +6,10 @@ import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/portfolio_image_picker.dart';
 import 'package:dears/widgets/portfolio_info_form.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+
 
 class RegisterPortfolioPage extends ConsumerWidget {
   const RegisterPortfolioPage({super.key});
@@ -113,11 +115,6 @@ class RegisterPortfolioPage extends ConsumerWidget {
                   TextField(
                     controller: contentController,
                     maxLines: 10,
-                    onEditingComplete: () {
-                      ref
-                          .read(registerPortfolioFormProvider.notifier)
-                          .setContent(contentController.text);
-                    },
                     decoration: const InputDecoration(
                       hintText: "자세한 설명을 작성해주세요",
                     ),
@@ -133,6 +130,9 @@ class RegisterPortfolioPage extends ConsumerWidget {
                         ref
                             .read(registerPortfolioFormProvider.notifier)
                             .submit();
+
+                        //TODO: routing
+                        context.go("/planner");
                       },
                       child: const Text("저장"),
                     ),
