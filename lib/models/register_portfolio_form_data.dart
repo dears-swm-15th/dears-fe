@@ -11,8 +11,8 @@ class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
     required bool enabled, // 등록 버튼 활성화 여부
     required String plannerName, // 플래너 이름
     required String companyName, // 업체명
+    required String introduce, // 소개
     required Region? region, // 지역
-    required String gender, // 성별
     required AccompanyType type, // 유형
     required String cost, // 상담 비용
     required List<String> services, //제공 서비스 리스트
