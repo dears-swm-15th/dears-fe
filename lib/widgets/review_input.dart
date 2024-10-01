@@ -82,7 +82,29 @@ class ReviewInput extends ConsumerWidget {
         const SizedBox(height: 24),
         const Text("가격 정보를 입력해주세요", style: titleSmall),
         const SizedBox(height: 10),
-        ReviewCostField(portfolioId),
+        Row(
+          children: [
+            Expanded(
+              child: ReviewCostField(
+                portfolioId: portfolioId,
+                label: "상담비",
+                onChanged: (value) => ref
+                    .read(reviewFormProvider(portfolioId).notifier)
+                    .setConsultingFee(value),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ReviewCostField(
+                portfolioId: portfolioId,
+                label: "최종 견적",
+                onChanged: (value) => ref
+                    .read(reviewFormProvider(portfolioId).notifier)
+                    .setEstimate(value),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

@@ -51,13 +51,11 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(images: [...state.images]..removeAt(index));
   }
 
-  void setConsultingFee(String text) {
-    final consultingFee = text.isEmpty ? null : int.tryParse(text);
+  void setConsultingFee(int? consultingFee) {
     state = state.copyWith(consultingFee: consultingFee);
   }
 
-  void setEstimate(String text) {
-    final estimate = text.isEmpty ? null : int.tryParse(text);
+  void setEstimate(int? estimate) {
     state = state.copyWith(estimate: estimate);
   }
 
