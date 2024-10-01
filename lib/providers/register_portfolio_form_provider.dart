@@ -6,6 +6,7 @@ import 'package:dears/models/portfolio_create_body.dart';
 import 'package:dears/models/region.dart';
 import 'package:dears/models/register_portfolio_form_data.dart';
 import 'package:dears/providers/portfolio_client_provider.dart';
+import 'package:dears/utils/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'register_portfolio_form_provider.g.dart';
@@ -18,8 +19,8 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
       enabled: false,
       plannerName: "",
       companyName: "",
+      introduce: "",
       region: null,
-      gender: "",
       type: AccompanyType.defaultValue,
       services: const [],
       cost: "",
@@ -33,7 +34,6 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
       state.plannerName.isNotEmpty &&
           state.companyName.isNotEmpty &&
           state.region != null &&
-          state.gender.isNotEmpty &&
           state.cost.isNotEmpty &&
           state.content.isNotEmpty &&
           state.services.isNotEmpty &&
@@ -80,6 +80,11 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
     state = state.copyWith(enabled: _enabled);
   }
 
+  void setIntroduce(String introduce) {
+    state = state.copyWith(introduce: introduce);
+    state = state.copyWith(enabled: _enabled);
+  }
+
   void addPortfolioImages(Iterable<(String, Uint8List)> images) {
     state =
         state.copyWith(portfolioImages: [...state.portfolioImages, ...images]);
@@ -105,6 +110,7 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
           int.parse(state.cost.replaceAll(RegExp('[^0-9]'), '')),
           description: state.content,
           services: state.services,
+          accompanyType: state.type,
           profileImageUrl: state.profileImage.$1,
           weddingPhotoUrls: [
             for (final image in state.portfolioImages) image.$1
@@ -131,6 +137,8 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
       ref.invalidateSelf();
     } else {
       //TODO: show error message using snack bar or dialog
+      logger.e("Form is not valid $state");
     }
   }
+
 }
