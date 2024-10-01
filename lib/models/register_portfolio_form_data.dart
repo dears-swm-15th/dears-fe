@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/region.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,7 +13,7 @@ class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
     required String companyName, // 업체명
     required Region? region, // 지역
     required String gender, // 성별
-    required String type, // 유형
+    required AccompanyType type, // 유형
     required String cost, // 상담 비용
     required List<String> services, //제공 서비스 리스트
     required String content, // 상세 설명

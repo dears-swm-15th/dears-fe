@@ -1,4 +1,4 @@
-import 'package:dears/models/gender.dart';
+import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/region.dart';
 import 'package:dears/providers/register_portfolio_form_provider.dart';
 import 'package:dears/utils/formats.dart';
@@ -13,27 +13,22 @@ class PortfolioInfoForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 성별 선택 상태 관리
-    final gender = useState(Gender.man); // 초기값을 MAN으로 설정
-    // ToggleButtons 선택 상태
-    final selectedType = useState<int>(0);
-    final typeItems = ["동행", "비동행", "동행/비동행"];
-
     // 각 입력 필드에 대한 컨트롤러 추가
     final nameController = useTextEditingController(); // 이름 입력 필드 컨트롤러
     final companyController = useTextEditingController(); // 회사명 입력 필드 컨트롤러
     final serviceController = useTextEditingController(); // 서비스 입력 필드 컨트롤러
+    final contentController = useTextEditingController(); // 자기 소개 입력 필드 컨트롤러
     final costController = useTextEditingController(); // 상담 비용 입력 필드 컨트롤러
     // 등록된 서비스 리스트 상태
     final services = ref.watch(registerPortfolioFormProvider).services;
 
     // 이름 필드 리스너
     useEffect(
-          () {
+      () {
         void listener() {
           ref.read(registerPortfolioFormProvider.notifier).setPlannerName(
-            nameController.text,
-          );
+                nameController.text,
+              );
         }
 
         nameController.addListener(listener);
@@ -44,11 +39,11 @@ class PortfolioInfoForm extends HookConsumerWidget {
 
     // 회사명 필드 리스너
     useEffect(
-          () {
+      () {
         void listener() {
           ref.read(registerPortfolioFormProvider.notifier).setCompanyName(
-            companyController.text,
-          );
+                companyController.text,
+              );
         }
 
         companyController.addListener(listener);
@@ -59,15 +54,29 @@ class PortfolioInfoForm extends HookConsumerWidget {
 
     // useEffect로 비용 필드의 변경을 반영
     useEffect(
-          () {
+      () {
         void listener() {
           ref.read(registerPortfolioFormProvider.notifier).setCost(
-            costController.text,
-          );
+                costController.text,
+              );
         }
 
         costController.addListener(listener);
         return () => costController.removeListener(listener);
+      },
+      [],
+    );
+
+    useEffect(
+      () {
+        void listener() {
+          ref.read(registerPortfolioFormProvider.notifier).setContent(
+                contentController.text,
+              );
+        }
+
+        contentController.addListener(listener);
+        return () => contentController.removeListener(listener);
       },
       [],
     );
@@ -104,6 +113,20 @@ class PortfolioInfoForm extends HookConsumerWidget {
                 hintText: "회사명을 입력해주세요",
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            const Text("자기소개", style: bodyLarge),
+            const SizedBox(height: 8),
+            TextField(
+              controller: contentController, // 자기 소개 입력 필드에 컨트롤러 추가
+              maxLines: 5,
+              decoration: const InputDecoration(
+                hintText: "소개하는 글을 입력해주세요",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
             const SizedBox(height: 20),
 
             // 활동지역 선택
@@ -127,39 +150,6 @@ class PortfolioInfoForm extends HookConsumerWidget {
               }).toList(),
             ),
             const SizedBox(height: 20),
-
-            // 성별 선택
-            const Text("성별", style: bodyLarge),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: RadioListTile(
-                    title: Text(Gender.man.name),
-                    value: Gender.man,
-                    groupValue: gender.value, // 현재 선택된 값
-                    onChanged: (Gender? value) {
-                      if (value != null) {
-                        gender.value = value; // 성별 값 업데이트
-                      }
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: RadioListTile(
-                    title: Text(Gender.woman.name),
-                    value: Gender.woman,
-                    groupValue: gender.value, // 현재 선택된 값
-                    onChanged: (Gender? value) {
-                      if (value != null) {
-                        gender.value = value; // 성별 값 업데이트
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
             const Text("유형", style: bodyLarge),
             const SizedBox(height: 8),
 
@@ -167,12 +157,15 @@ class PortfolioInfoForm extends HookConsumerWidget {
             Center(
               child: ToggleButtons(
                 isSelected: [
-                  selectedType.value == 0,
-                  selectedType.value == 1,
-                  selectedType.value == 2,
+                  for (var i = 0; i < AccompanyType.values.length; i++)
+                    i == ref.read(registerPortfolioFormProvider).type.index,
                 ],
                 onPressed: (index) {
-                  selectedType.value = index; // 선택된 버튼의 인덱스 업데이트
+                  ref
+                      .read(registerPortfolioFormProvider.notifier)
+                      .setAccompanyType(
+                        AccompanyType.values[index],
+                      );
                 },
                 borderRadius: BorderRadius.circular(8),
                 selectedColor: Colors.white,
@@ -182,10 +175,10 @@ class PortfolioInfoForm extends HookConsumerWidget {
                   minHeight: 40.0,
                   minWidth: 100.0,
                 ),
-                children: typeItems.map((type) {
+                children: AccompanyType.values.map((type) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(type),
+                    child: Text(type.name),
                   );
                 }).toList(),
               ),

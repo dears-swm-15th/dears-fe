@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:dears/clients/file_client.dart';
+import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/portfolio_create_body.dart';
 import 'package:dears/models/region.dart';
 import 'package:dears/models/register_portfolio_form_data.dart';
@@ -19,7 +20,7 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
       companyName: "",
       region: null,
       gender: "",
-      type: "",
+      type: AccompanyType.defaultValue,
       services: const [],
       cost: "",
       content: "",
@@ -33,7 +34,6 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
           state.companyName.isNotEmpty &&
           state.region != null &&
           state.gender.isNotEmpty &&
-          state.type.isNotEmpty &&
           state.cost.isNotEmpty &&
           state.content.isNotEmpty &&
           state.services.isNotEmpty &&
@@ -67,6 +67,11 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
 
   void setCost(String cost) {
     state = state.copyWith(cost: cost);
+    state = state.copyWith(enabled: _enabled);
+  }
+
+  void setAccompanyType(AccompanyType type) {
+    state = state.copyWith(type: type);
     state = state.copyWith(enabled: _enabled);
   }
 
