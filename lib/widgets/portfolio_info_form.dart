@@ -17,7 +17,7 @@ class PortfolioInfoForm extends HookConsumerWidget {
     final nameController = useTextEditingController(); // 이름 입력 필드 컨트롤러
     final companyController = useTextEditingController(); // 회사명 입력 필드 컨트롤러
     final serviceController = useTextEditingController(); // 서비스 입력 필드 컨트롤러
-    final contentController = useTextEditingController(); // 자기 소개 입력 필드 컨트롤러
+    final introduceController = useTextEditingController(); // 자기 소개 입력 필드 컨트롤러
     final costController = useTextEditingController(); // 상담 비용 입력 필드 컨트롤러
     // 등록된 서비스 리스트 상태
     final services = ref.watch(registerPortfolioFormProvider).services;
@@ -56,6 +56,13 @@ class PortfolioInfoForm extends HookConsumerWidget {
     useEffect(
       () {
         void listener() {
+          final formattedValue = cost.format(costController.value.text);
+          costController.value = TextEditingValue(
+            text: formattedValue,
+            selection: TextSelection.collapsed(
+              offset: formattedValue.length, // 커서를 끝으로 이동
+            ),
+          );
           ref.read(registerPortfolioFormProvider.notifier).setCost(
                 costController.text,
               );
@@ -70,13 +77,13 @@ class PortfolioInfoForm extends HookConsumerWidget {
     useEffect(
       () {
         void listener() {
-          ref.read(registerPortfolioFormProvider.notifier).setContent(
-                contentController.text,
+          ref.read(registerPortfolioFormProvider.notifier).setIntroduce(
+            introduceController.text,
               );
         }
 
-        contentController.addListener(listener);
-        return () => contentController.removeListener(listener);
+        introduceController.addListener(listener);
+        return () => introduceController.removeListener(listener);
       },
       [],
     );
@@ -119,8 +126,8 @@ class PortfolioInfoForm extends HookConsumerWidget {
             const Text("자기소개", style: bodyLarge),
             const SizedBox(height: 8),
             TextField(
-              controller: contentController, // 자기 소개 입력 필드에 컨트롤러 추가
-              maxLines: 5,
+              controller: introduceController, // 자기 소개 입력 필드에 컨트롤러 추가
+              maxLines: 3,
               decoration: const InputDecoration(
                 hintText: "소개하는 글을 입력해주세요",
                 border: OutlineInputBorder(),
@@ -153,35 +160,39 @@ class PortfolioInfoForm extends HookConsumerWidget {
             const Text("유형", style: bodyLarge),
             const SizedBox(height: 8),
 
-            // ToggleButtons
-            Center(
-              child: ToggleButtons(
-                isSelected: [
-                  for (var i = 0; i < AccompanyType.values.length; i++)
-                    i == ref.read(registerPortfolioFormProvider).type.index,
-                ],
-                onPressed: (index) {
-                  ref
-                      .read(registerPortfolioFormProvider.notifier)
-                      .setAccompanyType(
-                        AccompanyType.values[index],
-                      );
-                },
-                borderRadius: BorderRadius.circular(8),
-                selectedColor: Colors.white,
-                fillColor: Colors.blue,
-                color: Colors.grey,
-                constraints: const BoxConstraints(
-                  minHeight: 40.0,
-                  minWidth: 100.0,
-                ),
-                children: AccompanyType.values.map((type) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(type.name),
-                  );
-                }).toList(),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: AccompanyType.values.map((type) {
+                final selectedType =
+                    ref.read(registerPortfolioFormProvider).type;
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        ref
+                            .read(registerPortfolioFormProvider.notifier)
+                            .setAccompanyType(type);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        side: BorderSide(
+                          color:
+                              selectedType == type ? blue500: gray100,
+                        ),
+                        textStyle: bodyLarge,
+                      ),
+                      child: Text(
+                        type.name,
+                        style: TextStyle(
+                          color:
+                              selectedType == type ? blue500 : gray600,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
             const SizedBox(height: 20),
 
@@ -241,7 +252,6 @@ class PortfolioInfoForm extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-
             // 상담 비용 입력 필드
             const Text("상담비용", style: bodyLarge),
             const SizedBox(height: 8),
@@ -251,15 +261,6 @@ class PortfolioInfoForm extends HookConsumerWidget {
                 hintText: "상담 비용을 입력해주세요",
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) {
-                final formattedValue = cost.format(value);
-                costController.value = TextEditingValue(
-                  text: formattedValue,
-                  selection: TextSelection.collapsed(
-                    offset: formattedValue.length, // 커서를 끝으로 이동
-                  ),
-                );
-              },
             ),
           ],
         ),
