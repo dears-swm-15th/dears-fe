@@ -8,7 +8,6 @@ part 'profile.g.dart';
 class Profile with _$Profile {
   const factory Profile({
     @Default("") String name,
-    @Default("example@gmail.com") String email,
     String? profileImageUrl,
   }) = _Profile;
 
