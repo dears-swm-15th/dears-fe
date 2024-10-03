@@ -1,3 +1,4 @@
+import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,20 @@ class ReviewCostField extends HookWidget {
                 LengthLimitingTextInputFormatter(9),
               ],
               onChanged: (value) {
-                onChanged(int.tryParse(value));
+                final cost = int.tryParse(value);
+                if (cost == null) {
+                  onChanged(null);
+                  controller.value = TextEditingValue.empty;
+                  return;
+                }
+
+                onChanged(cost);
+
+                final text = number.format(cost);
+                controller.value = TextEditingValue(
+                  text: "$text원",
+                  selection: TextSelection.collapsed(offset: text.length),
+                );
               },
               onTapOutside: (event) => FocusScope.of(context).unfocus(),
             ),
