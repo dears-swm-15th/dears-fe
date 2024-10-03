@@ -16,16 +16,16 @@ class ReviewForm extends _$ReviewForm {
   @override
   ReviewFormData build(int portfolioId) {
     return ReviewFormData(
-      enabled: false,
       type: ReviewType.values[0],
       rating: 0,
       tags: List.filled(reviewKeywords.length, false),
       content: "",
       images: [],
+      consultingFee: null,
+      estimate: null,
+      radarIndexes: {},
     );
   }
-
-  bool get _enabled => state.rating != 0 && state.content.isNotEmpty;
 
   void setType(ReviewType type) {
     state = state.copyWith(type: type);
@@ -33,7 +33,6 @@ class ReviewForm extends _$ReviewForm {
 
   void setRating(int rating) {
     state = state.copyWith(rating: rating);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void setTags(List<bool> tags) {
@@ -42,7 +41,6 @@ class ReviewForm extends _$ReviewForm {
 
   void setContent(String content) {
     state = state.copyWith(content: content);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void addImages(Iterable<(String, Uint8List)> images) {
@@ -51,6 +49,26 @@ class ReviewForm extends _$ReviewForm {
 
   void removeImageAt(int index) {
     state = state.copyWith(images: [...state.images]..removeAt(index));
+  }
+
+  void setConsultingFee(int? consultingFee) {
+    state = state.copyWith(consultingFee: consultingFee);
+  }
+
+  void setEstimate(int? estimate) {
+    state = state.copyWith(estimate: estimate);
+  }
+
+  void setRadarIndex(RadarKey key, int? value) {
+    if (value != null) {
+      state = state.copyWith(
+        radarIndexes: {...state.radarIndexes, key: value},
+      );
+    } else {
+      state = state.copyWith(
+        radarIndexes: {...state.radarIndexes}..remove(key),
+      );
+    }
   }
 
   Future<void> submit(int portfolioId) async {
@@ -68,11 +86,11 @@ class ReviewForm extends _$ReviewForm {
         weddingPhotoUrls: [
           for (final image in state.images) image.$1,
         ],
-
-        // TODO: implement to get data below from UI
-        estimate: 300000,
+        consultingFee: state.consultingFee,
+        estimate: state.estimate,
         radar: {
-          for (final key in RadarKey.values) key: 5,
+          for (final MapEntry(:key, :value) in state.radarIndexes.entries)
+            key: 2 * value + 1,
         },
       ),
     );

@@ -1,13 +1,14 @@
-import 'package:dears/providers/review_form_provider.dart';
+import 'package:dears/models/review_type.dart';
 import 'package:dears/providers/review_list_provider.dart';
 import 'package:dears/utils/theme.dart';
-import 'package:dears/widgets/review_input.dart';
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:dears/widgets/review_type_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailsReviewTab extends ConsumerWidget {
+class DetailsReviewTab extends HookConsumerWidget {
   final int portfolioId;
 
   const DetailsReviewTab({
@@ -17,10 +18,6 @@ class DetailsReviewTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final reviewType = ref.watch(
-      reviewFormProvider(portfolioId).select((value) => value.type),
-    );
-
     final reviewList = ref.watch(reviewListProvider(portfolioId));
 
     final tiles = reviewList.maybeWhen(
@@ -68,6 +65,8 @@ class DetailsReviewTab extends ConsumerWidget {
       orElse: () => 0,
     );
 
+    final reviewType = useState(ReviewType.consulting);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView(
@@ -91,21 +90,28 @@ class DetailsReviewTab extends ConsumerWidget {
                 ),
               ),
               ReviewTypeSwitch(
-                value: reviewType,
-                onChanged: (value) => ref
-                    .read(reviewFormProvider(portfolioId).notifier)
-                    .setType(value),
+                value: reviewType.value,
+                onChanged: (value) => reviewType.value = value,
               ),
             ],
           ),
           const SizedBox(height: 16),
-          ReviewInput(portfolioId),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              fixedSize: const Size.fromHeight(44),
+            ),
+            onPressed: () {
+              final location = "/details/$portfolioId";
+              context.push("$location/review/edit");
+            },
+            child: const Text("리뷰 작성하러 가기"),
+          ),
           const SizedBox(height: 16),
           RichText(
             text: TextSpan(
               style: titleMedium,
               children: [
-                TextSpan(text: "$reviewType 리뷰 "),
+                TextSpan(text: "${reviewType.value} 리뷰 "),
                 TextSpan(
                   text: "$count",
                   style: const TextStyle(color: blue500),

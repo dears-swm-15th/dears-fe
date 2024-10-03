@@ -1,3 +1,4 @@
+import 'package:dears/models/radar_key.dart';
 import 'package:dears/models/review_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,7 +17,6 @@ const List<String> reviewKeywords = [
 @freezed
 class ReviewFormData with _$ReviewFormData {
   const factory ReviewFormData({
-    required bool enabled,
     required ReviewType type,
     required int rating,
     required List<bool> tags,
@@ -24,5 +24,12 @@ class ReviewFormData with _$ReviewFormData {
 
     // TODO: handle case where images are too large to be held in memory
     required List<(String, Uint8List)> images,
+    required int? consultingFee,
+    required int? estimate,
+    required Map<RadarKey, int> radarIndexes,
   }) = _ReviewFormData;
+
+  const ReviewFormData._();
+
+  bool get enabled => rating != 0 && content.isNotEmpty;
 }
