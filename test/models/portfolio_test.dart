@@ -10,7 +10,7 @@ void main() {
   "id": 1,
   "organization": "에바웨딩스",
   "plannerName": "김지수",
-  "region": "GANGNAM",
+  "region": "SEOUL",
   "introduction": "안녕하세요.",
   "contactInfo": "010-1234-5678",
   "profileImageUrl": "sdlkfjw3gee",

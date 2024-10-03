@@ -1,4 +1,6 @@
 import 'package:dears/models/portfolio.dart';
+import 'package:dears/models/portfolio_create_body.dart';
+import 'package:dears/models/portfolio_create_response.dart';
 import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/models/review.dart';
 import 'package:dio/dio.dart';
@@ -31,9 +33,10 @@ abstract class PortfolioClient {
   Future<List<PortfolioOverview>> getTopViewed();
 
   @POST("/{role}/create")
-  Future<Portfolio> create({
-    @Body() required Portfolio body,
+  Future<PortfolioCreateResponse> create({
+    @Body() required PortfolioCreateBody body,
   });
+
 
   @POST("/{role}/delete/{id}")
   Future<void> delete(@Path() int id);

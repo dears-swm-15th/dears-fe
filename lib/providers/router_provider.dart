@@ -9,6 +9,7 @@ import 'package:dears/pages/inquiry_page.dart';
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/planner_page.dart';
+import 'package:dears/pages/register_portfolio_page.dart';
 import 'package:dears/pages/review_edit_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
@@ -60,7 +61,7 @@ GoRouter goRouter(GoRouterRef ref) {
 
           final role = await ref.read(roleProvider.future);
           if (role == MemberRole.weddingPlanner) {
-            return "/planner";
+            return "/register-portfolio";
           }
           return null;
         },
@@ -138,6 +139,12 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: "/planner",
         builder: (context, state) => const PlannerPage(),
+      ),
+      GoRoute(
+        path: "/register-portfolio",
+        builder: (context, state) {
+          return const RegisterPortfolioPage();
+        },
       ),
     ],
   );
