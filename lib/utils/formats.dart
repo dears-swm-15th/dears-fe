@@ -18,6 +18,18 @@ final CustomFormatter<int?> number = CustomFormatter((value) {
   return _number.format(value);
 });
 
+// 상담 비용을 표시할 때 사용
+final CustomFormatter<String> cost = CustomFormatter((value) {
+  //example value: "₩ 100,000"
+  // 숫자만 추출
+  final numericValue = value.replaceAll(RegExp(r'[^\d]'), '');
+  if (numericValue.isEmpty) {
+    return "₩ 0";
+  }
+  // 숫자에 천 단위 구분을 적용
+  return "₩ ${_number.format(int.parse(numericValue))}";
+});
+
 final NumberFormat _rating = NumberFormat("0.0");
 
 final CustomFormatter<double?> rating = CustomFormatter((value) {
