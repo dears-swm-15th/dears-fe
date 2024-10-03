@@ -24,17 +24,21 @@ class AuthState extends _$AuthState {
   Future<void> signIn(OAuth2Provider provider) async {
     final token = await provider.getToken();
     if (token == null) {
-      throw Exception("failed to get token");
+      throw const TokenIssuanceException();
     }
 
     final client = await ref.read(oauth2ClientProvider.future);
 
     final role = await ref.read(roleProvider.future);
 
-    final auth = await provider.signIn(client, token, role);
-    await ref.read(uuidProvider.notifier).setValue(auth.uuid);
-    await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
-    await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+    try {
+      final auth = await provider.signIn(client, token, role);
+      await ref.read(uuidProvider.notifier).setValue(auth.uuid);
+      await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
+      await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+    } finally {
+      await provider.signOut();
+    }
   }
 
   Future<void> refresh(String refreshToken) async {
@@ -61,6 +65,8 @@ sealed class OAuth2Provider {
   Future<String?> getToken();
 
   Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role);
+
+  Future<void> signOut();
 }
 
 class GoogleOAuth2Provider extends OAuth2Provider {
@@ -68,21 +74,34 @@ class GoogleOAuth2Provider extends OAuth2Provider {
 
   @override
   Future<String?> getToken() async {
-    final settings = GoogleSignIn(
-      scopes: [
-        "https://www.googleapis.com/auth/userinfo.email",
-        "https://www.googleapis.com/auth/userinfo.profile",
-      ],
-    );
-    final account = await settings.signIn();
-    final auth = await account?.authentication;
-    return auth?.accessToken;
+    final scopes = [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile",
+    ];
+
+    try {
+      final account = await GoogleSignIn(scopes: scopes).signIn();
+      final auth = await account?.authentication;
+      return auth?.accessToken;
+    } on PlatformException catch (e) {
+      if (e.code == GoogleSignIn.kSignInFailedError) {
+        logger.d("failed to sign in with Google: $e");
+        return null;
+      }
+
+      rethrow;
+    }
   }
 
   @override
   Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role) {
     final data = GoogleOAuth2Body(googleAccessToken: token, role: role);
     return client.signInWithGoogle(data: data);
+  }
+
+  @override
+  Future<void> signOut() async {
+    await GoogleSignIn().signOut();
   }
 }
 
@@ -135,4 +154,16 @@ class KakaoOAuth2Provider extends OAuth2Provider {
     final data = KakaoOAuth2Body(kakaoAccessToken: token, role: role);
     return client.signInWithKakao(data: data);
   }
+
+  @override
+  Future<void> signOut() async {
+    await UserApi.instance.logout();
+  }
+}
+
+class TokenIssuanceException implements Exception {
+  const TokenIssuanceException();
+
+  @override
+  String toString() => "TokenIssuanceException: failed to issue token";
 }

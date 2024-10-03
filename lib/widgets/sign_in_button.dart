@@ -27,7 +27,7 @@ class SignInButton extends ConsumerWidget {
 
           if (!context.mounted) return;
           context.go("/");
-        } catch (e, s) {
+        } on TokenIssuanceException catch (e, s) {
           logger.d("failed to sign in", error: e, stackTrace: s);
         }
       },
