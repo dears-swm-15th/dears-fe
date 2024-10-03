@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'mypage_client.g.dart';
 
-@RestApi(baseUrl: "v1/mypage")
+@RestApi(baseUrl: "v1/member/mypage")
 abstract class MypageClient {
   factory MypageClient(Dio dio, {String baseUrl}) = _MypageClient;
 
