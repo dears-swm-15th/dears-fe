@@ -12,7 +12,7 @@ abstract class MypageClient {
   @GET("/{role}/me")
   Future<Profile> getProfile();
 
-  @POST("/{role}/customerservice")
+  @POST("/shared/customerservice")
   Future<void> submit({
     @Body() required InquiryRequestBody data,
   });
