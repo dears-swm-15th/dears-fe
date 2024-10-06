@@ -1,4 +1,3 @@
-import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/profile_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
@@ -23,13 +22,7 @@ class PersonalProfileListTile extends ConsumerWidget {
       orElse: () => "",
     );
 
-    final email = profile.maybeWhen(
-      data: (data) => data.email,
-      orElse: () => "",
-    );
-
     return PersonalListTile(
-      onTap: () => ref.read(authStateProvider.notifier).signOut(),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       leading: CdnImage.circle(
         url,
@@ -38,7 +31,6 @@ class PersonalProfileListTile extends ConsumerWidget {
       ),
       titleSpacing: 8,
       title: Text(name, style: titleMedium),
-      subtitle: Text(email),
       trailing: const Icon(DearsIcons.caret_right, size: 24),
       //Icon(DearsIcons.pencil_simple, size: 24),
     );
