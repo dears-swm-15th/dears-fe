@@ -18,6 +18,10 @@ class RegisterPortfolioPage extends ConsumerWidget {
     final portfolioFormProvider = ref.watch(registerPortfolioFormProvider);
     final contentController = TextEditingController();
 
+    final enabled = ref.watch(
+      registerPortfolioFormProvider.select((value) => value.enabled),
+    );
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -123,17 +127,19 @@ class RegisterPortfolioPage extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () {
-                        ref
-                            .read(registerPortfolioFormProvider.notifier)
-                            .setContent(contentController.text);
-                        ref
-                            .read(registerPortfolioFormProvider.notifier)
-                            .submit();
+                      onPressed: enabled
+                          ? () {
+                              ref
+                                  .read(registerPortfolioFormProvider.notifier)
+                                  .setContent(contentController.text);
+                              ref
+                                  .read(registerPortfolioFormProvider.notifier)
+                                  .submit();
 
-                        //TODO: routing
-                        context.go("/planner");
-                      },
+                              //TODO: routing
+                              context.go("/planner");
+                            }
+                          : null,
                       child: const Text("저장"),
                     ),
                   ),
