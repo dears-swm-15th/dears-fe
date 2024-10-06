@@ -38,7 +38,7 @@ GoRouter goRouter(GoRouterRef ref) {
     fireImmediately: true,
   );
 
-  return GoRouter(
+  final router = GoRouter(
     refreshListenable: isSignedIn,
     redirect: (context, state) async {
       logger.t("at global redirect, matched: ${state.matchedLocation}");
@@ -148,4 +148,7 @@ GoRouter goRouter(GoRouterRef ref) {
       ),
     ],
   );
+  ref.onDispose(router.dispose);
+
+  return router;
 }
