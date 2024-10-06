@@ -26,7 +26,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'router_provider.g.dart';
 
 @riverpod
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter router(RouterRef ref) {
   final isSignedIn = ValueNotifier(false);
   ref.onDispose(isSignedIn.dispose);
 
