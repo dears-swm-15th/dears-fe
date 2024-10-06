@@ -32,13 +32,13 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
 
   bool get _enabled =>
       state.plannerName.isNotEmpty &&
-          state.companyName.isNotEmpty &&
-          state.region != null &&
-          state.cost.isNotEmpty &&
-          state.content.isNotEmpty &&
-          state.services.isNotEmpty &&
-          state.profileImage.$1.isNotEmpty &&
-          state.portfolioImages.isNotEmpty;
+      state.companyName.isNotEmpty &&
+      state.region != null &&
+      state.cost.isNotEmpty &&
+      state.content.isNotEmpty &&
+      state.services.isNotEmpty &&
+      state.profileImage.$1.isNotEmpty &&
+      state.portfolioImages.isNotEmpty;
 
   void addService(String service) {
     state = state.copyWith(services: [...state.services, service]);
@@ -93,7 +93,8 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
 
   void removePortfolioImageAt(int index) {
     state = state.copyWith(
-      portfolioImages: [...state.portfolioImages]..removeAt(index),);
+      portfolioImages: [...state.portfolioImages]..removeAt(index),
+    );
     state = state.copyWith(enabled: _enabled);
   }
 
@@ -106,15 +107,14 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
           plannerName: state.plannerName,
           region: state.region!,
           introduction: state.content,
-          consultingFee:
-          int.parse(state.cost.replaceAll(RegExp('[^0-9]'), '')),
+          consultingFee: int.parse(state.cost.replaceAll(RegExp('[^0-9]'), "")),
           description: state.content,
           services: state.services,
           accompanyType: state.type,
           profileImageUrl: state.profileImage.$1,
           weddingPhotoUrls: [
-            for (final image in state.portfolioImages) image.$1
-            ,],
+            for (final image in state.portfolioImages) image.$1,
+          ],
         ),
         //TODO: upload to fileClient
       );
@@ -140,5 +140,4 @@ class RegisterPortfolioForm extends _$RegisterPortfolioForm {
       logger.e("Form is not valid $state");
     }
   }
-
 }

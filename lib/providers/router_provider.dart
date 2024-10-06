@@ -142,9 +142,7 @@ GoRouter router(RouterRef ref) {
       ),
       GoRoute(
         path: "/register-portfolio",
-        builder: (context, state) {
-          return const RegisterPortfolioPage();
-        },
+        builder: (context, state) => const RegisterPortfolioPage(),
       ),
     ],
   );

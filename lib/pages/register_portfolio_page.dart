@@ -10,7 +10,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class RegisterPortfolioPage extends ConsumerWidget {
   const RegisterPortfolioPage({super.key});
 
@@ -18,6 +17,7 @@ class RegisterPortfolioPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolioFormProvider = ref.watch(registerPortfolioFormProvider);
     final contentController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,18 +47,18 @@ class RegisterPortfolioPage extends ConsumerWidget {
                   Center(
                     child: (portfolioFormProvider.profileImage.$1.isEmpty)
                         ? CdnImage.circle(
-                      "",
-                      dimension: 100,
-                      fallback: const Icon(DearsIcons.person, size: 36),
-                    )
+                            "",
+                            dimension: 100,
+                            fallback: const Icon(DearsIcons.person, size: 36),
+                          )
                         : ClipOval(
-                      child: Image.memory(
-                        portfolioFormProvider.profileImage.$2,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                            child: Image.memory(
+                              portfolioFormProvider.profileImage.$2,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                   ),
                   const SizedBox(height: 8),
                   Center(
@@ -66,7 +66,7 @@ class RegisterPortfolioPage extends ConsumerWidget {
                       onPressed: () async {
                         final picker = ImagePicker();
                         final file =
-                        await picker.pickImage(source: ImageSource.gallery);
+                            await picker.pickImage(source: ImageSource.gallery);
 
                         if (file != null) {
                           final bytes = await file.readAsBytes();

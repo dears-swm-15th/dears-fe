@@ -5,6 +5,7 @@ import 'package:dears/models/region.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'register_portfolio_form_data.freezed.dart';
+
 @freezed
 class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
   const factory RegisterPortfolioFormData({

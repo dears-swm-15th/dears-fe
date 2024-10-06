@@ -37,7 +37,6 @@ abstract class PortfolioClient {
     @Body() required PortfolioCreateBody body,
   });
 
-
   @POST("/{role}/delete/{id}")
   Future<void> delete(@Path() int id);
 
