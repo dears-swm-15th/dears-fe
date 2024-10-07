@@ -39,114 +39,138 @@ class RegisterPortfolioPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: (portfolioFormProvider.profileImage.$1.isEmpty)
-                        ? CdnImage.circle(
-                            "",
-                            dimension: 100,
-                            fallback: const Icon(DearsIcons.person, size: 36),
-                          )
-                        : ClipOval(
-                            child: Image.memory(
-                              portfolioFormProvider.profileImage.$2,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
+      body: Theme(
+        data: Theme.of(context).copyWith(
+          inputDecorationTheme: const InputDecorationTheme(
+            hintStyle: TextStyle(color: gray600),
+            // 힌트 텍스트 색상
+            counterStyle: TextStyle(color: gray600),
+            contentPadding: EdgeInsets.all(12),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: gray100), // 입력 필드 외곽선 비활성 상태
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: blue500), // 입력 필드 외곽선 활성 상태
+            ),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: (portfolioFormProvider.profileImage.$1.isEmpty)
+                          ? CdnImage.circle(
+                              "",
+                              dimension: 100,
+                              fallback: const Icon(DearsIcons.person, size: 36),
+                            )
+                          : ClipOval(
+                              child: Image.memory(
+                                portfolioFormProvider.profileImage.$2,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: TextButton(
-                      onPressed: () async {
-                        final picker = ImagePicker();
-                        final file =
-                            await picker.pickImage(source: ImageSource.gallery);
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: TextButton(
+                        onPressed: () async {
+                          final picker = ImagePicker();
+                          final file = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
 
-                        if (file != null) {
-                          final bytes = await file.readAsBytes();
-                          final image = (file.name, bytes);
+                          if (file != null) {
+                            final bytes = await file.readAsBytes();
+                            final image = (file.name, bytes);
 
-                          ref
-                              .read(registerPortfolioFormProvider.notifier)
-                              .setProfileImages(image);
-                        } else {
-                          // TODO: give user feedback that no image was selected
-                        }
-                      },
-                      child: const Text(
-                        "프로필 이미지 선택",
-                        style: TextStyle(color: blue500),
+                            ref
+                                .read(registerPortfolioFormProvider.notifier)
+                                .setProfileImages(image);
+                          } else {
+                            // TODO: give user feedback that no image was selected
+                          }
+                        },
+                        child: const Text(
+                          "프로필 이미지 선택",
+                          style: TextStyle(color: blue500),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    "대표이미지",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                  const SizedBox(height: 8),
-                  const PortfolioImagePicker(),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-            // Divider outside the padding
-            const Divider(color: gray100, thickness: 4),
-            const SizedBox(height: 20),
-            const PortfolioInfoForm(),
-            const SizedBox(height: 20),
-            const Divider(color: gray100, thickness: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "상세 설명 작성",
-                    style: titleLarge,
-                  ),
-                  const SizedBox(height: 11),
-                  TextField(
-                    controller: contentController,
-                    maxLines: 10,
-                    decoration: const InputDecoration(
-                      hintText: "자세한 설명을 작성해주세요",
+                    const SizedBox(height: 30),
+                    const Text(
+                      "대표이미지",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: enabled
-                          ? () {
-                              ref
-                                  .read(registerPortfolioFormProvider.notifier)
-                                  .setContent(contentController.text);
-                              ref
-                                  .read(registerPortfolioFormProvider.notifier)
-                                  .submit();
+                    const SizedBox(height: 8),
+                    const PortfolioImagePicker(),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+              // Divider outside the padding
+              const Divider(color: gray100, thickness: 4),
+              const SizedBox(height: 20),
+              const PortfolioInfoForm(),
+              const SizedBox(height: 20),
+              const Divider(color: gray100, thickness: 4),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "상세 설명 작성",
+                      style: titleLarge,
+                    ),
+                    const SizedBox(height: 11),
+                    TextField(
+                      controller: contentController,
+                      maxLines: 10,
+                      decoration: const InputDecoration(
+                        hintText: "자세한 설명을 작성해주세요",
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: enabled
+                            ? () {
+                                ref
+                                    .read(
+                                      registerPortfolioFormProvider.notifier,
+                                    )
+                                    .setContent(contentController.text);
+                                ref
+                                    .read(
+                                      registerPortfolioFormProvider.notifier,
+                                    )
+                                    .submit();
 
-                              //TODO: routing
-                              context.go("/planner");
-                            }
-                          : null,
-                      child: const Text("저장"),
+                                //TODO: routing
+                                context.go("/planner");
+                              }
+                            : null,
+                        child: const Text("저장"),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
