@@ -3,6 +3,7 @@ import 'package:dears/providers/register_portfolio_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
+import 'package:dears/widgets/portfolio_description_field.dart';
 import 'package:dears/widgets/portfolio_image_picker.dart';
 import 'package:dears/widgets/portfolio_info_form.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ class RegisterPortfolioPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolioFormProvider = ref.watch(registerPortfolioFormProvider);
-    final contentController = TextEditingController();
 
     final enabled = ref.watch(
       registerPortfolioFormProvider.select((value) => value.enabled),
@@ -135,12 +135,10 @@ class RegisterPortfolioPage extends ConsumerWidget {
                       style: titleLarge,
                     ),
                     const SizedBox(height: 11),
-                    TextField(
-                      controller: contentController,
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                        hintText: "자세한 설명을 작성해주세요",
-                      ),
+                    PortfolioDescriptionField(
+                      onChanged: ref
+                          .read(registerPortfolioFormProvider.notifier)
+                          .setContent,
                     ),
                     const SizedBox(height: 20),
                     SizedBox(
@@ -148,11 +146,6 @@ class RegisterPortfolioPage extends ConsumerWidget {
                       child: FilledButton(
                         onPressed: enabled
                             ? () {
-                                ref
-                                    .read(
-                                      registerPortfolioFormProvider.notifier,
-                                    )
-                                    .setContent(contentController.text);
                                 ref
                                     .read(
                                       registerPortfolioFormProvider.notifier,
