@@ -1,7 +1,6 @@
 import 'package:dears/models/portfolio.dart';
 import 'package:dears/models/portfolio_create_body.dart';
 import 'package:dears/models/portfolio_create_response.dart';
-import 'package:dears/models/portfolio_overview.dart';
 import 'package:dears/models/review.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -21,16 +20,8 @@ abstract class PortfolioClient {
   @GET("/shared/reviews/{id}")
   Future<List<Review>> getAllReviews(@Path() int id);
 
-  @GET("/shared/search")
-  Future<List<PortfolioOverview>> search({
-    @Query("content") String? content,
-  });
-
   @GET("/shared/soft-deleted")
   Future<List<Portfolio>> getAllSoftDeleted();
-
-  @GET("/shared/top5")
-  Future<List<PortfolioOverview>> getTopViewed();
 
   @POST("/{role}/create")
   Future<PortfolioCreateResponse> create({
