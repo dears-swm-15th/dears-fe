@@ -40,6 +40,9 @@ abstract class PortfolioClient {
   @POST("/{role}/delete/{id}")
   Future<void> delete(@Path() int id);
 
+  @GET("/{role}/me")
+  Future<Portfolio> getMine();
+
   @POST("/{role}/update/{id}")
   Future<Portfolio> update(
     @Path() int id, {
