@@ -26,7 +26,8 @@ class _FavoritePageState extends ConsumerState<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    final wishlist = ref.watch(wishlistProvider);
+    // Mark the `wishlist` as loading when the page is opened.
+    final wishlist = ref.watch(wishlistProvider).unwrapPrevious();
 
     const emptyWidget = EmptyListWidget(
       title: "저장한 웨딩플래너가 없습니다",
