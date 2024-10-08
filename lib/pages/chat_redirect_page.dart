@@ -22,29 +22,29 @@ class _ChatRedirectPageState extends ConsumerState<ChatRedirectPage> {
   @override
   void initState() {
     super.initState();
-    redirect();
+    redirect().ignore();
   }
 
   Future<void> redirect() async {
+    final chatroomId = await getChatroomIdOf(widget.portfolioId);
+
+    if (!mounted) return;
+    context.replace("/chats/$chatroomId");
+  }
+
+  Future<int> getChatroomIdOf(int portfolioId) async {
     final chatList = await ref.read(chatListProvider.future);
 
-    final i = chatList.indexWhere((e) => e.portfolioId == widget.portfolioId);
+    final i = chatList.indexWhere((e) => e.portfolioId == portfolioId);
     if (i != -1) {
-      final chatroomId = chatList[i].id;
-
-      if (mounted) {
-        context.replace("/chats/$chatroomId");
-      }
-      return;
+      return chatList[i].id;
     }
 
     final chatroomClient = await ref.read(chatroomClientProvider.future);
-    final chatroom = await chatroomClient.createOrEnter(widget.portfolioId);
+    final chatroom = await chatroomClient.createOrEnter(portfolioId);
     await ref.read(stompProvider.notifier).subscribe(chatroom.id);
 
-    if (mounted) {
-      context.replace("/chats/${chatroom.id}");
-    }
+    return chatroom.id;
   }
 
   @override
