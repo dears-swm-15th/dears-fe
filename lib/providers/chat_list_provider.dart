@@ -20,7 +20,8 @@ class ChatList extends _$ChatList {
 
       final i = data.indexWhere((e) => e.id == chatroomId);
       if (i == -1) {
-        return data;
+        ref.invalidateSelf();
+        return await future;
       }
 
       final overview = data[i];
