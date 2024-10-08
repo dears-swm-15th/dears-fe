@@ -1,7 +1,7 @@
 extension AndThen<T> on T? {
-  S? andThen<S>(S? Function(T) f) {
-    final t = this;
-    return t != null ? f(t) : null;
+  S? andThen<S>(S? Function(T t) f) {
+    final self = this;
+    return self != null ? f(self) : null;
   }
 }
 
