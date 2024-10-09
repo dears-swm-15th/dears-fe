@@ -30,10 +30,13 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.zero,
         children: const [
-          SizedBox(height: 30),
-          Text("이번 주 주목할 웨딩플래너", style: titleLarge),
+          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("이번 주 주목할 웨딩플래너", style: titleLarge),
+          ),
           SizedBox(height: 10),
           HomeTopViewedList(),
         ],
