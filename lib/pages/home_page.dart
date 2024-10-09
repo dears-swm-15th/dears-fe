@@ -14,13 +14,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: ColoredBox(
-            color: Colors.grey,
-            child: SizedBox.square(
-              dimension: toolbarHeight,
-            ),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Image.asset(
+            "assets/logo.png",
+            width: toolbarHeight,
           ),
         ),
         actions: [
