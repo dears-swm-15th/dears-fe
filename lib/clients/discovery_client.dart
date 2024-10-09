@@ -8,6 +8,9 @@ part 'discovery_client.g.dart';
 abstract class DiscoveryClient {
   factory DiscoveryClient(Dio dio, {String baseUrl}) = _DiscoveryClient;
 
+  @GET("/shared/recommend")
+  Future<List<PortfolioOverview>> getRecommended();
+
   @GET("/shared/search")
   Future<List<PortfolioOverview>> search({
     @Query("content") String? content,

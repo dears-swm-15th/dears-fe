@@ -4,7 +4,6 @@ import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/details_background_carousel.dart';
-import 'package:dears/widgets/details_tag_box.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +56,6 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     final height = this.height;
 
     final avgRating = rating.format(widget.portfolio.avgRating);
-    final tags = ["여성", "동행"];
 
     final background = Column(
       children: [
@@ -88,10 +86,6 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
                         avgRating,
                         style: captionLarge.copyWith(color: gray800),
                       ),
-                      ...List.generate(tags.length, (index) {
-                        final tag = tags[index];
-                        return DetailsTagBox(tag);
-                      }),
                     ],
                   ),
                   const SizedBox(height: 16),

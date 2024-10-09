@@ -1,4 +1,4 @@
-import 'package:dears/providers/top_viewed_provider.dart';
+import 'package:dears/providers/recommended_provider.dart';
 import 'package:dears/widgets/home_top_viewed_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +11,7 @@ class HomeTopViewedList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final topViewed = ref.watch(topViewedProvider);
+    final topViewed = ref.watch(recommendedProvider);
 
     return topViewed.maybeWhen(
       data: (data) {
