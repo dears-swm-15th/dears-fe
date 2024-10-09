@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dears/models/message.dart';
 import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
+import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
@@ -23,26 +24,28 @@ class Stomp extends _$Stomp {
       return null;
     }
 
+    final chatList = await ref.read(chatListProvider.future);
+
     final client = StompClient(
       config: StompConfig.sockJS(
         url: "$baseUrl/stomp/chat",
         stompConnectHeaders: {"Authorization": uuid},
-        onConnect: _onConnect,
-        onWebSocketError: logger.e,
+        onConnect: (frame) {
+          for (final chatroom in chatList) {
+            subscribe(chatroom.id);
+          }
+          _listenNew(uuid);
+        },
+        onWebSocketError: (error) {
+          logger.e(error);
+          ref.read(authStateProvider.notifier).signOut();
+        },
         onDebugMessage: logger.d,
       ),
     )..activate();
     ref.onDispose(client.deactivate);
 
     return client;
-  }
-
-  Future<void> _onConnect(StompFrame frame) async {
-    final chatList = await ref.read(chatListProvider.future);
-    for (final chatroom in chatList) {
-      subscribe(chatroom.id);
-    }
-    _listenNew();
   }
 
   Future<void> subscribe(int chatroomId) async {
@@ -85,14 +88,9 @@ class Stomp extends _$Stomp {
     ref.onDispose(unsubscribeFn);
   }
 
-  Future<void> _listenNew() async {
+  Future<void> _listenNew(String uuid) async {
     final client = await future;
     if (client == null) {
-      return;
-    }
-
-    final uuid = await ref.read(uuidProvider.future);
-    if (uuid == null) {
       return;
     }
 

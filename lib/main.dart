@@ -47,7 +47,7 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(stompProvider);
 
-    final router = ref.watch(goRouterProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       routerConfig: router,

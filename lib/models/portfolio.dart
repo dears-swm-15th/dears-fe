@@ -23,7 +23,7 @@ class Portfolio with _$Portfolio {
     int? minEstimate,
     required List<String> services,
     required List<String> weddingPhotoUrls,
-    required Map<RadarKey, double> avgRadar,
+    @Default({}) Map<RadarKey, double> avgRadar,
     String? presignedProfileImageUrl,
     required List<String> presignedWeddingPhotoUrls,
     required DateTime createdAt,

@@ -16,6 +16,7 @@ import 'package:dears/pages/search_page.dart';
 import 'package:dears/pages/search_result_page.dart';
 import 'package:dears/pages/sign_in_page.dart';
 import 'package:dears/providers/is_signed_in_provider.dart';
+import 'package:dears/providers/my_portfolio_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
@@ -26,7 +27,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'router_provider.g.dart';
 
 @riverpod
-GoRouter goRouter(GoRouterRef ref) {
+GoRouter router(RouterRef ref) {
   final isSignedIn = ValueNotifier(false);
   ref.onDispose(isSignedIn.dispose);
 
@@ -38,7 +39,7 @@ GoRouter goRouter(GoRouterRef ref) {
     fireImmediately: true,
   );
 
-  return GoRouter(
+  final router = GoRouter(
     refreshListenable: isSignedIn,
     redirect: (context, state) async {
       logger.t("at global redirect, matched: ${state.matchedLocation}");
@@ -61,7 +62,7 @@ GoRouter goRouter(GoRouterRef ref) {
 
           final role = await ref.read(roleProvider.future);
           if (role == MemberRole.weddingPlanner) {
-            return "/register-portfolio";
+            return "/planner";
           }
           return null;
         },
@@ -138,14 +139,22 @@ GoRouter goRouter(GoRouterRef ref) {
       ),
       GoRoute(
         path: "/planner",
+        redirect: (context, state) async {
+          final portfolio = await ref.read(myPortfolioProvider.future);
+          if (portfolio == null) {
+            return "/register-portfolio";
+          }
+          return null;
+        },
         builder: (context, state) => const PlannerPage(),
       ),
       GoRoute(
         path: "/register-portfolio",
-        builder: (context, state) {
-          return const RegisterPortfolioPage();
-        },
+        builder: (context, state) => const RegisterPortfolioPage(),
       ),
     ],
   );
+  ref.onDispose(router.dispose);
+
+  return router;
 }

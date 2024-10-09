@@ -5,10 +5,10 @@ import 'package:dears/models/region.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'register_portfolio_form_data.freezed.dart';
+
 @freezed
 class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
   const factory RegisterPortfolioFormData({
-    required bool enabled, // 등록 버튼 활성화 여부
     required String plannerName, // 플래너 이름
     required String companyName, // 업체명
     required String introduce, // 소개
@@ -23,4 +23,16 @@ class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
     // 포트폴리오 이미지
     required List<(String, Uint8List)> portfolioImages,
   }) = _RegisterPortfolioFormData;
+
+  const RegisterPortfolioFormData._();
+
+  bool get enabled =>
+      plannerName.isNotEmpty &&
+      companyName.isNotEmpty &&
+      region != null &&
+      cost.isNotEmpty &&
+      content.isNotEmpty &&
+      services.isNotEmpty &&
+      profileImage.$1.isNotEmpty &&
+      portfolioImages.isNotEmpty;
 }
