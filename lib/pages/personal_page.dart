@@ -1,5 +1,4 @@
 import 'package:dears/providers/auth_state_provider.dart';
-import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
@@ -26,41 +25,23 @@ class PersonalPage extends ConsumerWidget {
             thickness: 4,
             color: gray100,
           ),
+          const SizedBox(height: 24),
           const Padding(
-            padding: EdgeInsets.only(left: 13, top: 16, bottom: 10),
-            child: Text(
-              "내 활동",
-              style: TextStyle(
-                color: gray600,
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("고객센터", style: titleMedium),
+          ),
+          const SizedBox(height: 16),
+          PersonalListTile(
+            title: "문의하기",
+            onTap: () => context.push("/inquiry"),
           ),
           PersonalListTile(
+            title: "서비스 이용약관",
             onTap: () {},
-            title: const Text("내가 쓴 리뷰"),
-            leading: const Icon(DearsIcons.chat),
-            trailing: const Icon(DearsIcons.caret_right),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 13, top: 20, bottom: 10),
-            child: Text(
-              "고객센터",
-              style: TextStyle(
-                color: gray600,
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
           ),
           PersonalListTile(
-            onTap: () {
-              context.push("/inquiry");
-            },
-            leading: const Icon(DearsIcons.chat),
-            title: const Text("문의하기"),
-            trailing: const Icon(DearsIcons.caret_right),
+            title: "개인정보 처리 방침",
+            onTap: () {},
           ),
           const Spacer(),
           TextButton(
