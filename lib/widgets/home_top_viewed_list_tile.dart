@@ -25,8 +25,7 @@ class HomeTopViewedListTile extends StatelessWidget {
       onTap: () => context.push("/details/${portfolio.id}"),
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        // TODO: remove outer horizontal padding of the list
-        padding: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: Row(
           children: [
             SizedBox(

@@ -19,6 +19,13 @@ class PlannerPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Image.asset(
+            "assets/logo.png",
+            width: toolbarHeight,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
