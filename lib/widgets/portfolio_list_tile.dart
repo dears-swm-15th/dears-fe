@@ -9,10 +9,12 @@ import 'package:go_router/go_router.dart';
 
 class PortfolioListTile extends StatelessWidget {
   final PortfolioOverview portfolio;
+  final bool compact;
 
   const PortfolioListTile(
     this.portfolio, {
     super.key,
+    this.compact = false,
   });
 
   @override
@@ -21,63 +23,71 @@ class PortfolioListTile extends StatelessWidget {
     final avgRating = rating.format(portfolio.avgRating);
     final minEstimate = number.format(portfolio.minEstimate);
 
+    final padding = compact
+        ? EdgeInsets.zero
+        : const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+
     return GestureDetector(
       onTap: () => context.push("/details/${portfolio.id}"),
       behavior: HitTestBehavior.opaque,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        height: 100,
-        child: Row(
-          children: [
-            CdnImage(
-              portfolio.profileImageUrl,
-              width: 84,
-              height: 84,
-              borderRadius: BorderRadius.circular(4),
-              fallback: const Icon(DearsIcons.person, size: 32),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      portfolio.plannerName,
-                      style: titleSmall,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      portfolio.organization,
-                      style: bodySmall.copyWith(color: gray600),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      "리뷰($reviewCount)",
-                      style: captionLarge.copyWith(color: gray600),
-                    ),
-                    const SizedBox(width: 2),
-                    const Icon(DearsIcons.star, size: 16, color: yellow),
-                    const SizedBox(width: 2),
-                    Text(
-                      avgRating,
-                      style: captionLarge.copyWith(color: gray800),
-                    ),
-                  ],
-                ),
+      child: Padding(
+        padding: padding,
+        child: SizedBox(
+          height: 84,
+          child: Row(
+            children: [
+              CdnImage(
+                portfolio.profileImageUrl,
+                width: 84,
+                height: 84,
+                borderRadius: BorderRadius.circular(4),
+                fallback: const Icon(DearsIcons.person, size: 32),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        portfolio.plannerName,
+                        style: titleSmall,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        portfolio.organization,
+                        style: bodySmall.copyWith(color: gray600),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        "리뷰($reviewCount)",
+                        style: captionLarge.copyWith(color: gray600),
+                      ),
+                      const SizedBox(width: 2),
+                      const Icon(DearsIcons.star, size: 16, color: yellow),
+                      const SizedBox(width: 2),
+                      Text(
+                        avgRating,
+                        style: captionLarge.copyWith(color: gray800),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Text("$minEstimate원~", style: titleSmall),
+                  const SizedBox(height: 4),
+                ],
+              ),
+              if (!compact) ...[
                 const Spacer(),
-                Text("$minEstimate원~", style: titleSmall),
-                const SizedBox(height: 4),
+                FavoriteToggleButton(portfolio.id),
               ],
-            ),
-            const Spacer(),
-            FavoriteToggleButton(portfolio.id),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
 import 'package:dears/widgets/personal_profile_list_tile.dart';
+import 'package:dears/widgets/recent_seen_portfolio_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,6 +21,19 @@ class PersonalPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const PersonalProfileListTile(),
+          const Divider(
+            height: 4,
+            thickness: 4,
+            color: gray100,
+          ),
+          const SizedBox(height: 24),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("최근 본 포트폴리오", style: titleMedium),
+          ),
+          const SizedBox(height: 16),
+          const RecentSeenPortfolioList(),
+          const SizedBox(height: 30),
           const Divider(
             height: 4,
             thickness: 4,
