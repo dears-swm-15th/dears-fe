@@ -90,8 +90,11 @@ class SearchPage extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: chips,
+              child: SingleChildScrollView(
+                child: chips,
+              ),
             ),
+            SizedBox(height: MediaQuery.of(context).padding.bottom),
           ],
         ),
       ),
