@@ -1,7 +1,7 @@
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/widgets/chat_list_tile.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
-import 'package:dears/widgets/list_status_widget.dart';
+import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,7 +12,7 @@ class ChatListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chatList = ref.watch(chatListProvider);
 
-    const emptyWidget = EmptyListWidget(
+    const emptyWidget = EmptyWidget(
       title: "대화 중인 웨딩플래너가 없습니다",
       subtitle: "마음에 드는 웨딩플래너와 대화해보세요",
     );
@@ -23,20 +23,18 @@ class ChatListPage extends ConsumerWidget {
           return emptyWidget;
         }
 
-        return Expanded(
-          child: ListView.separated(
-            physics: const ClampingScrollPhysics(),
-            itemCount: data.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final chat = data[index];
-              return ChatListTile(chat);
-            },
-          ),
+        return ListView.separated(
+          physics: const ClampingScrollPhysics(),
+          itemCount: data.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final chat = data[index];
+            return ChatListTile(chat);
+          },
         );
       },
       error: (error, stackTrace) => emptyWidget,
-      loading: () => const LoadingListWidget(),
+      loading: () => const LoadingWidget(),
     );
 
     return Scaffold(
@@ -46,7 +44,9 @@ class ChatListPage extends ConsumerWidget {
       body: Column(
         children: [
           const SizedBox(height: 24),
-          child,
+          Expanded(
+            child: child,
+          ),
         ],
       ),
     );

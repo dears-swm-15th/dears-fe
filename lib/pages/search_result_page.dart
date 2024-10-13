@@ -1,9 +1,9 @@
 import 'package:dears/providers/search_result_provider.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
-import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
 import 'package:dears/widgets/search_text_field.dart';
+import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,7 +20,7 @@ class SearchResultPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchResult = ref.watch(searchResultProvider(query));
 
-    const emptyWidget = EmptyListWidget(
+    const emptyWidget = EmptyWidget(
       title: "검색 결과가 없습니다",
       subtitle: "다른 검색어로 검색해보세요",
     );
@@ -36,22 +36,20 @@ class SearchResultPage extends ConsumerWidget {
           return emptyWidget;
         }
 
-        return Expanded(
-          child: ListView.separated(
-            physics: const ClampingScrollPhysics(),
-            itemCount: data.length,
-            separatorBuilder: (context, index) {
-              return const Divider(height: 4, indent: 16, endIndent: 16);
-            },
-            itemBuilder: (context, index) {
-              final overview = data[index];
-              return PortfolioListTile(overview);
-            },
-          ),
+        return ListView.separated(
+          physics: const ClampingScrollPhysics(),
+          itemCount: data.length,
+          separatorBuilder: (context, index) {
+            return const Divider(height: 4, indent: 16, endIndent: 16);
+          },
+          itemBuilder: (context, index) {
+            final overview = data[index];
+            return PortfolioListTile(overview);
+          },
         );
       },
       error: (error, stackTrace) => emptyWidget,
-      loading: () => const LoadingListWidget(),
+      loading: () => const LoadingWidget(),
     );
 
     return Scaffold(
@@ -85,7 +83,9 @@ class SearchResultPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
-          result,
+          Expanded(
+            child: result,
+          ),
         ],
       ),
     );

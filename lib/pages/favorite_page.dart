@@ -1,8 +1,8 @@
 import 'package:dears/providers/wishlist_provider.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
-import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
+import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -29,7 +29,7 @@ class _FavoritePageState extends ConsumerState<FavoritePage> {
     // Mark the `wishlist` as loading when the page is opened.
     final wishlist = ref.watch(wishlistProvider).unwrapPrevious();
 
-    const emptyWidget = EmptyListWidget(
+    const emptyWidget = EmptyWidget(
       title: "저장한 웨딩플래너가 없습니다",
       subtitle: "마음에 드는 웨딩플래너를 저장해보세요",
     );
@@ -40,22 +40,20 @@ class _FavoritePageState extends ConsumerState<FavoritePage> {
           return emptyWidget;
         }
 
-        return Expanded(
-          child: ListView.separated(
-            physics: const ClampingScrollPhysics(),
-            itemCount: data.length,
-            separatorBuilder: (context, index) {
-              return const Divider(height: 4, indent: 16, endIndent: 16);
-            },
-            itemBuilder: (context, index) {
-              final overview = data[index];
-              return PortfolioListTile(overview);
-            },
-          ),
+        return ListView.separated(
+          physics: const ClampingScrollPhysics(),
+          itemCount: data.length,
+          separatorBuilder: (context, index) {
+            return const Divider(height: 4, indent: 16, endIndent: 16);
+          },
+          itemBuilder: (context, index) {
+            final overview = data[index];
+            return PortfolioListTile(overview);
+          },
         );
       },
       error: (error, stackTrace) => emptyWidget,
-      loading: () => const LoadingListWidget(),
+      loading: () => const LoadingWidget(),
     );
 
     final count = wishlist.maybeWhen(
@@ -87,7 +85,9 @@ class _FavoritePageState extends ConsumerState<FavoritePage> {
             ),
           ),
           const SizedBox(height: 8),
-          child,
+          Expanded(
+            child: child,
+          ),
         ],
       ),
     );

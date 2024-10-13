@@ -1,6 +1,6 @@
 import 'package:dears/providers/top_viewed_provider.dart';
-import 'package:dears/widgets/list_status_widget.dart';
 import 'package:dears/widgets/portfolio_list_tile.dart';
+import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,7 +12,7 @@ class RecentSeenPortfolioList extends ConsumerWidget {
     // TODO: replace provider to one of recent seen portfolios
     final recentSeen = ref.watch(topViewedProvider);
 
-    const emptyWidget = EmptyListWidget(
+    const emptyWidget = EmptyWidget(
       title: "최근 본 포트폴리오가 없습니다",
       subtitle: "마음에 드는 포트폴리오를 찾아보세요",
     );
@@ -36,7 +36,7 @@ class RecentSeenPortfolioList extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) => emptyWidget,
-      loading: () => const LoadingListWidget(),
+      loading: () => const LoadingWidget(),
     );
 
     return SizedBox(

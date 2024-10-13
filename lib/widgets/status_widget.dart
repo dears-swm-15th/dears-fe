@@ -1,11 +1,11 @@
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-class EmptyListWidget extends StatelessWidget {
+class EmptyWidget extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const EmptyListWidget({
+  const EmptyWidget({
     super.key,
     required this.title,
     this.subtitle,
@@ -29,25 +29,21 @@ class EmptyListWidget extends StatelessWidget {
             ],
           );
 
-    return Expanded(
-      child: Align(
-        alignment: const Alignment(0, -0.5),
-        child: child,
-      ),
+    return Align(
+      alignment: const Alignment(0, -0.5),
+      child: child,
     );
   }
 }
 
-class LoadingListWidget extends StatelessWidget {
-  const LoadingListWidget({super.key});
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: Align(
-        alignment: Alignment(0, -0.5),
-        child: CircularProgressIndicator(),
-      ),
+    return const Align(
+      alignment: Alignment(0, -0.5),
+      child: CircularProgressIndicator(),
     );
   }
 }
