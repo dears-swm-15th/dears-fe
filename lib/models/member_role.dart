@@ -14,4 +14,12 @@ enum MemberRole {
       weddingPlanner => "weddingplanner"
     };
   }
+
+  @override
+  String toString() {
+    return switch (this) {
+      customer => "예비 신혼부부",
+      weddingPlanner => "웨딩플래너",
+    };
+  }
 }
