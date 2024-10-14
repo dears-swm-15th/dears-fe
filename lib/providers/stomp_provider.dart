@@ -6,6 +6,7 @@ import 'package:dears/models/stomp_message.dart';
 import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/chat_room_ids_provider.dart';
 import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
@@ -31,7 +32,7 @@ class Stomp extends _$Stomp {
     // Read access token after fetching chat room list to ensure access token
     // is not expired. Even if access token is expired, the API call will
     // trigger a refresh, guaranteeing that the token is valid.
-    final chatList = await ref.read(chatListProvider.future);
+    final chatRoomIds = await ref.read(chatRoomIdsProvider.future);
     final accessToken = await ref.read(accessTokenProvider.future);
 
     if (uuid == null || accessToken == null) {
@@ -43,8 +44,8 @@ class Stomp extends _$Stomp {
         url: "$baseUrl/stomp/chat",
         stompConnectHeaders: {"Authorization": accessToken},
         onConnect: (frame) {
-          for (final chatroom in chatList) {
-            subscribe(chatroom.id);
+          for (final id in chatRoomIds.values) {
+            subscribe(id);
           }
           _listenNew(uuid);
         },
