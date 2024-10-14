@@ -6,28 +6,12 @@ import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavoritePage extends ConsumerStatefulWidget {
+class FavoritePage extends ConsumerWidget {
   const FavoritePage({super.key});
 
   @override
-  ConsumerState<FavoritePage> createState() => _FavoritePageState();
-}
-
-class _FavoritePageState extends ConsumerState<FavoritePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Invalidate the `wishlistProvider` when the page is opened.
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.invalidate(wishlistProvider);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Mark the `wishlist` as loading when the page is opened.
-    final wishlist = ref.watch(wishlistProvider).unwrapPrevious();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wishlist = ref.watch(wishlistProvider);
 
     const emptyWidget = EmptyWidget(
       title: "저장한 웨딩플래너가 없습니다",

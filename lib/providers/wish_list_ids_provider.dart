@@ -4,7 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'wish_list_ids_provider.g.dart';
 
-@riverpod
+/// Cached id list of wish list
+@Riverpod(keepAlive: true)
 class WishListIds extends _$WishListIds {
   @override
   Future<Set<int>> build() async {
