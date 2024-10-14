@@ -1,8 +1,7 @@
 import 'package:dears/clients/oauth2_client.dart';
 import 'package:dears/models/auth_token.dart';
-import 'package:dears/models/google_oauth2_body.dart';
-import 'package:dears/models/kakao_oauth2_body.dart';
 import 'package:dears/models/member_role.dart';
+import 'package:dears/models/oauth2_body.dart';
 import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/oauth2_client_provider.dart';
 import 'package:dears/providers/refresh_token_provider.dart';
@@ -22,17 +21,13 @@ class AuthState extends _$AuthState {
   FutureOr<void> build() {}
 
   Future<void> signIn(OAuth2Provider provider) async {
-    final token = await provider.getToken();
-    if (token == null) {
-      throw const TokenIssuanceException();
-    }
+    final role = await ref.read(roleProvider.future);
+    final data = await provider.getData(role);
 
     final client = await ref.read(oauth2ClientProvider.future);
 
-    final role = await ref.read(roleProvider.future);
-
     try {
-      final auth = await provider.signIn(client, token, role);
+      final auth = await provider.signIn(client, data);
       await ref.read(uuidProvider.notifier).setValue(auth.uuid);
       await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
       await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
@@ -62,9 +57,9 @@ class AuthState extends _$AuthState {
 sealed class OAuth2Provider {
   const OAuth2Provider();
 
-  Future<String?> getToken();
+  Future<OAuth2Body> getData(MemberRole role);
 
-  Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role);
+  Future<AuthToken> signIn(OAuth2Client client, covariant OAuth2Body data);
 
   Future<void> signOut();
 }
@@ -72,7 +67,6 @@ sealed class OAuth2Provider {
 class GoogleOAuth2Provider extends OAuth2Provider {
   const GoogleOAuth2Provider();
 
-  @override
   Future<String?> getToken() async {
     final scopes = [
       "https://www.googleapis.com/auth/userinfo.profile",
@@ -93,8 +87,17 @@ class GoogleOAuth2Provider extends OAuth2Provider {
   }
 
   @override
-  Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role) {
-    final data = GoogleOAuth2Body(googleAccessToken: token, role: role);
+  Future<OAuth2Body> getData(MemberRole role) async {
+    final token = await getToken();
+    if (token == null) {
+      throw const TokenIssuanceException();
+    }
+
+    return GoogleOAuth2Body(googleAccessToken: token, role: role);
+  }
+
+  @override
+  Future<AuthToken> signIn(OAuth2Client client, GoogleOAuth2Body data) {
     return client.signInWithGoogle(data: data);
   }
 
@@ -107,7 +110,6 @@ class GoogleOAuth2Provider extends OAuth2Provider {
 class KakaoOAuth2Provider extends OAuth2Provider {
   const KakaoOAuth2Provider();
 
-  @override
   Future<String?> getToken() async {
     // 카카오톡 실행 가능 여부 확인
     // 카카오톡 실행이 가능하면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
@@ -149,8 +151,17 @@ class KakaoOAuth2Provider extends OAuth2Provider {
   }
 
   @override
-  Future<AuthToken> signIn(OAuth2Client client, String token, MemberRole role) {
-    final data = KakaoOAuth2Body(kakaoAccessToken: token, role: role);
+  Future<OAuth2Body> getData(MemberRole role) async {
+    final token = await getToken();
+    if (token == null) {
+      throw const TokenIssuanceException();
+    }
+
+    return KakaoOAuth2Body(kakaoAccessToken: token, role: role);
+  }
+
+  @override
+  Future<AuthToken> signIn(OAuth2Client client, KakaoOAuth2Body data) {
     return client.signInWithKakao(data: data);
   }
 

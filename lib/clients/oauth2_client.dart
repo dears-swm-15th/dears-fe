@@ -1,6 +1,5 @@
 import 'package:dears/models/auth_token.dart';
-import 'package:dears/models/google_oauth2_body.dart';
-import 'package:dears/models/kakao_oauth2_body.dart';
+import 'package:dears/models/oauth2_body.dart';
 import 'package:dears/models/reissue_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
