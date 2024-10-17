@@ -10,6 +10,11 @@ part 'oauth2_client.g.dart';
 abstract class OAuth2Client {
   factory OAuth2Client(Dio dio, {String baseUrl}) = _OAuth2Client;
 
+  @POST("/shared/apple")
+  Future<AuthToken> signInWithApple({
+    @Body() required AppleOAuth2Body data,
+  });
+
   @POST("/shared/google")
   Future<AuthToken> signInWithGoogle({
     @Body() required GoogleOAuth2Body data,

@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 part 'auth_state_provider.g.dart';
 
@@ -62,6 +63,48 @@ sealed class OAuth2Provider {
   Future<AuthToken> signIn(OAuth2Client client, covariant OAuth2Body data);
 
   Future<void> signOut();
+}
+
+class AppleOAuth2Provider extends OAuth2Provider {
+  const AppleOAuth2Provider();
+
+  @override
+  Future<OAuth2Body> getData(MemberRole role) async {
+    const scopes = [
+      AppleIDAuthorizationScopes.fullName,
+    ];
+
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: scopes,
+      );
+
+      final idToken = credential.identityToken;
+      if (idToken == null) {
+        throw const TokenIssuanceException();
+      }
+
+      final authCode = credential.authorizationCode;
+
+      return AppleOAuth2Body(
+        appleIdToken: idToken,
+        authorizationCode: authCode,
+        role: role,
+      );
+    } on SignInWithAppleAuthorizationException catch (e) {
+      logger.d("failed to sign in with Apple: $e");
+      throw const TokenIssuanceException();
+    }
+  }
+
+  @override
+  Future<AuthToken> signIn(OAuth2Client client, AppleOAuth2Body data) {
+    return client.signInWithApple(data: data);
+  }
+
+  /// "Sign in with Apple" does not require sign out
+  @override
+  Future<void> signOut() async {}
 }
 
 class GoogleOAuth2Provider extends OAuth2Provider {

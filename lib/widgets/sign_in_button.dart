@@ -1,5 +1,6 @@
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/logger.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -38,7 +39,15 @@ class SignInButton extends ConsumerWidget {
           children: [
             prefix,
             const Spacer(),
-            title,
+            DefaultTextStyle(
+              style: const TextStyle(
+                color: black,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                height: 24 / 16,
+              ),
+              child: title,
+            ),
             const Spacer(),
           ],
         ),

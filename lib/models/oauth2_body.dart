@@ -7,6 +7,18 @@ part 'oauth2_body.g.dart';
 sealed class OAuth2Body {}
 
 @Freezed(toJson: true)
+class AppleOAuth2Body extends OAuth2Body with _$AppleOAuth2Body {
+  const factory AppleOAuth2Body({
+    required String appleIdToken,
+    required String authorizationCode,
+    required MemberRole role,
+  }) = _AppleOAuth2Body;
+
+  @override
+  Map<String, dynamic> toJson();
+}
+
+@Freezed(toJson: true)
 class GoogleOAuth2Body extends OAuth2Body with _$GoogleOAuth2Body {
   const factory GoogleOAuth2Body({
     required String googleAccessToken,

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/sign_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignInPage extends ConsumerWidget {
   const SignInPage({super.key});
@@ -46,6 +49,27 @@ class SignInPage extends ConsumerWidget {
                 ),
               ),
               const Spacer(flex: 2),
+              if (Platform.isIOS) ...[
+                SignInButton(
+                  provider: const AppleOAuth2Provider(),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  prefix: const CustomPaint(
+                    size: Size(18, 18 * (31 / 25)),
+                    painter: AppleLogoPainter(color: Colors.white),
+                  ),
+                  title: const Text(
+                    "Apple로 로그인",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: ".SF Pro Text",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
               SignInButton(
                 provider: const GoogleOAuth2Provider(),
                 decoration: BoxDecoration(
