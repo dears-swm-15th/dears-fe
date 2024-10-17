@@ -81,7 +81,7 @@ class AppleOAuth2Provider extends OAuth2Provider {
 
       final idToken = credential.identityToken;
       if (idToken == null) {
-        throw const TokenIssuanceException();
+        throw TokenIssuanceException(this);
       }
 
       final authCode = credential.authorizationCode;
@@ -91,9 +91,8 @@ class AppleOAuth2Provider extends OAuth2Provider {
         authorizationCode: authCode,
         role: role,
       );
-    } on SignInWithAppleAuthorizationException catch (e) {
-      logger.d("failed to sign in with Apple: $e");
-      throw const TokenIssuanceException();
+    } on SignInWithAppleAuthorizationException {
+      throw TokenIssuanceException(this);
     }
   }
 
@@ -121,7 +120,6 @@ class GoogleOAuth2Provider extends OAuth2Provider {
       return auth?.accessToken;
     } on PlatformException catch (e) {
       if (e.code == GoogleSignIn.kSignInFailedError) {
-        logger.d("failed to sign in with Google: $e");
         return null;
       }
 
@@ -133,7 +131,7 @@ class GoogleOAuth2Provider extends OAuth2Provider {
   Future<OAuth2Body> getData(MemberRole role) async {
     final token = await getToken();
     if (token == null) {
-      throw const TokenIssuanceException();
+      throw TokenIssuanceException(this);
     }
 
     return GoogleOAuth2Body(googleAccessToken: token, role: role);
@@ -197,7 +195,7 @@ class KakaoOAuth2Provider extends OAuth2Provider {
   Future<OAuth2Body> getData(MemberRole role) async {
     final token = await getToken();
     if (token == null) {
-      throw const TokenIssuanceException();
+      throw TokenIssuanceException(this);
     }
 
     return KakaoOAuth2Body(kakaoAccessToken: token, role: role);
@@ -215,8 +213,12 @@ class KakaoOAuth2Provider extends OAuth2Provider {
 }
 
 class TokenIssuanceException implements Exception {
-  const TokenIssuanceException();
+  final OAuth2Provider provider;
+
+  const TokenIssuanceException(this.provider);
 
   @override
-  String toString() => "TokenIssuanceException: failed to issue token";
+  String toString() {
+    return "TokenIssuanceException: failed to issue token with $provider";
+  }
 }
