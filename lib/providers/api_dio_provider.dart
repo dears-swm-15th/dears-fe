@@ -1,7 +1,7 @@
 import 'package:dears/providers/auth_interceptor_provider.dart';
 import 'package:dears/providers/role_interceptor_provider.dart';
-import 'package:dears/utils/dio.dart';
 import 'package:dears/utils/env.dart';
+import 'package:dears/utils/log_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +22,7 @@ Future<Dio> apiDio(ApiDioRef ref) async {
   final authInterceptor = ref.watch(authInterceptorProvider);
   dio.interceptors.add(authInterceptor);
 
-  dio.interceptors.add(logInterceptor);
+  dio.interceptors.add(const CustomLogInterceptor());
 
   return dio;
 }
