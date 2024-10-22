@@ -8,6 +8,7 @@ part 'profile.g.dart';
 class Profile with _$Profile {
   const factory Profile({
     @Default("") String name,
+    required String nickname,
     String? profileImageUrl,
   }) = _Profile;
 
