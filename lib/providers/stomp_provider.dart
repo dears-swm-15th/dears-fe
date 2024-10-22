@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:dears/models/message.dart';
 import 'package:dears/models/message_type.dart';
 import 'package:dears/models/stomp_message.dart';
+import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
@@ -19,17 +21,27 @@ part 'stomp_provider.g.dart';
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {
-    final uuid = await ref.watch(uuidProvider.future);
-    if (uuid == null) {
+    final isSignedIn = await ref.watch(isSignedInProvider);
+    if (!isSignedIn) {
       return null;
     }
 
+    final uuid = await ref.read(uuidProvider.future);
+
+    // Read access token after fetching chat room list to ensure access token
+    // is not expired. Even if access token is expired, the API call will
+    // trigger a refresh, guaranteeing that the token is valid.
     final chatList = await ref.read(chatListProvider.future);
+    final accessToken = await ref.read(accessTokenProvider.future);
+
+    if (uuid == null || accessToken == null) {
+      throw StateError("uuid or access token cannot be null after sign-in");
+    }
 
     final client = StompClient(
       config: StompConfig.sockJS(
         url: "$baseUrl/stomp/chat",
-        stompConnectHeaders: {"Authorization": uuid},
+        stompConnectHeaders: {"Authorization": accessToken},
         onConnect: (frame) {
           for (final chatroom in chatList) {
             subscribe(chatroom.id);
