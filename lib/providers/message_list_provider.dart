@@ -1,4 +1,5 @@
 import 'package:dears/models/message.dart';
+import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,10 +15,11 @@ class MessageList extends _$MessageList {
     final chatroomClient = await ref.watch(chatroomClientProvider.future);
 
     final chatroom = await chatroomClient.enter(chatroomId);
-    // TODO: do not send leave message until server supports it
-    // ref.onDispose(() {
-    //   ref.read(stompProvider.notifier).leave(chatroomId);
-    // });
+    ref.onDispose(() {
+      // Refresh immediately and fetch API again to update server state when
+      // leaving chat room.
+      final _ = ref.refresh(chatListProvider);
+    });
 
     final chats = chatroom.chats;
     final role = await ref.read(roleProvider.future);

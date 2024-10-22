@@ -4,5 +4,4 @@ import 'package:json_annotation/json_annotation.dart';
 enum MessageType {
   send,
   enter,
-  leave,
 }
