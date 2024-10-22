@@ -148,25 +148,4 @@ class Stomp extends _$Stomp {
       body: jsonEncode(stompMessage),
     );
   }
-
-  Future<void> leave(int chatroomId) async {
-    final client = await future;
-    if (client == null) {
-      return;
-    }
-
-    final role = await ref.read(roleProvider.future);
-
-    final stompMessage = StompMessage(
-      type: MessageType.leave,
-      chatroomId: chatroomId,
-      role: role,
-      content: "Leave Chat Room",
-    );
-
-    client.send(
-      destination: "/pub/${role.apiPrefix}/send",
-      body: jsonEncode(stompMessage),
-    );
-  }
 }
