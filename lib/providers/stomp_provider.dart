@@ -27,12 +27,16 @@ class Stomp extends _$Stomp {
     }
 
     final uuid = await ref.read(uuidProvider.future);
+
+    // Read access token after fetching chat room list to ensure access token
+    // is not expired. Even if access token is expired, the API call will
+    // trigger a refresh, guaranteeing that the token is valid.
+    final chatList = await ref.read(chatListProvider.future);
     final accessToken = await ref.read(accessTokenProvider.future);
+
     if (uuid == null || accessToken == null) {
       throw StateError("uuid or access token cannot be null after sign-in");
     }
-
-    final chatList = await ref.read(chatListProvider.future);
 
     final client = StompClient(
       config: StompConfig.sockJS(
