@@ -26,5 +26,6 @@ abstract class OAuth2Client {
   });
 
   @POST("/shared/reissue")
+  @Extra({"type": "token_refresh"})
   Future<ReissueResponse> reissue(@Field() String refreshToken);
 }
