@@ -46,11 +46,7 @@ Interceptor authInterceptor(AuthInterceptorRef ref, Dio dio) {
   return InterceptorsWrapper(
     onRequest: (options, handler) async {
       final accessToken = await ref.read(accessTokenProvider.future);
-      if (accessToken != null) {
-        options.accessToken = accessToken;
-      }
-
-      return handler.next(options);
+      return handler.next(options..accessToken = accessToken);
     },
     onError: (error, handler) async {
       final statusCode = error.response?.statusCode;
@@ -71,8 +67,12 @@ Interceptor authInterceptor(AuthInterceptorRef ref, Dio dio) {
 }
 
 extension on RequestOptions {
-  set accessToken(String value) {
-    headers["Authorization"] = "Bearer $value";
+  set accessToken(String? value) {
+    if (value != null) {
+      headers["Authorization"] = "Bearer $value";
+    } else {
+      headers.remove("Authorization");
+    }
   }
 
   bool get isTokenRefresh => extra["type"] == "token_refresh";
