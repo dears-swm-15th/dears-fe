@@ -19,8 +19,8 @@ class PersonalProfileListTile extends ConsumerWidget {
       data: (data) => data.profileImageUrl,
     );
 
-    final name = profile.maybeWhen(
-      data: (data) => data.name,
+    final nickname = profile.maybeWhen(
+      data: (data) => data.nickname,
       orElse: () => "",
     );
 
@@ -56,7 +56,7 @@ class PersonalProfileListTile extends ConsumerWidget {
               const SizedBox(height: 6),
               Padding(
                 padding: const EdgeInsets.only(left: 4),
-                child: Text(name, style: titleMedium),
+                child: Text(nickname, style: titleMedium),
               ),
             ],
           ),
