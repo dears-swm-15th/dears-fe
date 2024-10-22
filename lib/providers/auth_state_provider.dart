@@ -8,6 +8,7 @@ import 'package:dears/providers/refresh_token_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -37,15 +38,26 @@ class AuthState extends _$AuthState {
     }
   }
 
-  Future<void> refresh(String refreshToken) async {
-    // Indicate that the access token is being refreshed
+  Future<void> refresh() async {
+    final refreshToken = await ref.read(refreshTokenProvider.future);
+    if (refreshToken == null) {
+      logger.w("refresh token not found");
+      throw TokenRefreshException();
+    }
+
     await ref.read(accessTokenProvider.notifier).clear();
     await ref.read(refreshTokenProvider.notifier).clear();
 
     final client = await ref.read(oauth2ClientProvider.future);
-    final auth = await client.reissue(refreshToken);
-    await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
-    await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+
+    try {
+      final auth = await client.reissue(refreshToken);
+      await ref.read(accessTokenProvider.notifier).setValue(auth.accessToken);
+      await ref.read(refreshTokenProvider.notifier).setValue(auth.refreshToken);
+    } on DioException catch (e) {
+      logger.e("failed to refresh token", error: e);
+      throw TokenRefreshException();
+    }
   }
 
   Future<void> signOut() async {
@@ -220,5 +232,12 @@ class TokenIssuanceException implements Exception {
   @override
   String toString() {
     return "TokenIssuanceException: failed to issue token with $provider";
+  }
+}
+
+class TokenRefreshException implements Exception {
+  @override
+  String toString() {
+    return "TokenRefreshException: failed to refresh token";
   }
 }
