@@ -2,12 +2,13 @@ import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_interceptor_provider.g.dart';
 
 @riverpod
-Interceptor authInterceptor(AuthInterceptorRef ref, Dio dio) {
+Interceptor authInterceptor(Ref ref, Dio dio) {
   bool isRefreshing = false;
   final retryQueue = <(RequestOptions, ErrorInterceptorHandler)>[];
 

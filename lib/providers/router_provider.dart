@@ -22,12 +22,13 @@ import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router_provider.g.dart';
 
 @riverpod
-GoRouter router(RouterRef ref) {
+GoRouter router(Ref ref) {
   final isSignedIn = ValueNotifier(false);
   ref.onDispose(isSignedIn.dispose);
 
