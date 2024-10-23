@@ -2,7 +2,7 @@ import 'package:dears/firebase_options.dart';
 import 'package:dears/providers/router_provider.dart';
 import 'package:dears/providers/stomp_provider.dart';
 import 'package:dears/utils/env.dart';
-import 'package:dears/utils/provider_observer.dart';
+import 'package:dears/utils/log_observer.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +34,7 @@ void main() async {
 
   runApp(
     const ProviderScope(
-      observers: [MainObserver()],
+      observers: [LogObserver()],
       child: MainApp(),
     ),
   );
