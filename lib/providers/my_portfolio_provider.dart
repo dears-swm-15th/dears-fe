@@ -1,12 +1,13 @@
 import 'package:dears/models/portfolio.dart';
 import 'package:dears/providers/portfolio_client_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'my_portfolio_provider.g.dart';
 
 @riverpod
-Future<Portfolio?> myPortfolio(MyPortfolioRef ref) async {
+Future<Portfolio?> myPortfolio(Ref ref) async {
   final portfolioClient = await ref.watch(portfolioClientProvider.future);
 
   try {

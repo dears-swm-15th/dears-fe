@@ -3,12 +3,13 @@ import 'package:dears/providers/role_interceptor_provider.dart';
 import 'package:dears/utils/env.dart';
 import 'package:dears/utils/log_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'api_dio_provider.g.dart';
 
 @riverpod
-Future<Dio> apiDio(ApiDioRef ref) async {
+Future<Dio> apiDio(Ref ref) async {
   final dio = Dio()
     // `retrofit` combines `Dio.options.baseUrl` and `RestApi.baseUrl`
     // using `Uri.resolveUri` method. To merge the two URLs correctly,
