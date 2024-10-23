@@ -4,6 +4,8 @@ import 'package:dears/models/radar_key.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 
+const double _maxScore = 5;
+
 class RadarChart extends StatelessWidget {
   final Map<RadarKey, double> data;
 
@@ -74,7 +76,7 @@ class RadarChartPainter extends CustomPainter {
 
     // draw a plot area
     final plot = List.generate(n, (index) {
-      final r = values[index] / 10;
+      final r = values[index] / _maxScore;
       return center + offsets[index] * radius * r;
     });
     final plotPaint = Paint()
