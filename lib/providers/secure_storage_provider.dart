@@ -14,7 +14,7 @@ mixin SecureStorageProviderMixin on AsyncNotifier<String?> {
 
   @override
   Future<String?> build() async {
-    final storage = ref.read(storageProvider);
+    final storage = ref.watch(storageProvider);
     return storage.read(key: key);
   }
 
