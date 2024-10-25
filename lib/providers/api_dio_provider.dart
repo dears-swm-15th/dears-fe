@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'api_dio_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<Dio> apiDio(Ref ref) async {
   final dio = Dio()
     // `retrofit` combines `Dio.options.baseUrl` and `RestApi.baseUrl`
