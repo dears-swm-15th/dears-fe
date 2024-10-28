@@ -119,13 +119,9 @@ GoRouter router(Ref ref) {
         routes: [
           GoRoute(
             path: "review/edit",
-            pageBuilder: (context, state) {
+            builder: (context, state) {
               final portfolioId = state.pathParameters["portfolioId"]!;
-
-              return MaterialPage(
-                fullscreenDialog: true,
-                child: ReviewEditPage(portfolioId: int.parse(portfolioId)),
-              );
+              return ReviewEditPage(portfolioId: int.parse(portfolioId));
             },
           ),
         ],

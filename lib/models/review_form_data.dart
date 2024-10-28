@@ -32,4 +32,13 @@ class ReviewFormData with _$ReviewFormData {
   const ReviewFormData._();
 
   bool get enabled => rating != 0 && content.isNotEmpty;
+
+  bool get canPop =>
+      rating == 0 &&
+      tags.every((element) => element == false) &&
+      content.isEmpty &&
+      images.isEmpty &&
+      consultingFee == null &&
+      estimate == null &&
+      radarIndexes.isEmpty;
 }
