@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dears/clients/file_client.dart';
 import 'package:dears/models/accompany_type.dart';
+import 'package:dears/models/image_data.dart';
 import 'package:dears/models/portfolio_create_body.dart';
 import 'package:dears/models/portfolio_create_form_data.dart';
 import 'package:dears/models/region.dart';
@@ -23,7 +24,7 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
       services: const [],
       cost: "",
       content: "",
-      profileImage: ("", Uint8List(0)),
+      profileImage: ImageData("", Uint8List(0)),
       portfolioImages: const [],
     );
   }
@@ -32,7 +33,7 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
     state = state.copyWith(services: [...state.services, service]);
   }
 
-  void setProfileImages((String, Uint8List) image) {
+  void setProfileImages(ImageData image) {
     state = state.copyWith(profileImage: image);
   }
 
@@ -64,7 +65,7 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
     state = state.copyWith(introduce: introduce);
   }
 
-  void addPortfolioImages(Iterable<(String, Uint8List)> images) {
+  void addPortfolioImages(Iterable<ImageData> images) {
     state =
         state.copyWith(portfolioImages: [...state.portfolioImages, ...images]);
   }
@@ -88,9 +89,9 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
         description: state.content,
         services: state.services,
         accompanyType: state.type,
-        profileImageUrl: state.profileImage.$1,
+        profileImageUrl: state.profileImage.name,
         weddingPhotoUrls: [
-          for (final image in state.portfolioImages) image.$1,
+          for (final image in state.portfolioImages) image.name,
         ],
       ),
       //TODO: upload to fileClient
@@ -99,7 +100,7 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
     await Future.wait([
       fileClient.upload(
         presignedUrl: response.presignedProfileImageUrl,
-        file: state.profileImage.$2,
+        file: state.profileImage.data,
       ),
     ]);
     // 대표 이미지 업로드
@@ -107,7 +108,7 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
       for (final (i, url) in response.presignedWeddingPhotoUrls.indexed)
         fileClient.upload(
           presignedUrl: url,
-          file: state.portfolioImages[i].$2,
+          file: state.portfolioImages[i].data,
         ),
     ]);
 

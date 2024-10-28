@@ -1,3 +1,4 @@
+import 'package:dears/models/image_data.dart';
 import 'package:dears/providers/review_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
@@ -38,7 +39,7 @@ class ReviewImagePicker extends ConsumerWidget {
         final images = await Future.wait(
           files.take(count).map((e) async {
             final bytes = await e.readAsBytes();
-            return (e.name, bytes);
+            return ImageData(e.name, bytes);
           }),
         );
         ref.read(reviewFormProvider(portfolioId).notifier).addImages(images);
@@ -83,7 +84,7 @@ class ReviewImagePicker extends ConsumerWidget {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(4)),
                     child: Image.memory(
-                      images[index].$2,
+                      images[index].data,
                       fit: BoxFit.cover,
                     ),
                   ),

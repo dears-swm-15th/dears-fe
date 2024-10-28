@@ -1,3 +1,4 @@
+import 'package:dears/models/image_data.dart';
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/portfolio_create_form_provider.dart';
 import 'package:dears/utils/icons.dart';
@@ -65,7 +66,7 @@ class PortfolioCreatePage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: (portfolioFormProvider.profileImage.$1.isEmpty)
+                      child: (portfolioFormProvider.profileImage.name.isEmpty)
                           ? CdnImage.circle(
                               "",
                               dimension: 100,
@@ -73,7 +74,7 @@ class PortfolioCreatePage extends ConsumerWidget {
                             )
                           : ClipOval(
                               child: Image.memory(
-                                portfolioFormProvider.profileImage.$2,
+                                portfolioFormProvider.profileImage.data,
                                 width: 100,
                                 height: 100,
                                 fit: BoxFit.cover,
@@ -91,7 +92,7 @@ class PortfolioCreatePage extends ConsumerWidget {
 
                           if (file != null) {
                             final bytes = await file.readAsBytes();
-                            final image = (file.name, bytes);
+                            final image = ImageData(file.name, bytes);
 
                             ref
                                 .read(portfolioCreateFormProvider.notifier)
