@@ -1,4 +1,4 @@
-import 'package:dears/providers/register_portfolio_form_provider.dart';
+import 'package:dears/providers/portfolio_create_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +15,7 @@ class PortfolioImagePicker extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final images = ref.watch(
-      registerPortfolioFormProvider.select((value) => value.portfolioImages),
+      portfolioCreateFormProvider.select((value) => value.portfolioImages),
     );
     final imageCount = images.length;
 
@@ -38,7 +38,9 @@ class PortfolioImagePicker extends ConsumerWidget {
             return (e.name, bytes);
           }),
         );
-        ref.read(registerPortfolioFormProvider.notifier).addPortfolioImages(images);
+        ref
+            .read(portfolioCreateFormProvider.notifier)
+            .addPortfolioImages(images);
       },
       child: Container(
         width: 60,
@@ -91,7 +93,7 @@ class PortfolioImagePicker extends ConsumerWidget {
                 right: -6,
                 child: GestureDetector(
                   onTap: () => ref
-                      .read(registerPortfolioFormProvider.notifier)
+                      .read(portfolioCreateFormProvider.notifier)
                       .removePortfolioImageAt(index),
                   behavior: HitTestBehavior.opaque,
                   child: const Icon(DearsIcons.cancel, size: 20),

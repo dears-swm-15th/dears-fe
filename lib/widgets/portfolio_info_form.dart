@@ -1,6 +1,6 @@
 import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/region.dart';
-import 'package:dears/providers/register_portfolio_form_provider.dart';
+import 'package:dears/providers/portfolio_create_form_provider.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
@@ -20,13 +20,13 @@ class PortfolioInfoForm extends HookConsumerWidget {
     final introduceController = useTextEditingController(); // 자기 소개 입력 필드 컨트롤러
     final costController = useTextEditingController(); // 상담 비용 입력 필드 컨트롤러
     // 등록된 서비스 리스트 상태
-    final services = ref.watch(registerPortfolioFormProvider).services;
+    final services = ref.watch(portfolioCreateFormProvider).services;
 
     // 이름 필드 리스너
     useEffect(
       () {
         void listener() {
-          ref.read(registerPortfolioFormProvider.notifier).setPlannerName(
+          ref.read(portfolioCreateFormProvider.notifier).setPlannerName(
                 nameController.text,
               );
         }
@@ -41,7 +41,7 @@ class PortfolioInfoForm extends HookConsumerWidget {
     useEffect(
       () {
         void listener() {
-          ref.read(registerPortfolioFormProvider.notifier).setCompanyName(
+          ref.read(portfolioCreateFormProvider.notifier).setCompanyName(
                 companyController.text,
               );
         }
@@ -63,7 +63,7 @@ class PortfolioInfoForm extends HookConsumerWidget {
               offset: formattedValue.length, // 커서를 끝으로 이동
             ),
           );
-          ref.read(registerPortfolioFormProvider.notifier).setCost(
+          ref.read(portfolioCreateFormProvider.notifier).setCost(
                 costController.text,
               );
         }
@@ -77,8 +77,8 @@ class PortfolioInfoForm extends HookConsumerWidget {
     useEffect(
       () {
         void listener() {
-          ref.read(registerPortfolioFormProvider.notifier).setIntroduce(
-            introduceController.text,
+          ref.read(portfolioCreateFormProvider.notifier).setIntroduce(
+                introduceController.text,
               );
         }
 
@@ -146,7 +146,7 @@ class PortfolioInfoForm extends HookConsumerWidget {
               hint: const Text("활동지역을 선택해주세요"),
               onChanged: (value) {
                 ref
-                    .read(registerPortfolioFormProvider.notifier)
+                    .read(portfolioCreateFormProvider.notifier)
                     .setRegion(value!);
               },
               items: Region.values.map((region) {
@@ -163,30 +163,27 @@ class PortfolioInfoForm extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: AccompanyType.values.map((type) {
-                final selectedType =
-                    ref.read(registerPortfolioFormProvider).type;
+                final selectedType = ref.read(portfolioCreateFormProvider).type;
                 return Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: OutlinedButton(
                       onPressed: () {
                         ref
-                            .read(registerPortfolioFormProvider.notifier)
+                            .read(portfolioCreateFormProvider.notifier)
                             .setAccompanyType(type);
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         side: BorderSide(
-                          color:
-                              selectedType == type ? blue500: gray100,
+                          color: selectedType == type ? blue500 : gray100,
                         ),
                         textStyle: bodyLarge,
                       ),
                       child: Text(
                         type.name,
                         style: TextStyle(
-                          color:
-                              selectedType == type ? blue500 : gray600,
+                          color: selectedType == type ? blue500 : gray600,
                         ),
                       ),
                     ),
@@ -239,7 +236,7 @@ class PortfolioInfoForm extends HookConsumerWidget {
                         if (serviceController.text.isNotEmpty) {
                           // 서비스 리스트에 새 항목 추가
                           ref
-                              .read(registerPortfolioFormProvider.notifier)
+                              .read(portfolioCreateFormProvider.notifier)
                               .addService(serviceController.text);
                           serviceController.clear(); // 텍스트 필드 초기화
                         }

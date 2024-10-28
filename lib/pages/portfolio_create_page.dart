@@ -1,5 +1,5 @@
 import 'package:dears/providers/auth_state_provider.dart';
-import 'package:dears/providers/register_portfolio_form_provider.dart';
+import 'package:dears/providers/portfolio_create_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
@@ -11,15 +11,15 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RegisterPortfolioPage extends ConsumerWidget {
-  const RegisterPortfolioPage({super.key});
+class PortfolioCreatePage extends ConsumerWidget {
+  const PortfolioCreatePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final portfolioFormProvider = ref.watch(registerPortfolioFormProvider);
+    final portfolioFormProvider = ref.watch(portfolioCreateFormProvider);
 
     final enabled = ref.watch(
-      registerPortfolioFormProvider.select((value) => value.enabled),
+      portfolioCreateFormProvider.select((value) => value.enabled),
     );
 
     return Scaffold(
@@ -94,7 +94,7 @@ class RegisterPortfolioPage extends ConsumerWidget {
                             final image = (file.name, bytes);
 
                             ref
-                                .read(registerPortfolioFormProvider.notifier)
+                                .read(portfolioCreateFormProvider.notifier)
                                 .setProfileImages(image);
                           } else {
                             // TODO: give user feedback that no image was selected
@@ -137,7 +137,7 @@ class RegisterPortfolioPage extends ConsumerWidget {
                     const SizedBox(height: 11),
                     PortfolioDescriptionField(
                       onChanged: ref
-                          .read(registerPortfolioFormProvider.notifier)
+                          .read(portfolioCreateFormProvider.notifier)
                           .setContent,
                     ),
                     const SizedBox(height: 20),
@@ -147,9 +147,7 @@ class RegisterPortfolioPage extends ConsumerWidget {
                         onPressed: enabled
                             ? () {
                                 ref
-                                    .read(
-                                      registerPortfolioFormProvider.notifier,
-                                    )
+                                    .read(portfolioCreateFormProvider.notifier)
                                     .submit();
 
                                 //TODO: routing

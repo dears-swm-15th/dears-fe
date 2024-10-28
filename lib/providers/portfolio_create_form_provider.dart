@@ -3,18 +3,18 @@ import 'dart:typed_data';
 import 'package:dears/clients/file_client.dart';
 import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/portfolio_create_body.dart';
+import 'package:dears/models/portfolio_create_form_data.dart';
 import 'package:dears/models/region.dart';
-import 'package:dears/models/register_portfolio_form_data.dart';
 import 'package:dears/providers/portfolio_client_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'register_portfolio_form_provider.g.dart';
+part 'portfolio_create_form_provider.g.dart';
 
 @riverpod
-class RegisterPortfolioForm extends _$RegisterPortfolioForm {
+class PortfolioCreateForm extends _$PortfolioCreateForm {
   @override
-  RegisterPortfolioFormData build() {
-    return RegisterPortfolioFormData(
+  PortfolioCreateFormData build() {
+    return PortfolioCreateFormData(
       plannerName: "",
       companyName: "",
       introduce: "",

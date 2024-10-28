@@ -4,11 +4,11 @@ import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/region.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'register_portfolio_form_data.freezed.dart';
+part 'portfolio_create_form_data.freezed.dart';
 
 @freezed
-class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
-  const factory RegisterPortfolioFormData({
+class PortfolioCreateFormData with _$PortfolioCreateFormData {
+  const factory PortfolioCreateFormData({
     required String plannerName, // 플래너 이름
     required String companyName, // 업체명
     required String introduce, // 소개
@@ -22,9 +22,9 @@ class RegisterPortfolioFormData with _$RegisterPortfolioFormData {
     required (String, Uint8List) profileImage,
     // 포트폴리오 이미지
     required List<(String, Uint8List)> portfolioImages,
-  }) = _RegisterPortfolioFormData;
+  }) = _PortfolioCreateFormData;
 
-  const RegisterPortfolioFormData._();
+  const PortfolioCreateFormData._();
 
   bool get enabled =>
       plannerName.isNotEmpty &&

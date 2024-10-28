@@ -9,7 +9,7 @@ import 'package:dears/pages/inquiry_page.dart';
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/pages/personal_page.dart';
 import 'package:dears/pages/planner_page.dart';
-import 'package:dears/pages/register_portfolio_page.dart';
+import 'package:dears/pages/portfolio_create_page.dart';
 import 'package:dears/pages/review_edit_page.dart';
 import 'package:dears/pages/role_selection_page.dart';
 import 'package:dears/pages/search_page.dart';
@@ -147,7 +147,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: "/register-portfolio",
-        builder: (context, state) => const RegisterPortfolioPage(),
+        builder: (context, state) => const PortfolioCreatePage(),
       ),
     ],
   );
