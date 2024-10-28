@@ -12,20 +12,15 @@ class InquiryForm extends _$InquiryForm {
     return const InquiryFormData(
       title: "고객센터 문의합니다.",
       content: "",
-      enabled: false,
     );
   }
 
-  bool get _enabled => state.title.isNotEmpty && state.content.isNotEmpty;
-
   void setTitle(String title) {
     state = state.copyWith(title: title);
-    state = state.copyWith(enabled: _enabled);
   }
 
   void setContent(String content) {
     state = state.copyWith(content: content);
-    state = state.copyWith(enabled: _enabled);
   }
 
   Future<void> submit() async {
