@@ -4,6 +4,7 @@ import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
+import 'package:dears/widgets/form_pop_scope_dialog.dart';
 import 'package:dears/widgets/review_input.dart';
 import 'package:dears/widgets/review_radar_selector_list.dart';
 import 'package:flutter/material.dart';
@@ -59,70 +60,84 @@ class ReviewEditPage extends ConsumerWidget {
     final enabled = ref.watch(
       reviewFormProvider(portfolioId).select((value) => value.enabled),
     );
+    final canPop = ref.watch(
+      reviewFormProvider(portfolioId).select((value) => value.canPop),
+    );
 
     return Scaffold(
       appBar: const CustomAppBar(
         title: Text("웨딩플래너 평가 작성"),
         centerTitle: true,
       ),
-      body: ListView(
-        physics: const ClampingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: tile,
-          ),
-          const SizedBox(height: 36),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ReviewInput(portfolioId),
-          ),
-          const SizedBox(height: 30),
-          const Divider(thickness: 4, color: blue50),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ReviewRadarSelectorList(portfolioId),
-          ),
-          const SizedBox(height: 50),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            color: blue50,
-            child: Column(
-              children: [
-                const SizedBox(height: 46),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(44),
-                  ),
-                  onPressed: enabled
-                      ? () async {
-                          await ref
-                              .read(reviewFormProvider(portfolioId).notifier)
-                              .submit(portfolioId);
+      body: PopScope(
+        canPop: canPop,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
 
-                          if (!context.mounted) return;
-                          context.pop();
-                        }
-                      : null,
-                  child: const Text("리뷰 작성하기"),
-                ),
-                SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
-              ],
+          final shouldPop = await showFormPopScopeDialog(context) ?? false;
+          if (context.mounted && shouldPop) {
+            context.pop(result);
+          }
+        },
+        child: ListView(
+          physics: const ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(0, 1),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: tile,
             ),
-          ),
-        ],
+            const SizedBox(height: 36),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ReviewInput(portfolioId),
+            ),
+            const SizedBox(height: 30),
+            const Divider(thickness: 4, color: blue50),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ReviewRadarSelectorList(portfolioId),
+            ),
+            const SizedBox(height: 50),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              color: blue50,
+              child: Column(
+                children: [
+                  const SizedBox(height: 46),
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(44),
+                    ),
+                    onPressed: enabled
+                        ? () async {
+                            await ref
+                                .read(reviewFormProvider(portfolioId).notifier)
+                                .submit(portfolioId);
+
+                            if (!context.mounted) return;
+                            context.pop();
+                          }
+                        : null,
+                    child: const Text("리뷰 작성하기"),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -164,6 +164,9 @@ final ThemeData theme = ThemeData(
     ),
     labelStyle: bodySmall,
   ),
+  dialogTheme: const DialogTheme(
+    backgroundColor: white,
+  ),
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(
       foregroundColor: white,

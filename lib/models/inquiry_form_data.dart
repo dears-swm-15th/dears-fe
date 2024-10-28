@@ -11,6 +11,10 @@ class InquiryFormData with _$InquiryFormData {
     required String content,
   }) = _InquiryFormData;
 
+  const InquiryFormData._();
+
+  bool get canPop => content.isEmpty;
+
   factory InquiryFormData.fromJson(Map<String, dynamic> json) =>
       _$InquiryFormDataFromJson(json);
 }
