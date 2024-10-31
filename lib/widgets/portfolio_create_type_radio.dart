@@ -30,7 +30,7 @@ class PortfolioCreateTypeRadio extends ConsumerWidget {
                 textStyle: bodyLarge,
               ),
               child: Text(
-                type.name,
+                type.label,
                 style: TextStyle(
                   color: type == selected ? blue500 : gray600,
                 ),

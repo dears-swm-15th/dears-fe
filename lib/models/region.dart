@@ -7,12 +7,9 @@ enum Region {
   gyeonggi("경기"),
   ;
 
-  final String name;
+  final String label;
 
-  const Region(this.name);
+  const Region(this.label);
 
   static const defaultValue = seoul;
-
-  @override
-  String toString() => name;
 }

@@ -6,12 +6,9 @@ enum AccompanyType {
   notAccompany("비동행"),
   hybrid("동행/비동행");
 
-  final String name;
+  final String label;
 
-  const AccompanyType(this.name);
+  const AccompanyType(this.label);
 
   static const defaultValue = accompany;
-
-  @override
-  String toString() => name;
 }

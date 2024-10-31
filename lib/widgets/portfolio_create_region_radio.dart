@@ -30,7 +30,7 @@ class PortfolioCreateRegionRadio extends ConsumerWidget {
                 textStyle: bodyLarge,
               ),
               child: Text(
-                region.name,
+                region.label,
                 style: TextStyle(
                   color: region == selected ? blue500 : gray600,
                 ),

@@ -3,9 +3,9 @@ enum ReviewType {
   matching("매칭"),
   ;
 
-  final String name;
+  final String label;
 
-  const ReviewType(this.name);
+  const ReviewType(this.label);
 
   ReviewType get inversed {
     return switch (this) {
@@ -13,7 +13,4 @@ enum ReviewType {
       matching => consulting,
     };
   }
-
-  @override
-  String toString() => name;
 }

@@ -9,10 +9,7 @@ enum RadarKey {
   personalCustomization("개인 맞춤"),
   ;
 
-  final String name;
+  final String label;
 
-  const RadarKey(this.name);
-
-  @override
-  String toString() => name;
+  const RadarKey(this.label);
 }

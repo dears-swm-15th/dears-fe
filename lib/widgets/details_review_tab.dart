@@ -111,7 +111,7 @@ class DetailsReviewTab extends HookConsumerWidget {
             text: TextSpan(
               style: titleMedium,
               children: [
-                TextSpan(text: "${reviewType.value} 리뷰 "),
+                TextSpan(text: "${reviewType.value.label} 리뷰 "),
                 TextSpan(
                   text: "$count",
                   style: const TextStyle(color: blue500),

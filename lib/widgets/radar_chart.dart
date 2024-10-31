@@ -89,7 +89,7 @@ class RadarChartPainter extends CustomPainter {
       final featurePainter = TextPainter(
         textDirection: TextDirection.ltr,
         text: TextSpan(
-          text: "${features[i]}",
+          text: features[i].label,
           style: captionLarge.copyWith(color: gray600),
         ),
       )..layout();
