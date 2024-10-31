@@ -6,12 +6,28 @@ import 'package:dears/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatListPage extends ConsumerWidget {
+class ChatListPage extends ConsumerStatefulWidget {
   const ChatListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final chatList = ref.watch(chatListProvider);
+  ConsumerState<ChatListPage> createState() => _ChatListPageState();
+}
+
+class _ChatListPageState extends ConsumerState<ChatListPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Invalidate the `chatListProvider` when the page is opened.
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.invalidate(chatListProvider);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Mark the `chatList` as loading when the page is opened.
+    final chatList = ref.watch(chatListProvider).unwrapPrevious();
 
     final oppositeRole = ref.watch(roleProvider).requireValue.opposite.label;
     final emptyWidget = EmptyWidget(
