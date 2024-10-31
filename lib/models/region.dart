@@ -11,6 +11,8 @@ enum Region {
 
   const Region(this.name);
 
+  static const defaultValue = seoul;
+
   @override
   String toString() => name;
 }

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:dears/clients/file_client.dart';
 import 'package:dears/models/accompany_type.dart';
 import 'package:dears/models/image_data.dart';
@@ -15,22 +13,18 @@ part 'portfolio_create_form_provider.g.dart';
 class PortfolioCreateForm extends _$PortfolioCreateForm {
   @override
   PortfolioCreateFormData build() {
-    return PortfolioCreateFormData(
+    return const PortfolioCreateFormData(
       plannerName: "",
       companyName: "",
       introduce: "",
-      region: null,
+      region: Region.defaultValue,
       type: AccompanyType.defaultValue,
-      services: const [],
-      cost: "",
+      services: [""],
+      cost: null,
       content: "",
-      profileImage: ImageData("", Uint8List(0)),
-      portfolioImages: const [],
+      profileImage: null,
+      portfolioImages: [],
     );
-  }
-
-  void addService(String service) {
-    state = state.copyWith(services: [...state.services, service]);
   }
 
   void setProfileImages(ImageData image) {
@@ -49,10 +43,6 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
     state = state.copyWith(region: region);
   }
 
-  void setCost(String cost) {
-    state = state.copyWith(cost: cost);
-  }
-
   void setAccompanyType(AccompanyType type) {
     state = state.copyWith(type: type);
   }
@@ -66,8 +56,9 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
   }
 
   void addPortfolioImages(Iterable<ImageData> images) {
-    state =
-        state.copyWith(portfolioImages: [...state.portfolioImages, ...images]);
+    state = state.copyWith(
+      portfolioImages: [...state.portfolioImages, ...images],
+    );
   }
 
   void removePortfolioImageAt(int index) {
@@ -76,42 +67,58 @@ class PortfolioCreateForm extends _$PortfolioCreateForm {
     );
   }
 
+  void setServiceAt(int index, String value) {
+    state = state.copyWith(services: [...state.services]..[index] = value);
+  }
+
+  void addService() {
+    state = state.copyWith(services: [...state.services, ""]);
+  }
+
+  void removeServiceAt(int index) {
+    state = state.copyWith(services: [...state.services]..removeAt(index));
+  }
+
+  void setCost(int? value) {
+    state = state.copyWith(cost: value);
+  }
+
   Future<void> submit() async {
+    final cost = state.cost;
+    final profileImage = state.profileImage;
+    if (cost == null || profileImage == null) {
+      throw AssertionError();
+    }
+
     final portfolioClient = await ref.read(portfolioClientProvider.future);
 
     final response = await portfolioClient.create(
-      body: PortfolioCreateBody(
+      data: PortfolioCreateBody(
         organization: state.companyName,
         plannerName: state.plannerName,
-        region: state.region!,
+        region: state.region,
         introduction: state.content,
-        consultingFee: int.parse(state.cost.replaceAll(RegExp('[^0-9]'), "")),
+        consultingFee: cost,
         description: state.content,
         services: state.services,
         accompanyType: state.type,
-        profileImageUrl: state.profileImage.name,
+        profileImageUrl: profileImage.name,
         weddingPhotoUrls: [
           for (final image in state.portfolioImages) image.name,
         ],
       ),
-      //TODO: upload to fileClient
     );
-    // 프로필 이미지 업로드
+
     await Future.wait([
       fileClient.upload(
         presignedUrl: response.presignedProfileImageUrl,
-        file: state.profileImage.data,
+        file: profileImage.data,
       ),
-    ]);
-    // 대표 이미지 업로드
-    await Future.wait([
       for (final (i, url) in response.presignedWeddingPhotoUrls.indexed)
         fileClient.upload(
           presignedUrl: url,
           file: state.portfolioImages[i].data,
         ),
     ]);
-
-    ref.invalidateSelf();
   }
 }

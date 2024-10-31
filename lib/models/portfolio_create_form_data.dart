@@ -11,12 +11,12 @@ class PortfolioCreateFormData with _$PortfolioCreateFormData {
     required String plannerName, // 플래너 이름
     required String companyName, // 업체명
     required String introduce, // 소개
-    required Region? region, // 지역
+    required Region region, // 지역
     required AccompanyType type, // 유형
-    required String cost, // 상담 비용
+    required int? cost, // 상담 비용
     required List<String> services, //제공 서비스 리스트
     required String content, // 상세 설명
-    required ImageData profileImage, // 프로필 이미지
+    required ImageData? profileImage, // 프로필 이미지
     required List<ImageData> portfolioImages, // 포트폴리오 이미지
   }) = _PortfolioCreateFormData;
 
@@ -25,10 +25,10 @@ class PortfolioCreateFormData with _$PortfolioCreateFormData {
   bool get enabled =>
       plannerName.isNotEmpty &&
       companyName.isNotEmpty &&
-      region != null &&
-      cost.isNotEmpty &&
+      introduce.isNotEmpty &&
+      cost != null &&
       content.isNotEmpty &&
       services.isNotEmpty &&
-      profileImage.name.isNotEmpty &&
+      profileImage != null &&
       portfolioImages.isNotEmpty;
 }

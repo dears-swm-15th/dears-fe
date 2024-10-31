@@ -25,7 +25,7 @@ abstract class PortfolioClient {
 
   @POST("/{role}/create")
   Future<PortfolioCreateResponse> create({
-    @Body() required PortfolioCreateBody body,
+    @Body() required PortfolioCreateBody data,
   });
 
   @POST("/{role}/delete/{id}")
