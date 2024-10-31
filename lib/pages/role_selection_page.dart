@@ -1,120 +1,53 @@
 import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/role_provider.dart';
+import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/role_selection_button.dart';
-import 'package:dears/widgets/role_selection_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RoleSelectionPage extends ConsumerWidget {
+class RoleSelectionPage extends StatelessWidget {
   const RoleSelectionPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4FF),
-      body: SafeArea(
+      backgroundColor: blue50,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 100),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 100),
-              child: Column(
+            Image.asset(
+              "assets/logo.png",
+              width: 100,
+              height: 100,
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "안녕하세요",
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 10),
+            RichText(
+              textAlign: TextAlign.center,
+              text: const TextSpan(
+                style: TextStyle(color: black, fontSize: 28),
                 children: [
-                  ImageIcon(
-                    AssetImage("assets/logo.png"),
-                    size: 100,
-                    color: Colors.blue,
+                  TextSpan(
+                    text: "웨딩플래너를\n",
+                    style: TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    "안녕하세요",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text.rich(
-                    textAlign: TextAlign.center,
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "웨딩플래너를",
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "\n찾고 계신가요?",
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  TextSpan(text: "찾고 계신가요?"),
                 ],
               ),
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  // 예비 신혼부부 버튼
-                  RoleSelectionButton(
-                    colorTitle: "예비 신혼부부",
-                    normalTitle: "로 시작하기",
-                    subtitle: "나에게 딱 맞는 웨딩플래너를 찾아보세요",
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => RoleSelectionDialog(
-                          colorTitle: "예비 신혼부부",
-                          normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () async {
-                            await ref
-                                .read(roleProvider.notifier)
-                                .fix(MemberRole.customer);
-
-                            if (!context.mounted) return;
-                            context.go("/sign-in");
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  // 웨딩플래너 버튼
-                  RoleSelectionButton(
-                    colorTitle: "웨딩플래너",
-                    normalTitle: "로 시작하기",
-                    subtitle: "웨딩플래너 등록하고 고객을 만나보세요",
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => RoleSelectionDialog(
-                          colorTitle: "웨딩플래너",
-                          normalTitle: "로 시작할까요?",
-                          onAcceptPressed: () async {
-                            await ref
-                                .read(roleProvider.notifier)
-                                .fix(MemberRole.weddingPlanner);
-
-                            if (!context.mounted) return;
-                            context.go("/sign-in");
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+            const RoleSelectionButton(
+              role: MemberRole.customer,
+              subtitle: "나에게 딱 맞는 웨딩플래너를 찾아보세요",
             ),
-            const SizedBox(height: 83),
+            const SizedBox(height: 10),
+            const RoleSelectionButton(
+              role: MemberRole.weddingPlanner,
+              subtitle: "웨딩플래너 등록하고 고객을 만나보세요",
+            ),
           ],
         ),
       ),

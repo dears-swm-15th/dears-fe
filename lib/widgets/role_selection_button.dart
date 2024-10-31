@@ -1,74 +1,66 @@
+import 'package:dears/models/member_role.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/role_selection_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RoleSelectionButton extends StatelessWidget {
-  final String colorTitle;
-  final String normalTitle;
+class RoleSelectionButton extends ConsumerWidget {
+  final MemberRole role;
   final String subtitle;
-  final VoidCallback onPressed;
 
   const RoleSelectionButton({
-    required this.colorTitle,
-    required this.normalTitle,
+    required this.role,
     required this.subtitle,
-    required this.onPressed,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => showRoleSelectionDialog(
+        context,
+        role: role,
+        fix: (role) => ref.read(roleProvider.notifier).fix(role),
+      ),
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: white,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
               offset: const Offset(0, 2),
+              blurRadius: 4,
             ),
           ],
         ),
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: colorTitle,
-                            style: titleLarge.copyWith(color: blue500),
-                          ),
-                          TextSpan(
-                            text: normalTitle,
-                            style: titleLarge,
-                          ),
-                        ],
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: role.label,
+                        style: titleLarge.copyWith(color: blue500),
                       ),
-                    ),
-                    const Icon(
-                      DearsIcons.caret_right,
-                      color: gray600,
-                      size: 20,
-                    ),
-                  ],
+                      const TextSpan(text: "로 시작하기", style: titleLarge),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  subtitle,
-                  style: bodyMedium,
+                const Icon(
+                  DearsIcons.caret_right,
+                  size: 20,
+                  color: gray600,
                 ),
               ],
             ),
+            const SizedBox(height: 12),
+            Text(subtitle, style: bodyMedium),
           ],
         ),
       ),
