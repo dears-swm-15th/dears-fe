@@ -14,8 +14,8 @@ class ChatroomOverview with _$ChatroomOverview {
     required String othersName,
     String? lastMessage,
     DateTime? lastMessageCreatedAt,
-    required String organizationName,
-    required int portfolioId,
+    @Default("") String organizationName,
+    @Default(0) int portfolioId,
     required int unreadMessageCount,
   }) = _ChatroomOverview;
 

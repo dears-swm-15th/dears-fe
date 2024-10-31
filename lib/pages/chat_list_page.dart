@@ -1,4 +1,5 @@
 import 'package:dears/providers/chat_list_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/widgets/chat_list_tile.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/status_widget.dart';
@@ -12,9 +13,10 @@ class ChatListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chatList = ref.watch(chatListProvider);
 
-    const emptyWidget = EmptyWidget(
-      title: "대화 중인 웨딩플래너가 없습니다",
-      subtitle: "마음에 드는 웨딩플래너와 대화해보세요",
+    final oppositeRole = ref.watch(roleProvider).requireValue.opposite.label;
+    final emptyWidget = EmptyWidget(
+      title: "대화 중인 $oppositeRole가 없습니다",
+      subtitle: "마음에 드는 $oppositeRole와 대화해보세요",
     );
 
     final child = chatList.when(
