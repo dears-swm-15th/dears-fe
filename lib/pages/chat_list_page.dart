@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/widgets/chat_list_tile.dart';
@@ -14,6 +16,8 @@ class ChatListPage extends ConsumerStatefulWidget {
 }
 
 class _ChatListPageState extends ConsumerState<ChatListPage> {
+  late Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +26,17 @@ class _ChatListPageState extends ConsumerState<ChatListPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.invalidate(chatListProvider);
     });
+
+    timer = Timer.periodic(
+      const Duration(minutes: 1),
+      (timer) => setState(() {}),
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
