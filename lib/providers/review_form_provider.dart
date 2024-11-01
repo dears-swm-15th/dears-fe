@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:dears/clients/file_client.dart';
+import 'package:dears/models/image_data.dart';
 import 'package:dears/models/radar_key.dart';
 import 'package:dears/models/review_create_body.dart';
 import 'package:dears/models/review_form_data.dart';
@@ -43,7 +42,7 @@ class ReviewForm extends _$ReviewForm {
     state = state.copyWith(content: content);
   }
 
-  void addImages(Iterable<(String, Uint8List)> images) {
+  void addImages(Iterable<ImageData> images) {
     state = state.copyWith(images: [...state.images, ...images]);
   }
 
@@ -84,7 +83,7 @@ class ReviewForm extends _$ReviewForm {
         ],
         content: state.content,
         weddingPhotoUrls: [
-          for (final image in state.images) image.$1,
+          for (final image in state.images) image.name,
         ],
         consultingFee: state.consultingFee,
         estimate: state.estimate,
@@ -98,7 +97,7 @@ class ReviewForm extends _$ReviewForm {
       for (final (i, url) in response.presignedWeddingPhotoUrls.indexed)
         fileClient.upload(
           presignedUrl: url,
-          file: state.images[i].$2,
+          file: state.images[i].data,
         ),
     ]);
 

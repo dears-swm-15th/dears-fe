@@ -14,18 +14,12 @@ abstract class PortfolioClient {
   @GET("/shared/{id}")
   Future<Portfolio> getById(@Path() int id);
 
-  @GET("/shared/all")
-  Future<List<Portfolio>> getAll();
-
   @GET("/shared/reviews/{id}")
   Future<List<Review>> getAllReviews(@Path() int id);
 
-  @GET("/shared/soft-deleted")
-  Future<List<Portfolio>> getAllSoftDeleted();
-
   @POST("/{role}/create")
   Future<PortfolioCreateResponse> create({
-    @Body() required PortfolioCreateBody body,
+    @Body() required PortfolioCreateBody data,
   });
 
   @POST("/{role}/delete/{id}")
@@ -33,10 +27,4 @@ abstract class PortfolioClient {
 
   @GET("/{role}/me")
   Future<Portfolio> getMine();
-
-  @POST("/{role}/update/{id}")
-  Future<Portfolio> update(
-    @Path() int id, {
-    @Body() required Portfolio body,
-  });
 }

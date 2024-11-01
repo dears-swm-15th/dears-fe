@@ -9,9 +9,6 @@ part 'chatroom_client.g.dart';
 abstract class ChatroomClient {
   factory ChatroomClient(Dio dio, {String baseUrl}) = _ChatroomClient;
 
-  @POST("/shared/delete/{id}")
-  Future<void> exit(@Path() int id);
-
   @POST("/{role}/{portfolioId}")
   Future<Chatroom> createOrEnter(@Path() int portfolioId);
 

@@ -1,11 +1,11 @@
 import 'package:dears/models/review_type.dart';
 import 'package:dears/providers/review_list_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/details_review_edit_button.dart';
 import 'package:dears/widgets/review_list_tile.dart';
 import 'package:dears/widgets/review_type_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailsReviewTab extends HookConsumerWidget {
@@ -96,22 +96,13 @@ class DetailsReviewTab extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              fixedSize: const Size.fromHeight(44),
-            ),
-            onPressed: () {
-              final location = "/details/$portfolioId";
-              context.push("$location/review/edit");
-            },
-            child: const Text("리뷰 작성하러 가기"),
-          ),
+          DetailsReviewEditButton(portfolioId),
           const SizedBox(height: 16),
           RichText(
             text: TextSpan(
               style: titleMedium,
               children: [
-                TextSpan(text: "${reviewType.value} 리뷰 "),
+                TextSpan(text: "${reviewType.value.label} 리뷰 "),
                 TextSpan(
                   text: "$count",
                   style: const TextStyle(color: blue500),

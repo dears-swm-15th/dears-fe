@@ -1,5 +1,5 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/my_portfolio_provider.dart';
-import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/planner_navigation_bar.dart';
@@ -13,9 +13,9 @@ class PlannerPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolio = ref.watch(myPortfolioProvider).valueOrNull;
-
-    final name = portfolio?.name ?? "";
-    final radar = portfolio?.avgRadar ?? {};
+    if (portfolio == null) {
+      return const LoadingPage();
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -26,12 +26,6 @@ class PlannerPage extends ConsumerWidget {
             width: toolbarHeight,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(DearsIcons.notifications),
-          ),
-        ],
       ),
       backgroundColor: const Color(0xFFF7F7F7),
       body: ListView(
@@ -39,7 +33,10 @@ class PlannerPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           const SizedBox(height: 20),
-          Text("안녕하세요\n$name 웨딩플래너님", style: titleMedium),
+          Text(
+            "안녕하세요\n${portfolio.plannerName} 웨딩플래너님",
+            style: titleMedium,
+          ),
           const SizedBox(height: 52),
           Container(
             padding: const EdgeInsets.all(16),
@@ -59,13 +56,13 @@ class PlannerPage extends ConsumerWidget {
                 const Text("나의 평가", style: titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  "추가 설명",
+                  "고객들이 나를 어떻게 평가했는지 확인해보세요",
                   style: titleSmall.copyWith(color: gray600),
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
                   height: 250,
-                  child: RadarChart(radar),
+                  child: RadarChart(portfolio.avgRadar),
                 ),
               ],
             ),
@@ -89,7 +86,7 @@ class PlannerPage extends ConsumerWidget {
                 const Text("조회수", style: titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  "추가 설명",
+                  "준비중입니다",
                   style: titleSmall.copyWith(color: gray600),
                 ),
               ],
@@ -97,7 +94,7 @@ class PlannerPage extends ConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const PlannerNavigationBar(),
+      bottomNavigationBar: PlannerNavigationBar(portfolioId: portfolio.id),
     );
   }
 }

@@ -49,7 +49,7 @@ class DetailsIntroductionTab extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Text("${portfolio.region}", style: bodySmall),
+                    Text(portfolio.region.label, style: bodySmall),
                   ],
                 ),
                 const SizedBox(height: 10),

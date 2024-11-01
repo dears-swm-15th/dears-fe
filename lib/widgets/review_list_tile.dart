@@ -31,7 +31,7 @@ class ReviewListTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(review.reviewerName, style: titleMedium),
+              Text(review.reviewerNickname, style: titleMedium),
               const Spacer(),
               StarRatingBar(review.rating),
               const SizedBox(width: 10),

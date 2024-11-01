@@ -1,6 +1,8 @@
+import 'package:dears/models/member_role.dart';
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
+import 'package:dears/providers/role_provider.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
@@ -85,12 +87,15 @@ class ChatPage extends ConsumerWidget {
       },
     );
 
+    final role = ref.watch(roleProvider).requireValue;
+
     return Scaffold(
       appBar: CustomAppBar(
         centerTitle: true,
-        title: Text("${chatroom.othersName} 웨딩플래너"),
+        title: Text("${chatroom.othersName} ${role.opposite.label}"),
         actions: [
-          FavoriteToggleButton(chatroom.portfolioId),
+          if (role == MemberRole.customer)
+            FavoriteToggleButton(chatroom.portfolioId),
         ],
       ),
       body: GestureDetector(

@@ -11,7 +11,7 @@ class PersonalProfileListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final role = ref.watch(roleProvider).value;
+    final role = ref.watch(roleProvider).requireValue;
 
     final profile = ref.watch(profileProvider);
 
@@ -44,7 +44,7 @@ class PersonalProfileListTile extends ConsumerWidget {
                   shape: StadiumBorder(),
                 ),
                 child: Text(
-                  "$role",
+                  role.label,
                   style: const TextStyle(
                     color: blue500,
                     fontSize: 12,

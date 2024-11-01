@@ -12,7 +12,7 @@ void main() {
       Review(
         id: 1,
         portfolioId: portfolioId,
-        reviewerName: "아이디",
+        reviewerNickname: "아이디",
         content:
             "세세한 부분까지 꼼꼼히 설명해주시고, 우리에게 딱 맞는 맞춤 웨딩 플랜을 제안해주셔서 감사했어요. 앞으로 웨딩 준비하는 게 정말 기대돼요!",
         isProvided: true,

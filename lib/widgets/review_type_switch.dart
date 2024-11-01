@@ -204,7 +204,7 @@ class _ReviewTypeSwitchState extends State<ReviewTypeSwitch>
                     Expanded(
                       child: Center(
                         child: Text(
-                          "${ReviewType.consulting}",
+                          ReviewType.consulting.label,
                           style: TextStyle(
                             fontWeight: widget.value == ReviewType.consulting
                                 ? FontWeight.bold
@@ -221,7 +221,7 @@ class _ReviewTypeSwitchState extends State<ReviewTypeSwitch>
                     Expanded(
                       child: Center(
                         child: Text(
-                          "${ReviewType.matching}",
+                          ReviewType.matching.label,
                           style: TextStyle(
                             fontWeight: widget.value == ReviewType.matching
                                 ? FontWeight.bold

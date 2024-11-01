@@ -1,3 +1,4 @@
+import 'package:dears/models/image_data.dart';
 import 'package:dears/models/radar_key.dart';
 import 'package:dears/models/review_type.dart';
 import 'package:flutter/foundation.dart';
@@ -21,9 +22,7 @@ class ReviewFormData with _$ReviewFormData {
     required int rating,
     required List<bool> tags,
     required String content,
-
-    // TODO: handle case where images are too large to be held in memory
-    required List<(String, Uint8List)> images,
+    required List<ImageData> images,
     required int? consultingFee,
     required int? estimate,
     required Map<RadarKey, int> radarIndexes,

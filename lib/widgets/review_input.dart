@@ -38,10 +38,10 @@ class ReviewInput extends ConsumerWidget {
                 children: [
                   const TextSpan(text: "웨딩플래너 "),
                   TextSpan(
-                    text: "$type\n",
+                    text: type.label,
                     style: const TextStyle(color: Colors.blue),
                   ),
-                  const TextSpan(text: "리뷰를 작성해주세요"),
+                  const TextSpan(text: "\n리뷰를 작성해주세요"),
                 ],
               ),
             ),
@@ -62,7 +62,7 @@ class ReviewInput extends ConsumerWidget {
         const SizedBox(height: 10),
         ReviewKeywordChips(portfolioId),
         const SizedBox(height: 16),
-        Text("솔직한 $type 리뷰를 남겨주세요", style: titleSmall),
+        Text("솔직한 ${type.label} 리뷰를 남겨주세요", style: titleSmall),
         const SizedBox(height: 10),
         ReviewTextField(portfolioId),
         const SizedBox(height: 16),

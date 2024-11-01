@@ -59,38 +59,20 @@ class InquiryPage extends ConsumerWidget {
               const SizedBox(height: 16),
               const Spacer(),
               FilledButton(
-                onPressed: () async {
-                  if (enabled) {
-                    try {
-                      await ref.read(inquiryFormProvider.notifier).submit();
-                      //TODO: 추후 snackbar style 수정
-                      if (context.mounted) {
+                onPressed: enabled
+                    ? () async {
+                        await ref.read(inquiryFormProvider.notifier).submit();
+
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
+                          // TODO: 추후 snackbar style 수정
                           const SnackBar(
                             content: Text("정상적으로 제출되었습니다."),
                           ),
                         );
                         context.pop();
                       }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("문의 제출 중 오류가 발생했습니다."),
-                          ),
-                        );
-                      }
-                    }
-                  } else {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("문의 내용을 입력해주세요"),
-                        ),
-                      );
-                    }
-                  }
-                },
+                    : null,
                 style: FilledButton.styleFrom(
                   minimumSize: const Size(double.infinity, 44),
                 ),

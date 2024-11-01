@@ -1,4 +1,5 @@
-import 'package:dears/providers/register_portfolio_form_provider.dart';
+import 'package:dears/models/image_data.dart';
+import 'package:dears/providers/portfolio_create_form_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +16,7 @@ class PortfolioImagePicker extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final images = ref.watch(
-      registerPortfolioFormProvider.select((value) => value.portfolioImages),
+      portfolioCreateFormProvider.select((value) => value.portfolioImages),
     );
     final imageCount = images.length;
 
@@ -35,10 +36,12 @@ class PortfolioImagePicker extends ConsumerWidget {
         final images = await Future.wait(
           files.take(count).map((e) async {
             final bytes = await e.readAsBytes();
-            return (e.name, bytes);
+            return ImageData(e.name, bytes);
           }),
         );
-        ref.read(registerPortfolioFormProvider.notifier).addPortfolioImages(images);
+        ref
+            .read(portfolioCreateFormProvider.notifier)
+            .addPortfolioImages(images);
       },
       child: Container(
         width: 60,
@@ -80,7 +83,7 @@ class PortfolioImagePicker extends ConsumerWidget {
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(4)),
                     child: Image.memory(
-                      images[index].$2,
+                      images[index].data,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -91,7 +94,7 @@ class PortfolioImagePicker extends ConsumerWidget {
                 right: -6,
                 child: GestureDetector(
                   onTap: () => ref
-                      .read(registerPortfolioFormProvider.notifier)
+                      .read(portfolioCreateFormProvider.notifier)
                       .removePortfolioImageAt(index),
                   behavior: HitTestBehavior.opaque,
                   child: const Icon(DearsIcons.cancel, size: 20),
