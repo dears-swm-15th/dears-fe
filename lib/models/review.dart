@@ -9,7 +9,7 @@ class Review with _$Review {
   const factory Review({
     required int id,
     required int portfolioId,
-    @Default("") String reviewerName,
+    @Default("") String reviewerNickname,
     required String content,
     @Default(false) bool isProvided,
     required double rating,
