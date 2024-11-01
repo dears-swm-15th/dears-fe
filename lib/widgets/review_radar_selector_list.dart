@@ -16,7 +16,17 @@ class ReviewRadarSelectorList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("웨딩플래너 만족도 평가", style: titleLarge),
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(text: "웨딩플래너 만족도 평가", style: titleLarge),
+              TextSpan(
+                text: "(선택)",
+                style: bodySmall.copyWith(color: gray600),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 16),
         ReviewRadarSelector(
           portfolioId: portfolioId,
