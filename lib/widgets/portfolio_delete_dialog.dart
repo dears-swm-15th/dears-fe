@@ -1,15 +1,15 @@
-import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/role_provider.dart';
+import 'package:dears/providers/my_portfolio_provider.dart';
+import 'package:dears/providers/portfolio_client_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future<void> showRoleSelectionDialog(
+Future<void> showPortfolioDeleteDialog(
   BuildContext context,
   WidgetRef ref, {
-  required MemberRole role,
+  required int portfolioId,
 }) async {
   await showDialog(
     context: context,
@@ -23,27 +23,12 @@ Future<void> showRoleSelectionDialog(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                DearsIcons.info,
-                size: 50,
-                color: blue100,
-              ),
+              const Icon(DearsIcons.info, size: 50, color: blue100),
               const SizedBox(height: 8),
-              RichText(
-                text: TextSpan(
-                  style: titleLarge,
-                  children: [
-                    TextSpan(
-                      text: role.label,
-                      style: const TextStyle(color: blue500),
-                    ),
-                    const TextSpan(text: "로 시작할까요?"),
-                  ],
-                ),
-              ),
+              const Text("정말 삭제하시겠습니까?", style: titleLarge),
               const SizedBox(height: 8),
               const Text(
-                "한 번 설정된 역할은 변경할 수 없습니다",
+                "삭제하시면 복구할 수 없습니다.",
                 style: TextStyle(color: gray600),
               ),
               const SizedBox(height: 32),
@@ -63,12 +48,19 @@ Future<void> showRoleSelectionDialog(
                   Expanded(
                     child: FilledButton(
                       onPressed: () async {
-                        await ref.read(roleProvider.notifier).fix(role);
+                        final portfolioClient =
+                            await ref.read(portfolioClientProvider.future);
+                        await portfolioClient.delete(portfolioId);
+
+                        ref.invalidate(myPortfolioProvider);
 
                         if (!context.mounted) return;
-                        context.go("/sign-in");
+                        context.go("/");
                       },
-                      child: const Text("네, 좋아요"),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: red,
+                      ),
+                      child: const Text("삭제"),
                     ),
                   ),
                 ],

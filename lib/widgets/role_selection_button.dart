@@ -1,5 +1,4 @@
 import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/role_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/role_selection_dialog.dart';
@@ -18,11 +17,7 @@ class RoleSelectionButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => showRoleSelectionDialog(
-        context,
-        role: role,
-        fix: (role) => ref.read(roleProvider.notifier).fix(role),
-      ),
+      onTap: () => showRoleSelectionDialog(context, ref, role: role),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         decoration: BoxDecoration(

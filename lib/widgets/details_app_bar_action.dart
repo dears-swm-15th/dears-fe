@@ -1,6 +1,7 @@
 import 'package:dears/models/member_role.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
+import 'package:dears/widgets/portfolio_delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,8 +20,9 @@ class DetailsAppBarAction extends ConsumerWidget {
     return switch (role) {
       MemberRole.customer => FavoriteToggleButton(portfolioId),
       MemberRole.weddingPlanner => IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.edit),
+          onPressed: () =>
+              showPortfolioDeleteDialog(context, ref, portfolioId: portfolioId),
+          icon: const Icon(Icons.delete),
         ),
     };
   }
