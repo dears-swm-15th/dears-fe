@@ -18,10 +18,8 @@ class PlannerNavigationBar extends StatelessWidget {
           case 0:
             context.push("/details/$portfolioId");
           case 1:
-            ; // not implemented
-          case 2:
             context.push("/chats");
-          case 3:
+          case 2:
             context.push("/personal");
         }
       },
@@ -29,10 +27,6 @@ class PlannerNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.folder_outlined),
           label: "포트폴리오",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(DearsIcons.close),
-          label: "칼럼",
         ),
         BottomNavigationBarItem(
           icon: Icon(DearsIcons.chat),

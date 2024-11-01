@@ -1,6 +1,5 @@
 import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/my_portfolio_provider.dart';
-import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/planner_navigation_bar.dart';
@@ -27,12 +26,6 @@ class PlannerPage extends ConsumerWidget {
             width: toolbarHeight,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(DearsIcons.notifications),
-          ),
-        ],
       ),
       backgroundColor: const Color(0xFFF7F7F7),
       body: ListView(
