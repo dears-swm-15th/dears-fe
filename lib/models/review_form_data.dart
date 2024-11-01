@@ -30,7 +30,7 @@ class ReviewFormData with _$ReviewFormData {
 
   const ReviewFormData._();
 
-  bool get enabled => rating != 0 && content.isNotEmpty;
+  bool get enabled => rating != 0 && content.isNotEmpty && estimate != null;
 
   bool get canPop =>
       rating == 0 &&

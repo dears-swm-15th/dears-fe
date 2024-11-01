@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ReviewCostField extends HookWidget {
   final int portfolioId;
-  final String label;
+  final Widget label;
   final ValueChanged<int?> onChanged;
 
   const ReviewCostField({
@@ -32,7 +32,7 @@ class ReviewCostField extends HookWidget {
         ),
         child: Column(
           children: [
-            Text(label, style: titleSmall),
+            label,
             const SizedBox(height: 8),
             TextField(
               controller: controller,

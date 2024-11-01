@@ -58,7 +58,20 @@ class ReviewInput extends ConsumerWidget {
         const SizedBox(height: 16),
         ReviewRatingSelector(portfolioId),
         const SizedBox(height: 16),
-        const Text("관련된 키워드를 모두 선택해주세요", style: titleSmall),
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: "관련된 키워드를 모두 선택해주세요",
+                style: titleSmall,
+              ),
+              TextSpan(
+                text: "(선택)",
+                style: bodySmall.copyWith(color: gray600),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 10),
         ReviewKeywordChips(portfolioId),
         const SizedBox(height: 16),
@@ -87,7 +100,17 @@ class ReviewInput extends ConsumerWidget {
             Expanded(
               child: ReviewCostField(
                 portfolioId: portfolioId,
-                label: "상담비",
+                label: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(text: "상담비", style: titleSmall),
+                      TextSpan(
+                        text: "(선택)",
+                        style: bodySmall.copyWith(color: gray600),
+                      ),
+                    ],
+                  ),
+                ),
                 onChanged: (value) => ref
                     .read(reviewFormProvider(portfolioId).notifier)
                     .setConsultingFee(value),
@@ -97,7 +120,7 @@ class ReviewInput extends ConsumerWidget {
             Expanded(
               child: ReviewCostField(
                 portfolioId: portfolioId,
-                label: "최종 견적",
+                label: const Text("최종 견적", style: titleSmall),
                 onChanged: (value) => ref
                     .read(reviewFormProvider(portfolioId).notifier)
                     .setEstimate(value),
