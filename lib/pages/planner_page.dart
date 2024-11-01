@@ -56,7 +56,7 @@ class PlannerPage extends ConsumerWidget {
                 const Text("나의 평가", style: titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  "추가 설명",
+                  "고객들이 나를 어떻게 평가했는지 확인해보세요",
                   style: titleSmall.copyWith(color: gray600),
                 ),
                 const SizedBox(height: 16),
@@ -86,7 +86,7 @@ class PlannerPage extends ConsumerWidget {
                 const Text("조회수", style: titleMedium),
                 const SizedBox(height: 4),
                 Text(
-                  "추가 설명",
+                  "준비중입니다",
                   style: titleSmall.copyWith(color: gray600),
                 ),
               ],
