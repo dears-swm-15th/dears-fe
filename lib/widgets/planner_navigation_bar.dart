@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PlannerNavigationBar extends StatelessWidget {
-  const PlannerNavigationBar({super.key});
+  final int portfolioId;
+
+  const PlannerNavigationBar({
+    super.key,
+    required this.portfolioId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +16,7 @@ class PlannerNavigationBar extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
+            context.push("/details/$portfolioId");
           case 1:
             ; // not implemented
           case 2:
@@ -21,7 +27,7 @@ class PlannerNavigationBar extends StatelessWidget {
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(DearsIcons.close),
+          icon: Icon(Icons.folder_outlined),
           label: "포트폴리오",
         ),
         BottomNavigationBarItem(

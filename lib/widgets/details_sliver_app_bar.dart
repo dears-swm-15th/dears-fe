@@ -3,8 +3,8 @@ import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/cdn_image.dart';
+import 'package:dears/widgets/details_app_bar_action.dart';
 import 'package:dears/widgets/details_background_carousel.dart';
-import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
 
 class DetailsSliverAppBar extends StatefulWidget {
@@ -126,7 +126,7 @@ class _DetailsSliverAppBarState extends State<DetailsSliverAppBar> {
     final title = Text("${widget.portfolio.name} 웨딩플래너");
 
     final actions = [
-      FavoriteToggleButton(widget.portfolio.id),
+      DetailsAppBarAction(widget.portfolio.id),
       const SizedBox(width: 8),
     ];
 

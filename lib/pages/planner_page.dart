@@ -1,3 +1,4 @@
+import 'package:dears/pages/loading_page.dart';
 import 'package:dears/providers/my_portfolio_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
@@ -13,9 +14,9 @@ class PlannerPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolio = ref.watch(myPortfolioProvider).valueOrNull;
-
-    final name = portfolio?.name ?? "";
-    final radar = portfolio?.avgRadar ?? {};
+    if (portfolio == null) {
+      return const LoadingPage();
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -39,7 +40,10 @@ class PlannerPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           const SizedBox(height: 20),
-          Text("안녕하세요\n$name 웨딩플래너님", style: titleMedium),
+          Text(
+            "안녕하세요\n${portfolio.plannerName} 웨딩플래너님",
+            style: titleMedium,
+          ),
           const SizedBox(height: 52),
           Container(
             padding: const EdgeInsets.all(16),
@@ -65,7 +69,7 @@ class PlannerPage extends ConsumerWidget {
                 const SizedBox(height: 16),
                 SizedBox(
                   height: 250,
-                  child: RadarChart(radar),
+                  child: RadarChart(portfolio.avgRadar),
                 ),
               ],
             ),
@@ -97,7 +101,7 @@ class PlannerPage extends ConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const PlannerNavigationBar(),
+      bottomNavigationBar: PlannerNavigationBar(portfolioId: portfolio.id),
     );
   }
 }

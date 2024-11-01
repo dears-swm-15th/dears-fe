@@ -1,8 +1,8 @@
 import 'package:dears/models/portfolio.dart';
 import 'package:dears/utils/formats.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/details_chat_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class DetailsBottomBar extends StatelessWidget {
   final Portfolio portfolio;
@@ -36,13 +36,7 @@ class DetailsBottomBar extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: FilledButton(
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              onPressed: () => context.push("/chats/redirect/${portfolio.id}"),
-              child: const Text("상담하기"),
-            ),
+            child: DetailsChatButton(portfolio.id),
           ),
         ],
       ),
