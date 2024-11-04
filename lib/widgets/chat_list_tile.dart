@@ -17,7 +17,7 @@ class ChatListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final message = chat.lastMessage ?? "";
+    final message = chat.lastMessage ?? "새로운 채팅방에 참여했습니다";
     final createdAt = chat.lastMessageCreatedAt.andThen(recent.format) ?? "";
 
     return GestureDetector(
