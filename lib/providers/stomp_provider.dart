@@ -18,7 +18,7 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 part 'stomp_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {
@@ -32,7 +32,7 @@ class Stomp extends _$Stomp {
     // Read access token after fetching chat room list to ensure access token
     // is not expired. Even if access token is expired, the API call will
     // trigger a refresh, guaranteeing that the token is valid.
-    final chatRoomIds = await ref.read(chatRoomIdsProvider.future);
+    await ref.read(chatRoomIdsProvider.future);
     final accessToken = await ref.read(accessTokenProvider.future);
 
     if (uuid == null || accessToken == null) {
@@ -44,9 +44,20 @@ class Stomp extends _$Stomp {
         url: "$baseUrl/stomp/chat",
         stompConnectHeaders: {"Authorization": accessToken},
         onConnect: (frame) {
-          for (final id in chatRoomIds.values) {
-            subscribe(id);
-          }
+          ref.listen(
+            chatRoomIdsProvider.future,
+            (previous, next) async {
+              final previousIds = (await previous ?? {}).values.toSet();
+              final nextIds = (await next).values.toSet();
+
+              final addedIds = nextIds.difference(previousIds);
+              for (final id in addedIds) {
+                _subscribe(id);
+              }
+            },
+            fireImmediately: true,
+          );
+
           _listenNew(uuid);
         },
         onWebSocketError: (error) {
@@ -61,7 +72,7 @@ class Stomp extends _$Stomp {
     return client;
   }
 
-  Future<void> subscribe(int chatroomId) async {
+  Future<void> _subscribe(int chatroomId) async {
     final client = await future;
     if (client == null) {
       return;
@@ -121,8 +132,7 @@ class Stomp extends _$Stomp {
           return;
         }
 
-        subscribe(stompMessage.chatroomId);
-        // Do not update `chatListProvider` not to let the user know
+        ref.invalidate(chatListProvider);
       },
     );
 

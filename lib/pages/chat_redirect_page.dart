@@ -1,7 +1,7 @@
 import 'package:dears/pages/loading_page.dart';
+import 'package:dears/providers/chat_list_provider.dart';
 import 'package:dears/providers/chat_room_ids_provider.dart';
 import 'package:dears/providers/chatroom_client_provider.dart';
-import 'package:dears/providers/stomp_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +41,7 @@ class _ChatRedirectPageState extends ConsumerState<ChatRedirectPage> {
 
     final chatroomClient = await ref.read(chatroomClientProvider.future);
     final chatroom = await chatroomClient.createOrEnter(portfolioId);
-    await ref.read(stompProvider.notifier).subscribe(chatroom.id);
+    ref.invalidate(chatListProvider);
 
     return chatroom.id;
   }
