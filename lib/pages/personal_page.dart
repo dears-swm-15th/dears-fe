@@ -79,6 +79,19 @@ class PersonalPage extends ConsumerWidget {
               ),
             ),
           ),
+          TextButton(
+            onPressed: () async {
+              await ref.read(authStateProvider.notifier).withdraw();
+            },
+            child: Text(
+              "회원탈퇴",
+              style: bodySmall.copyWith(
+                color: gray600,
+                decoration: TextDecoration.underline,
+                decorationColor: gray600,
+              ),
+            ),
+          ),
           SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
