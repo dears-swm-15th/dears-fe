@@ -1,6 +1,7 @@
 import 'package:dears/models/member_role.dart';
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/role_provider.dart';
+import 'package:dears/utils/env.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
@@ -9,6 +10,7 @@ import 'package:dears/widgets/recent_seen_portfolio_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PersonalPage extends ConsumerWidget {
   const PersonalPage({super.key});
@@ -57,11 +59,11 @@ class PersonalPage extends ConsumerWidget {
           ),
           PersonalListTile(
             title: "서비스 이용약관",
-            onTap: () {},
+            onTap: () => launchUrlString(termsOfServiceUrl),
           ),
           PersonalListTile(
             title: "개인정보 처리 방침",
-            onTap: () {},
+            onTap: () => launchUrlString(privacyPolicyUrl),
           ),
           const Spacer(),
           TextButton(
