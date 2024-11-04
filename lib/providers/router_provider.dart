@@ -33,7 +33,7 @@ GoRouter router(Ref ref) {
   ref.onDispose(isSignedIn.dispose);
 
   ref.listen(
-    isSignedInProvider,
+    isSignedInProvider.future,
     (previous, next) async {
       isSignedIn.value = await next;
     },

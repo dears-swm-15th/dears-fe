@@ -22,7 +22,7 @@ part 'stomp_provider.g.dart';
 class Stomp extends _$Stomp {
   @override
   Future<StompClient?> build() async {
-    final isSignedIn = await ref.watch(isSignedInProvider);
+    final isSignedIn = await ref.watch(isSignedInProvider.future);
     if (!isSignedIn) {
       return null;
     }
