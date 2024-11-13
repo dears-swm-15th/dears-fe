@@ -18,14 +18,15 @@ import 'package:dears/pages/sign_in_page.dart';
 import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/my_portfolio_provider.dart';
 import 'package:dears/providers/role_provider.dart';
-import 'package:dears/providers/uuid_provider.dart';
 import 'package:dears/utils/logger.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router_provider.g.dart';
+
+const List<String> _allowedPaths = ["/", "/sign-in", "/search"];
 
 @riverpod
 GoRouter router(Ref ref) {
@@ -45,12 +46,17 @@ GoRouter router(Ref ref) {
     redirect: (context, state) async {
       logger.t("at global redirect, matched: ${state.matchedLocation}");
 
-      final uuid = await ref.read(uuidProvider.future);
-      if (uuid == null) {
+      final isSignedIn = await ref.read(isSignedInProvider.future);
+      if (!isSignedIn) {
         final isRoleFixed = await ref.read(roleProvider.notifier).isFixed();
         if (!isRoleFixed) {
           return "/select-role";
         }
+
+        if (_allowedPaths.contains(state.matchedLocation)) {
+          return null;
+        }
+
         return "/sign-in";
       }
       return null;

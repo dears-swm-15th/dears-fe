@@ -66,7 +66,7 @@ Future<void> showRoleSelectionDialog(
                         await ref.read(roleProvider.notifier).fix(role);
 
                         if (!context.mounted) return;
-                        context.go("/sign-in");
+                        context.go("/");
                       },
                       child: const Text("네, 좋아요"),
                     ),
