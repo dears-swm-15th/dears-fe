@@ -1,8 +1,10 @@
+import 'package:dears/providers/is_signed_in_provider.dart';
 import 'package:dears/providers/is_wish_listed_provider.dart';
 import 'package:dears/providers/wish_list_ids_provider.dart';
 import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FavoriteToggleButton extends ConsumerStatefulWidget {
@@ -25,6 +27,14 @@ class _FavoriteToggleButtonState extends ConsumerState<FavoriteToggleButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isSignedIn = ref.watch(isSignedInProvider).valueOrNull ?? false;
+    if (!isSignedIn) {
+      return IconButton(
+        onPressed: () => context.push("/sign-in"),
+        icon: const Icon(DearsIcons.favorite_outline),
+      );
+    }
+
     final isWishListed =
         ref.watch(isWishListedProvider(widget.portfolioId)).valueOrNull ??
             false;
