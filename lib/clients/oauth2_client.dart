@@ -1,5 +1,7 @@
 import 'package:dears/models/auth_token.dart';
+import 'package:dears/models/oauth2_apple_revoke_body.dart';
 import 'package:dears/models/oauth2_body.dart';
+import 'package:dears/models/oauth2_withdraw_body.dart';
 import 'package:dears/models/reissue_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -15,6 +17,11 @@ abstract class OAuth2Client {
     @Body() required AppleOAuth2Body data,
   });
 
+  @GET("/shared/apple/revoke")
+  Future<void> revokeApple({
+    @Body() required OAuth2AppleRevokeBody data,
+  });
+
   @POST("/shared/google")
   Future<AuthToken> signInWithGoogle({
     @Body() required GoogleOAuth2Body data,
@@ -28,4 +35,9 @@ abstract class OAuth2Client {
   @POST("/shared/reissue")
   @Extra({"type": "token_refresh"})
   Future<ReissueResponse> reissue(@Field() String refreshToken);
+
+  @POST("/shared/withdraw")
+  Future<void> withdraw({
+    @Body() required OAuth2WithdrawBody data,
+  });
 }

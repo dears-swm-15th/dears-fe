@@ -4,6 +4,7 @@ import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
@@ -11,6 +12,7 @@ import 'package:dears/widgets/chat_text_field.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChatPage extends ConsumerWidget {
@@ -94,6 +96,10 @@ class ChatPage extends ConsumerWidget {
         centerTitle: true,
         title: Text("${chatroom.othersName} ${role.opposite.label}"),
         actions: [
+          IconButton(
+            onPressed: () => context.push("/inquiry"),
+            icon: const Icon(DearsIcons.siren),
+          ),
           if (role == MemberRole.customer)
             FavoriteToggleButton(chatroom.portfolioId),
         ],

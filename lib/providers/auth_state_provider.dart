@@ -1,7 +1,9 @@
 import 'package:dears/clients/oauth2_client.dart';
 import 'package:dears/models/auth_token.dart';
 import 'package:dears/models/member_role.dart';
+import 'package:dears/models/oauth2_apple_revoke_body.dart';
 import 'package:dears/models/oauth2_body.dart';
+import 'package:dears/models/oauth2_withdraw_body.dart';
 import 'package:dears/providers/access_token_provider.dart';
 import 'package:dears/providers/oauth2_client_provider.dart';
 import 'package:dears/providers/refresh_token_provider.dart';
@@ -65,6 +67,38 @@ class AuthState extends _$AuthState {
     await ref.read(accessTokenProvider.notifier).clear();
     await ref.read(refreshTokenProvider.notifier).clear();
   }
+
+  Future<void> withdraw() async {
+    final client = await ref.read(oauth2ClientProvider.future);
+
+    final uuid = await ref.read(uuidProvider.future);
+    if (uuid == null) {
+      logger.w("uuid not found");
+      return;
+    }
+
+    final role = await ref.read(roleProvider.future);
+
+    final platform = uuid.split("-").firstOrNull;
+    final provider = switch (platform) {
+      "apple" => const AppleOAuth2Provider(),
+      "google" => const GoogleOAuth2Provider(),
+      "kakao" => const KakaoOAuth2Provider(),
+      _ => null,
+    };
+    await provider?.revoke(client, uuid, role);
+
+    try {
+      await client.withdraw(
+        data: OAuth2WithdrawBody(uuid: uuid, role: role),
+      );
+    } on DioException catch (e) {
+      // TODO: match api spec
+      logger.e("failed to withdraw", error: e);
+    }
+
+    await signOut();
+  }
 }
 
 sealed class OAuth2Provider {
@@ -75,6 +109,8 @@ sealed class OAuth2Provider {
   Future<AuthToken> signIn(OAuth2Client client, covariant OAuth2Body data);
 
   Future<void> signOut();
+
+  Future<void> revoke(OAuth2Client client, String uuid, MemberRole role);
 }
 
 class AppleOAuth2Provider extends OAuth2Provider {
@@ -116,6 +152,13 @@ class AppleOAuth2Provider extends OAuth2Provider {
   /// "Sign in with Apple" does not require sign out
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<void> revoke(OAuth2Client client, String uuid, MemberRole role) async {
+    await client.revokeApple(
+      data: OAuth2AppleRevokeBody(uuid: uuid, memberRole: role),
+    );
+  }
 }
 
 class GoogleOAuth2Provider extends OAuth2Provider {
@@ -157,6 +200,11 @@ class GoogleOAuth2Provider extends OAuth2Provider {
   @override
   Future<void> signOut() async {
     await GoogleSignIn().signOut();
+  }
+
+  @override
+  Future<void> revoke(OAuth2Client client, String uuid, MemberRole role) async {
+    await GoogleSignIn().disconnect();
   }
 }
 
@@ -221,6 +269,11 @@ class KakaoOAuth2Provider extends OAuth2Provider {
   @override
   Future<void> signOut() async {
     await UserApi.instance.logout();
+  }
+
+  @override
+  Future<void> revoke(OAuth2Client client, String uuid, MemberRole role) async {
+    await UserApi.instance.unlink();
   }
 }
 

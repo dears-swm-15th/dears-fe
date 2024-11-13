@@ -1,14 +1,17 @@
 import 'package:dears/models/member_role.dart';
-import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/providers/role_provider.dart';
+import 'package:dears/utils/env.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/personal_list_tile.dart';
 import 'package:dears/widgets/personal_profile_list_tile.dart';
 import 'package:dears/widgets/recent_seen_portfolio_list.dart';
+import 'package:dears/widgets/sign_out_dialog.dart';
+import 'package:dears/widgets/withdraw_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PersonalPage extends ConsumerWidget {
   const PersonalPage({super.key});
@@ -52,24 +55,33 @@ class PersonalPage extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           PersonalListTile(
-            title: "문의하기",
+            title: "문의/신고하기",
             onTap: () => context.push("/inquiry"),
           ),
           PersonalListTile(
             title: "서비스 이용약관",
-            onTap: () {},
+            onTap: () => launchUrlString(termsOfServiceUrl),
           ),
           PersonalListTile(
             title: "개인정보 처리 방침",
-            onTap: () {},
+            onTap: () => launchUrlString(privacyPolicyUrl),
           ),
           const Spacer(),
           TextButton(
-            onPressed: () async {
-              await ref.read(authStateProvider.notifier).signOut();
-            },
+            onPressed: () => showSignOutDialog(context, ref),
             child: Text(
               "로그아웃",
+              style: bodySmall.copyWith(
+                color: gray600,
+                decoration: TextDecoration.underline,
+                decorationColor: gray600,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => showWithdrawDialog(context, ref),
+            child: Text(
+              "회원탈퇴",
               style: bodySmall.copyWith(
                 color: gray600,
                 decoration: TextDecoration.underline,

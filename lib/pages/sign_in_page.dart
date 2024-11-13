@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dears/providers/auth_state_provider.dart';
 import 'package:dears/utils/theme.dart';
+import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/sign_in_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,6 +14,7 @@ class SignInPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: const CustomAppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

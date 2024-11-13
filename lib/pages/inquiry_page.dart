@@ -21,7 +21,7 @@ class InquiryPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("문의하기"),
+        title: const Text("문의/신고하기"),
       ),
       body: PopScope(
         canPop: canPop,
@@ -57,6 +57,10 @@ class InquiryPage extends ConsumerWidget {
               const SizedBox(height: 10),
               const InquiryTextField(),
               const SizedBox(height: 16),
+              Text(
+                "악성 유저나 부적절한 내용의 게시물에 관한 신고 사항은 24시간 이내에 처리됩니다",
+                style: bodySmallLong.copyWith(color: gray600),
+              ),
               const Spacer(),
               FilledButton(
                 onPressed: enabled

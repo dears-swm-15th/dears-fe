@@ -48,4 +48,12 @@ abstract final class DearsIcons {
   static const IconData info = IconData(0xe912, fontFamily: fontFamily);
 
   static const IconData cancel = IconData(0xe913, fontFamily: fontFamily);
+
+  static const IconData siren = IconData(0xe914, fontFamily: fontFamily);
+
+  static const IconData smiley = IconData(0xe915, fontFamily: fontFamily);
+
+  static const IconData smiley_meh = IconData(0xe916, fontFamily: fontFamily);
+
+  static const IconData smiley_sad = IconData(0xe917, fontFamily: fontFamily);
 }
