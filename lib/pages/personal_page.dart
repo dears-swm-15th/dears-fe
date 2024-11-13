@@ -55,7 +55,7 @@ class PersonalPage extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           PersonalListTile(
-            title: "문의하기",
+            title: "문의/신고하기",
             onTap: () => context.push("/inquiry"),
           ),
           PersonalListTile(

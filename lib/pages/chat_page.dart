@@ -11,6 +11,7 @@ import 'package:dears/widgets/chat_text_field.dart';
 import 'package:dears/widgets/custom_app_bar.dart';
 import 'package:dears/widgets/favorite_toggle_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChatPage extends ConsumerWidget {
@@ -94,6 +95,10 @@ class ChatPage extends ConsumerWidget {
         centerTitle: true,
         title: Text("${chatroom.othersName} ${role.opposite.label}"),
         actions: [
+          IconButton(
+            onPressed: () => context.push("/inquiry"),
+            icon: const Icon(Icons.feedback_outlined),
+          ),
           if (role == MemberRole.customer)
             FavoriteToggleButton(chatroom.portfolioId),
         ],
