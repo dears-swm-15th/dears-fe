@@ -4,6 +4,7 @@ import 'package:dears/providers/chatroom_provider.dart';
 import 'package:dears/providers/message_list_provider.dart';
 import 'package:dears/providers/role_provider.dart';
 import 'package:dears/utils/formats.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:dears/widgets/chat_bubble.dart';
@@ -97,7 +98,7 @@ class ChatPage extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () => context.push("/inquiry"),
-            icon: const Icon(Icons.feedback_outlined),
+            icon: const Icon(DearsIcons.siren),
           ),
           if (role == MemberRole.customer)
             FavoriteToggleButton(chatroom.portfolioId),

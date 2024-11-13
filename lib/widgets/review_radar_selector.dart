@@ -1,5 +1,6 @@
 import 'package:dears/models/radar_key.dart';
 import 'package:dears/providers/review_form_provider.dart';
+import 'package:dears/utils/icons.dart';
 import 'package:dears/utils/theme.dart';
 import 'package:dears/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,11 @@ class ReviewRadarSelector extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const icons = [
+      DearsIcons.smiley_sad,
+      DearsIcons.smiley_meh,
+      DearsIcons.smiley,
+    ];
     final labels = [lowLabel, middleLabel, highLabel];
 
     final selected = ref.watch(
@@ -61,8 +67,7 @@ class ReviewRadarSelector extends HookConsumerWidget {
                     child: Column(
                       children: [
                         Icon(
-                          // TODO: replace with custom icon
-                          Icons.face,
+                          icons[index],
                           size: 32,
                           color: selected == index ? blue500 : null,
                         ),
